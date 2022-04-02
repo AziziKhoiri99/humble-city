@@ -1,0 +1,18 @@
+html,
+body,
+#game-container {
+  margin: 0;
+  padding: 0;
+}
+
+#game-container {
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: left;
+}
+
+#game-container>canvas {
+  border-radius: 5px;
+}
