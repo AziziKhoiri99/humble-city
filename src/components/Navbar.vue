@@ -1,0 +1,91 @@
+<template>
+  <div class="navbar">
+    <button class="button" v-for="(button, index) in this.buttons" :key="index">
+      {{ button }}
+    </button>
+    <div class="search">
+      <svg
+        width="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        style="margin-right: 8px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.167 17.833a6.667 6.667 0 100-13.333 6.667 6.667 0 000 13.333zM19.5 19.5l-3.625-3.625"
+          stroke="#fff"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+      <input placeholder="Search" type="text" />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "navbar-component",
+  props: {
+    buttons: Array,
+  },
+};
+</script>
+
+<style scoped>
+.navbar {
+  height: 5rem;
+  background-color: var(--bg-primary);
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem 54px 1.25rem 0;
+}
+.search {
+  margin-left: 16px;
+  width: 240px;
+  border: var(--border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  transition: border 200ms ease 0s;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0px 8px 0px 16px;
+}
+.search input {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  font-weight: 500;
+  font-size: inherit;
+  font-family: inherit;
+  color: var(--text-primary);
+  width: 100%;
+  height: 100%;
+}
+.search input:focus-visible {
+  outline: none;
+}
+</style>
+<style>
+.button {
+  background-color: transparent;
+  border: none;
+  margin: 0px 4px;
+  border-radius: 16px;
+  padding: 0px 12px;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: 400ms;
+}
+.button:hover {
+  background-color: var(--bg-secondary);
+}
+</style>
