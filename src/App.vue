@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
         <div>
             <Game />
         </div>
@@ -14,3 +15,13 @@
         }
     }
 </script>
+=======
+  <router-view />
+</template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>
+>>>>>>> 976383b029448896517a2f8e74798fe69739178d
