@@ -47,7 +47,7 @@ export default {
 }
 .card-image {
   height: calc(100%);
-  background-image: url("../assets/placeholder.png");
+  background-image: url("../assets/image/placeholder.png");
   background-size: cover;
   background-repeat: no-repeat;
   height: calc(100% - 2rem);

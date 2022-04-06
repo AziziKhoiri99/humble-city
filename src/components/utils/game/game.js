@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import GameScene from "./scene/gamescene";
+import GameScene from "./gamescene";
 
 
 function launch(containerId) {

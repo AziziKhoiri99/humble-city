@@ -98,7 +98,7 @@
       </li>
       <li class="nav-item">
         <a href="#" class="normal-link nav-link">
-          <img src="../assets/placeholder.png" />
+          <img src="../assets/image/placeholder.png" />
           <span class="link-text">Username</span>
         </a>
       </li>

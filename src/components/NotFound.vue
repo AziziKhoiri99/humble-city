@@ -1,6 +1,6 @@
 <template>
   <div class="not-found">
-    <img src="../assets/notfound.png" />
+    <img src="../assets/image/notfound.png" />
     <span>Temprary Placeholder Message</span>
   </div>
 </template>
