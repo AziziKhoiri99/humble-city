@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import { createApp } from 'vue'
-import App from './App.vue'
- 
-createApp(App).mount('#app')
-=======
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
@@ -26,4 +20,3 @@ const app = createApp(App);
 app.use(router);
 
 app.mount("#app");
->>>>>>> 976383b029448896517a2f8e74798fe69739178d
