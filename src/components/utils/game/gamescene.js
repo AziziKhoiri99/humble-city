@@ -11,28 +11,39 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("tiles", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
-        this.load.tilemapTiledJSON("map", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json");
+        this.load.image("gather_floors", "./tilesets/gather_floors.png");
+        this.load.image("gather_chairs", "./tilesets/gather_chairs.png");
+        this.load.image("gather_tables", "./tilesets/gather_tables.png");
+        this.load.image("gather_decoration", "./tilesets/gather_decoration.png");
+
+        this.load.tilemapTiledJSON("humble-city", "./tilemaps/humble-city.json");
         this.load.atlas("atlas", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");         
     }
 
     create() {
-        const map = this.make.tilemap({ key: "map" });
-        const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
+        const map = this.make.tilemap({ key: "humble-city" });
+        
+        const floors = map.addTilesetImage("gather_floors", "gather_floors");
+        const chairs = map.addTilesetImage("gather_chairs", "gather_chairs");
+        const tables = map.addTilesetImage("gather_tables", "gather_tables");
+        const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
 
-        const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
-        const worldLayer = map.createLayer("World", tileset, 0, 0);
-        const aboveLayer = map.createLayer("Above Player", tileset, 0, 0);
+        const belowLayer = map.createStaticLayer("Below Player", floors, 0, 0);
+        const secondLayer = map.createStaticLayer("Second Layer", floors, 0, 0);
+        const worldLayer = map.createStaticLayer("World", [floors, chairs, tables, decoration], 0, 0);
+        const aboveLayer = map.createStaticLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
+
 
         belowLayer
+        secondLayer
         worldLayer.setCollisionByProperty({ collides: true });
         aboveLayer.setDepth(10);
 
-        const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
+        const spawnPoint = map.findObject("Spawn", obj => obj.name === "Spawn Point");
 
         player = this.physics.add.
         sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front").
-        setSize(30, 40).
+        setSize(10, 20).
         setOffset(0, 24);
 
         this.physics.add.collider(player, worldLayer);
