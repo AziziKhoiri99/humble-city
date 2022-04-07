@@ -1,9 +1,11 @@
 <template>
   <div class="mask">
-    <form class="modal" @submit="this.createRoom()">
+    <form class="modal" @submit="this.createRoom">
       <div class="modal-title">
         Create a new space
-        <button type="button" @click="this.$emit('close-modal')">x</button>
+        <button type="button" @click="this.$emit('close-modal')">
+          &times;
+        </button>
       </div>
       <div class="modal-input">
         <label>Space Name</label><br />
@@ -41,24 +43,19 @@ export default {
     };
   },
   methods: {
-    createRoom() {
+    createRoom(e) {
+      e.preventDefault();
+
       //post room name and create random id with uuidV4
       const payload = {
         name: this.name,
         id: uuidV4().replace(/-/g, "_"),
       };
 
-      axios
-        .post(API_URL + "create-room", payload)
-        .then((res) => {
-          if (res.data.failed) return alert(res.data.failed);
-
-          //warn user if room name empty
-          alert(res.data.message);
-        })
-        .then(() => {
-          this.$router.push(`/${payload.id}/${payload.name}`);
-        });
+      axios.post(API_URL + "create-room", payload).then((res) => {
+        if (res.data.failed) return alert(res.data.failed);
+        this.$router.push(`/${payload.id}/${payload.name}`);
+      });
     },
   },
 };
@@ -83,6 +80,10 @@ export default {
   color: var(--text-primary);
   padding: 30px;
   border-radius: 27px;
+  display: block;
+  top: auto;
+  left: auto;
+  height: auto;
 }
 .modal-title {
   width: 100%;

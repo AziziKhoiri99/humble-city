@@ -82,8 +82,12 @@
           <span class="link-text">My&nbsp;Spaces</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="normal-link nav-link">
+      <li
+        v-if="!this.my.isLoggedIn"
+        v-bind:style="!this.my.isLoggedIn && 'margin-top: auto;'"
+        class="nav-item"
+      >
+        <a href="/login" class="normal-link nav-link">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <g class="fa-group">
               <path
@@ -96,10 +100,18 @@
           <span class="link-text">SignUp</span>
         </a>
       </li>
-      <li class="nav-item">
+      <li
+        v-bind:style="this.my.isLoggedIn && 'margin-top: auto;'"
+        class="nav-item user-button"
+      >
+        <div v-if="this.my.isLoggedIn" class="hover-button">
+          <button class="button" @click="this.userLogout()">Logout</button
+          ><br />
+          <button class="button">Apperance</button>
+        </div>
         <a href="#" class="normal-link nav-link">
-          <img src="../assets/birno.jpeg" />
-          <span class="link-text">Username</span>
+          <img src="../assets/placeholder.png" />
+          <span class="link-text">{{ this.my.username || "Username" }}</span>
         </a>
       </li>
       <li class="nav-item">
@@ -131,10 +143,17 @@ export default {
       selected: 2,
     };
   },
+  props: {
+    my: Object,
+  },
   methods: {
     select(clicked) {
       this.selected = clicked;
       this.$emit("clicked", clicked);
+    },
+    userLogout() {
+      window.localStorage.clear();
+      this.$emit("loggingOut");
     },
   },
 };
@@ -189,9 +208,6 @@ export default {
   color: #53daff;
 }
 
-.nav-item:nth-last-child(3) {
-  margin-top: auto;
-}
 .nav-item:last-child {
   background-color: #2f9dbb;
   transition: var(--transition-speed);
@@ -207,8 +223,11 @@ export default {
   height: 5rem;
   color: var(--text-primary);
   text-decoration: none;
+  cursor: pointer;
 }
-
+.selected {
+  background-color: #146153;
+}
 .bottom-link .link-text {
   color: var(--bg-primary);
   font-weight: 700;
@@ -217,6 +236,7 @@ export default {
   display: none;
   margin-left: 1rem;
   text-overflow: clip;
+  cursor: pointer;
 }
 
 .nav-link svg {
@@ -270,5 +290,22 @@ export default {
 .navbar:hover .logo svg {
   transform: rotate(-180deg);
   filter: none;
+}
+.user-button:hover .hover-button {
+  width: 120px;
+}
+.hover-button {
+  transition: var(--transition-speed);
+  overflow: hidden;
+  left: 16rem;
+  position: fixed;
+  background-color: var(--bg-primary);
+  width: 0;
+  border-radius: 0 20px 16px 0;
+}
+.button {
+  width: 100%;
+  border-radius: 0;
+  margin: 0;
 }
 </style>

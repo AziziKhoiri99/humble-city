@@ -43,14 +43,12 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
-  gap: 10px;
 }
 .card-image {
   height: calc(100%);
-  background-image: url("../assets/birno.jpeg");
+  background-image: url("../assets/placeholder.png");
   background-size: cover;
   background-repeat: no-repeat;
-  height: calc(100% - 2rem);
 }
 .online-counter {
   position: absolute;
@@ -73,9 +71,10 @@ export default {
   background-color: lime;
 }
 .room-name {
-  margin: 0.5rem 0 0 10px;
+  padding: 0.25rem 0 0.25rem 10px;
   color: var(--text-primary);
   font-weight: 600;
+  background-color: var(--bg-main);
 }
 </style>
 

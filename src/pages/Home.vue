@@ -3,6 +3,8 @@
     <Sidebar
       @clicked="(value) => (this.selected = value)"
       @create-room="this.modal = true"
+      @loggingOut="this.$emit('loggingOut')"
+      :my="this.my"
     />
     <main>
       <Navbar :buttons="this.page[this.selected].buttons" />
@@ -17,9 +19,6 @@ import Content from "../components/Content.vue";
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Modal from "../components/Modal.vue";
-import { API_URL, randomName } from "../components/utils";
-import io from "socket.io-client";
-import axios from "axios";
 
 export default {
   name: "App",
@@ -31,8 +30,6 @@ export default {
   },
   data() {
     return {
-      my: { username: randomName() },
-      socket: io("ws://localhost:3001"),
       modal: false,
       selected: 2,
       page: [
@@ -57,50 +54,17 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.socket.on("joining-room", (userId) => {
-      this.my.id = userId;
-    });
+  props: {
+    my: Object,
   },
-  methods: {
-    join(room) {
-      this.socket.emit("join-room", this.my.id, room);
-
-      axios.post(API_URL + "connect-room", {
-        room,
-        username: this.my.name,
-        id: this.my.id,
-      });
-    },
+  mounted() {
+    console.log(this.my);
   },
 };
 </script>
 
-<style>
-:root {
-  font-size: 16px;
-  font-family: "DM Sans", sans-serif, "Open Sans";
-  --text-primary: #fff;
-  --text-secondary: #41aa79;
-  --bg-primary: #00463a;
-  --bg-secondary: #066b5b;
-  --transition-speed: 600ms;
-  --border: 2px solid #279787;
-}
+<style scoped>
 main {
   margin-left: 5rem;
-}
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background-color: #00372d;
-  font-weight: 500;
-}
-.selected {
-  background-color: #146153;
 }
 </style>

@@ -1,6 +1,11 @@
 <template>
   <div class="navbar">
-    <button class="button" v-for="(button, index) in this.buttons" :key="index">
+    <button
+      class="button"
+      style="height: 100%"
+      v-for="(button, index) in this.buttons"
+      :key="index"
+    >
       {{ button }}
     </button>
     <div class="search">
@@ -84,6 +89,7 @@ export default {
   font-weight: 700;
   color: var(--text-primary);
   transition: 400ms;
+  height: 40px;
 }
 .button:hover {
   background-color: var(--bg-secondary);
