@@ -1,3 +1,5 @@
+import Phaser from "phaser";
+
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -13,7 +15,8 @@ const config = {
   scene: {
     preload: preload,
     create: create,
-    update: update } };
+    update: update } 
+  };
 
 
 

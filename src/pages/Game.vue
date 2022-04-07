@@ -1,18 +1,23 @@
 <template>
   <div>
-    <HelloWorld />
+    <Game />
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import HelloWorld from "../components/HelloWorld.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import io from "socket.io-client";
+=======
+import Game from '../components/Game.vue'
+>>>>>>> f98fe4a2e81820ce567c5549c3af794335e46ece
 
 export default {
   name: "game-page",
   components: {
+<<<<<<< HEAD
     HelloWorld,
   },
   data() {
@@ -58,6 +63,9 @@ export default {
   },
   unmounted() {
     this.socket.disconnect();
+=======
+    Game
+>>>>>>> f98fe4a2e81820ce567c5549c3af794335e46ece
   },
 };
 </script>

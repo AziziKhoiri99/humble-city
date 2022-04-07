@@ -110,8 +110,13 @@
           <button class="button">Apperance</button>
         </div>
         <a href="#" class="normal-link nav-link">
+<<<<<<< HEAD
           <img src="../assets/placeholder.png" />
           <span class="link-text">{{ this.my.username || "Username" }}</span>
+=======
+          <img src="../assets/image/placeholder.png" />
+          <span class="link-text">Username</span>
+>>>>>>> f98fe4a2e81820ce567c5549c3af794335e46ece
         </a>
       </li>
       <li class="nav-item">
