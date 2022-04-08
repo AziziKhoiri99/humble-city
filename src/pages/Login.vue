@@ -69,7 +69,7 @@ export default {
       this.hadAccount ? (this.hadAccount = false) : (this.hadAccount = true);
     },
     saveData(payload) {
-      this.$emit("loggingIn", payload.username);
+      this.$emit("loggingIn", payload);
       window.localStorage.setItem("user", JSON.stringify(payload));
       this.$router.push("/");
     },

@@ -7,8 +7,20 @@
       :my="this.my"
     />
     <main>
-      <Navbar :buttons="this.page[this.selected].buttons" />
-      <Content :page="this.page[this.selected]" />
+      <Navbar
+        :buttons="this.page[this.selected].buttons"
+        @search="(value) => (this.search = value)"
+      />
+      <NotFound
+        :notFoundMsg="this.page[this.selected].notFoundMsg"
+        v-if="this.my.roomHistory.length < 1"
+      />
+      <Content
+        v-if="this.my.roomHistory.length >= 1"
+        :my="this.my"
+        :page="this.selected"
+        :search="this.search"
+      />
     </main>
     <Modal @close-modal="this.modal = false" v-if="this.modal" />
   </div>
@@ -16,6 +28,7 @@
 
 <script>
 import Content from "../components/Content.vue";
+import NotFound from "../components/NotFound.vue";
 import Navbar from "../components/Navbar.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Modal from "../components/Modal.vue";
@@ -24,6 +37,7 @@ export default {
   name: "App",
   components: {
     Content,
+    NotFound,
     Navbar,
     Modal,
     Sidebar,
@@ -32,22 +46,20 @@ export default {
     return {
       modal: false,
       selected: 2,
+      search: "",
       page: [
         {
           buttons: ["Experience", "Community Spaces", "Events"],
-          page: 0,
           notFoundMsg:
-            'Our explore page is currently under maintenance, but you can create a space instead by clicking on the "Create" button in the top right corner!',
+            'Our explore page is currently under maintenance, but you can create a space  <br /> by clicking on the "Create" button in the top right corner!',
         },
         {
           buttons: ["My Events", "Saved Events"],
-          page: 1,
           notFoundMsg:
             "You haven't created any events. Create your first event!",
         },
         {
           buttons: ["Last Visited", "Created Space"],
-          page: 2,
           notFoundMsg:
             "You haven't visited any spaces. Create a Space to get started!",
         },
@@ -56,9 +68,6 @@ export default {
   },
   props: {
     my: Object,
-  },
-  mounted() {
-    console.log(this.my);
   },
 };
 </script>

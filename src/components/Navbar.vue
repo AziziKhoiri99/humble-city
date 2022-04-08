@@ -24,7 +24,12 @@
           stroke-linejoin="round"
         ></path>
       </svg>
-      <input placeholder="Search" type="text" />
+      <input
+        :value="this.search"
+        @input="this.handleChange"
+        placeholder="Search"
+        type="text"
+      />
     </div>
   </div>
 </template>
@@ -32,6 +37,17 @@
 <script>
 export default {
   name: "navbar-component",
+  data() {
+    return {
+      search: "",
+    };
+  },
+  methods: {
+    handleChange(e) {
+      this.search = e.target.value;
+      this.$emit("search", e.target.value);
+    },
+  },
   props: {
     buttons: Array,
   },

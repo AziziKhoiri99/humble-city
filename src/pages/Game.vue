@@ -5,8 +5,7 @@
 </template>
 
 <script>
-// import HelloWorld from "../components/HelloWorld.vue";
-import Game from '../components/Game.vue'; 
+import Game from "../components/Game.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import io from "socket.io-client";
@@ -14,18 +13,16 @@ import io from "socket.io-client";
 export default {
   name: "game-page",
   components: {
-    // HelloWorld,
-    Game
+    Game,
+  },
+  props: {
+    my: Object,
   },
   data() {
     return {
       onlineUser: [],
-      myId: "",
       socket: "",
     };
-  },
-  props: {
-    my: Object,
   },
   created() {
     //set socket data to backend websocket before used in mounted
@@ -34,15 +31,30 @@ export default {
   mounted() {
     const { roomId, roomName } = this.$route.params;
 
+    //update room history locally
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    window.localStorage.setItem(
+      "user",
+      JSON.stringify({
+        ...user,
+        roomHistory: [...user.roomHistory, { name: roomName, roomId }],
+      })
+    );
+    this.$emit("addRoomHistory", [
+      ...user.roomHistory,
+      { name: roomName, roomId },
+    ]);
+
     //get socket id
     this.socket.on("joining-room", async (userId) => {
-      this.myId = userId;
-
       const payload = {
         room: roomName,
         roomId: roomId,
-        username: this.my.username,
-        id: userId,
+        user: {
+          name: this.my.username,
+          id: this.my.id,
+        },
+        playerId: userId,
       };
 
       //posting to room that a new user joined

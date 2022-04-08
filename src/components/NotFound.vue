@@ -1,13 +1,15 @@
 <template>
   <div class="not-found">
     <img src="../assets/image/notfound.png" />
-    <span>Temprary Placeholder Message</span>
+    <span v-html="this.notFoundMsg"></span>
   </div>
 </template>
 
 <script>
 export default {
-  data() {},
+  props: {
+    notFoundMsg: String,
+  },
 };
 </script>
 
@@ -30,5 +32,6 @@ export default {
 }
 .not-found span {
   padding-top: 30px;
+  color: var(--text-primary);
 }
 </style>
