@@ -8,7 +8,7 @@
     />
     <main>
       <Navbar :buttons="this.page[this.selected].buttons" />
-      <Content :page="this.page[this.selected]" />
+      <Content :my="this.my" :page="this.page[this.selected]" />
     </main>
     <Modal @close-modal="this.modal = false" v-if="this.modal" />
   </div>
