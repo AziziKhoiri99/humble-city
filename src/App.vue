@@ -15,24 +15,25 @@ export default {
   data() {
     return {
       my: {
-        isLoggedIn: user ? true : false,
         username: (user && user.username) || randomName(),
+        id: (user && user.id) || false,
+        roomHistory: (user && user.roomHistory) || [],
       },
     };
   },
   methods: {
     setUser(value) {
       this.my = {
-        ...this.my,
-        isLoggedIn: true,
-        username: value,
+        username: value.username,
+        id: value.id,
+        roomHistory: value.roomHistory,
       };
     },
     userLogout() {
       this.my = {
-        ...this.my,
-        isLoggedIn: false,
         username: randomName(),
+        id: false,
+        roomHistory: [],
       };
     },
   },
