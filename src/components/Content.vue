@@ -46,11 +46,7 @@ export default {
 }
 .card-image {
   height: calc(100%);
-<<<<<<< HEAD
   background-image: url("../assets/placeholder.png");
-=======
-  background-image: url("../assets/image/placeholder.png");
->>>>>>> f98fe4a2e81820ce567c5549c3af794335e46ece
   background-size: cover;
   background-repeat: no-repeat;
 }

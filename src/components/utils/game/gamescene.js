@@ -11,13 +11,18 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image("gather_floors", "./tilesets/gather_floors.png");
-        this.load.image("gather_chairs", "./tilesets/gather_chairs.png");
-        this.load.image("gather_tables", "./tilesets/gather_tables.png");
-        this.load.image("gather_decoration", "./tilesets/gather_decoration.png");
+        // this.load.image("tiles", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
+        // this.load.tilemapTiledJSON("map", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json");
+      
+        // this.load.atlas("atlas", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");
 
-        this.load.tilemapTiledJSON("humble-city", "./tilemaps/humble-city.json");
-        this.load.atlas("atlas", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");         
+        this.load.image("gather_floors", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_floors.png");
+        this.load.image("gather_chairs", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_chairs.png");
+        this.load.image("gather_tables", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_tables.png");
+        this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
+
+        this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
+        this.load.atlas("atlas", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");      
     }
 
     create() {
@@ -28,26 +33,32 @@ export default class GameScene extends Phaser.Scene {
         const tables = map.addTilesetImage("gather_tables", "gather_tables");
         const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
 
-        const belowLayer = map.createStaticLayer("Below Player", floors, 0, 0);
-        const secondLayer = map.createStaticLayer("Second Layer", floors, 0, 0);
-        const worldLayer = map.createStaticLayer("World", [floors, chairs, tables, decoration], 0, 0);
-        const aboveLayer = map.createStaticLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
-
+        const belowLayer = map.createLayer("Below Player", [floors, chairs, tables, decoration], 0, 0);
+        const secondLayer = map.createLayer("Second Layer", [floors, chairs, tables, decoration], 0, 0);
+        const worldLayer = map.createLayer("World", [floors, chairs, tables, decoration], 0, 0);
+        const aboveLayer = map.createLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
 
         belowLayer
         secondLayer
         worldLayer.setCollisionByProperty({ collides: true });
         aboveLayer.setDepth(10);
 
+        // const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
+
+        // const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
+        // const worldLayer = map.createLayer("World", tileset, 0, 0);
+        // const aboveLayer = map.createLayer("Above Player", tileset, 0, 0);
+
         const spawnPoint = map.findObject("Spawn", obj => obj.name === "Spawn Point");
+
 
         player = this.physics.add.
         sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front").
-        setSize(10, 20).
+        setSize(30, 40).
         setOffset(0, 24);
 
         this.physics.add.collider(player, worldLayer);
-        
+
         const anims = this.anims;
         anims.create({
             key: "misa-left-walk",
@@ -76,7 +87,7 @@ export default class GameScene extends Phaser.Scene {
 
         const camera = this.cameras.main;
         camera.startFollow(player);
-        camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        camera.setBounds(0, 0, 1000, 1000);
 
         cursors = this.input.keyboard.createCursorKeys();
 
