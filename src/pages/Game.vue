@@ -31,6 +31,20 @@ export default {
   mounted() {
     const { roomId, roomName } = this.$route.params;
 
+    //update room history locally
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    window.localStorage.setItem(
+      "user",
+      JSON.stringify({
+        ...user,
+        roomHistory: [...user.roomHistory, { name: roomName, roomId }],
+      })
+    );
+    this.$emit("addRoomHistory", [
+      ...user.roomHistory,
+      { name: roomName, roomId },
+    ]);
+
     //get socket id
     this.socket.on("joining-room", async (userId) => {
       const payload = {

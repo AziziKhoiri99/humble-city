@@ -1,7 +1,10 @@
 <template>
   <div class="content">
-    <div v-for="n in 6" :key="n" style="margin: 10px">
-      <div class="card">
+    <div v-for="(room, index) in this.dunno" :key="index" style="margin: 10px">
+      <div
+        class="card-component"
+        @click="this.$router.push(`/${room.roomId}/${room.name}`)"
+      >
         <div class="card-image">
           &nbsp;
           <span class="online-counter">
@@ -9,7 +12,7 @@
             <div class="green"></div>
           </span>
         </div>
-        <div class="room-name">Room Name</div>
+        <div class="room-name">{{ room.name }}</div>
       </div>
     </div>
   </div>
@@ -19,10 +22,19 @@
 export default {
   name: "main-content",
   props: {
-    page: Object,
+    // page: Object,
+    my: Object,
+    search: String,
   },
   data() {
     return {};
+  },
+  computed: {
+    dunno() {
+      return this.my.roomHistory.filter((x) => {
+        return x.name.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
   },
 };
 </script>
@@ -32,25 +44,25 @@ export default {
   max-width: calc(100vw - 5rem);
   padding: 10px;
   display: grid;
-  grid-template-columns: repeat(var(--number-of-col), auto);
+  grid-template-columns: repeat(
+    var(--number-of-col),
+    calc((100vw - 5rem - 20px) / var(--number-of-col))
+  );
 }
-.card {
+.card-component {
   border: var(--border);
   border-radius: 16px;
   height: calc(
-    (100vw - 5rem - 20px) / var(--number-of-col) - (100vh - 20px) / 7
+    (100vw - 5rem - 20px) / var(--number-of-col) - (100vh - 20px) /
+      var(--subtract)
   );
   width: 100%;
   position: relative;
   overflow: hidden;
 }
 .card-image {
-  height: calc(100%);
-<<<<<<< HEAD
-  background-image: url("../assets/placeholder.png");
-=======
+  height: calc(100% - 2rem);
   background-image: url("../assets/image/placeholder.png");
->>>>>>> f98fe4a2e81820ce567c5549c3af794335e46ece
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -86,21 +98,25 @@ export default {
 @media (min-width: 768px) {
   :root {
     --number-of-col: 2;
+    --subtract: 2.9;
   }
 }
 @media (min-width: 1024px) {
   :root {
     --number-of-col: 3;
+    --subtract: 4.5;
   }
 }
 @media (min-width: 1200px) {
   :root {
     --number-of-col: 4;
+    --subtract: 6;
   }
 }
 @media (min-width: 1920px) {
   :root {
     --number-of-col: 5;
+    --subtract: 7.4;
   }
 }
 </style>

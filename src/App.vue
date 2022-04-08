@@ -3,6 +3,7 @@
     :my="this.my"
     @loggingIn="this.setUser"
     @loggingOut="this.userLogout"
+    @addRoomHistory="(value) => (this.my.roomHistory = value)"
   />
 </template>
 
