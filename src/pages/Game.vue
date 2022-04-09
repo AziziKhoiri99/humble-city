@@ -26,24 +26,26 @@ export default {
   },
   created() {
     //set socket data to backend websocket before used in mounted
-    this.socket = io("ws://localhost:3001");
+    this.socket = io("ws://192.168.6.208:3001");
   },
   mounted() {
     const { roomId, roomName } = this.$route.params;
 
     //update room history locally
-    const user = JSON.parse(window.localStorage.getItem("user"));
-    window.localStorage.setItem(
-      "user",
-      JSON.stringify({
-        ...user,
-        roomHistory: [...user.roomHistory, { name: roomName, roomId }],
-      })
-    );
-    this.$emit("addRoomHistory", [
-      ...user.roomHistory,
-      { name: roomName, roomId },
-    ]);
+    if (this.my.id) {
+      const user = JSON.parse(window.localStorage.getItem("user"));
+      window.localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...user,
+          roomHistory: [...user.roomHistory, { name: roomName, roomId }],
+        })
+      );
+      this.$emit("addRoomHistory", [
+        ...user.roomHistory,
+        { name: roomName, roomId },
+      ]);
+    }
 
     //get socket id
     this.socket.on("joining-room", async (userId) => {
