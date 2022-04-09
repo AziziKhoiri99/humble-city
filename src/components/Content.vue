@@ -1,6 +1,10 @@
 <template>
   <div class="content">
-    <div v-for="(room, index) in this.dunno" :key="index" style="margin: 10px">
+    <div
+      v-for="(room, index) in this.searched"
+      :key="index"
+      style="margin: 10px"
+    >
       <div
         class="card-component"
         @click="this.$router.push(`/${room.roomId}/${room.name}`)"
@@ -22,15 +26,20 @@
 export default {
   name: "main-content",
   props: {
-    // page: Object,
+    page: Object,
     my: Object,
     search: String,
   },
   data() {
-    return {};
+    return {
+      pages: this.page,
+    };
+  },
+  mounted() {
+    console.log(this.pages);
   },
   computed: {
-    dunno() {
+    searched() {
       return this.my.roomHistory.filter((x) => {
         return x.name.toLowerCase().includes(this.search.toLowerCase());
       });
@@ -59,6 +68,7 @@ export default {
   width: 100%;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 .card-image {
   height: calc(100% - 2rem);
