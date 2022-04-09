@@ -1,0 +1,255 @@
+{
+	"frames": {
+		"chara-back.png": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-back-walk.000.png": {
+			"frame": {
+				"x": 19,
+				"y": 1,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-back-walk.001.png": {
+			"frame": {
+				"x": 37,
+				"y": 1,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-front.png": {
+			"frame": {
+				"x": 1,
+				"y": 23,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-front-walk.000.png": {
+			"frame": {
+				"x": 19,
+				"y": 23,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-front-walk.001.png": {
+			"frame": {
+				"x": 37,
+				"y": 23,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-left.png": {
+			"frame": {
+				"x": 1,
+				"y": 45,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-left-walk.000.png": {
+			"frame": {
+				"x": 19,
+				"y": 45,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-left-walk.001.png": {
+			"frame": {
+				"x": 37,
+				"y": 45,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-right.png": {
+			"frame": {
+				"x": 55,
+				"y": 1,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-right-walk.000.png": {
+			"frame": {
+				"x": 55,
+				"y": 23,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		},
+		"chara-right-walk.001.png": {
+			"frame": {
+				"x": 55,
+				"y": 45,
+				"w": 16,
+				"h": 20
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 20
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 20
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 72,
+			"h": 66
+		},
+		"scale": "1"
+	}
+}
