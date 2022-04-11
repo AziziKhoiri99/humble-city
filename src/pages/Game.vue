@@ -1,11 +1,13 @@
 <template>
   <div>
     <Game />
+    <BotBar/>
   </div>
 </template>
 
 <script>
 import Game from "../components/Game.vue";
+import BotBar from "../components/BotBar.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import io from "socket.io-client";
@@ -14,6 +16,7 @@ export default {
   name: "game-page",
   components: {
     Game,
+    BotBar
   },
   props: {
     my: Object,
