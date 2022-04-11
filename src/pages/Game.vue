@@ -34,22 +34,6 @@ export default {
   mounted() {
     const { roomId, roomName } = this.$route.params;
 
-    //update room history locally
-    if (this.my.id) {
-      const user = JSON.parse(window.localStorage.getItem("user"));
-      window.localStorage.setItem(
-        "user",
-        JSON.stringify({
-          ...user,
-          roomHistory: [...user.roomHistory, { name: roomName, roomId }],
-        })
-      );
-      this.$emit("addRoomHistory", [
-        ...user.roomHistory,
-        { name: roomName, roomId },
-      ]);
-    }
-
     //get socket id
     this.socket.on("joining-room", async (userId) => {
       const payload = {
@@ -63,16 +47,36 @@ export default {
       };
 
       //posting to room that a new user joined
-      const res = await axios.post(API_URL + "connect-room", payload);
-      this.onlineUser = res.data;
+      await axios.post(API_URL + "connect-room", payload).then((res) => {
+        if (res.data.failed) return alert(res.data.failed);
 
-      //use socket to join room
-      this.socket.emit(
-        "join-room",
-        this.my.username,
-        this.myId,
-        this.$route.params.roomId
-      );
+        this.onlineUser = res.data;
+
+        //update room history locally
+        //check is user logged in and has visited the room before
+        if (this.my.id && !this.my.roomHistory.filter((x) => x.id == roomId)) {
+          const user = JSON.parse(window.localStorage.getItem("user"));
+          window.localStorage.setItem(
+            "user",
+            JSON.stringify({
+              ...user,
+              roomHistory: [...user.roomHistory, { name: roomName, roomId }],
+            })
+          );
+          this.$emit("addRoomHistory", [
+            ...user.roomHistory,
+            { name: roomName, roomId },
+          ]);
+        }
+
+        //use socket to join room
+        this.socket.emit(
+          "join-room",
+          this.my.username,
+          this.myId,
+          this.$route.params.roomId
+        );
+      });
     });
   },
   unmounted() {

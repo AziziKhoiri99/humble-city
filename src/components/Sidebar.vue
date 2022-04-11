@@ -248,9 +248,6 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
-.selected {
-  background-color: #146153;
-}
 .bottom-link .link-text {
   color: var(--bg-primary);
   font-weight: 700;
