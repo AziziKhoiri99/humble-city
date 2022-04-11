@@ -73,7 +73,7 @@ export default {
         this.socket.emit(
           "join-room",
           this.my.username,
-          this.myId,
+          userId,
           this.$route.params.roomId
         );
       });
