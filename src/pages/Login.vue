@@ -81,7 +81,7 @@ export default {
         password: this.password,
       };
       axios.post(API_URL + "register", payload).then((res) => {
-        if (res.data.failed) return alert(res.data.message);
+        if (res.data.failed) return console.log(res.data);
 
         this.saveData(res.data.payload);
       });
@@ -93,7 +93,7 @@ export default {
         password: this.password,
       };
       axios.post(API_URL + "login", payload).then((res) => {
-        if (res.data.failed) return alert(res.data.message);
+        if (res.data.failed) return alert(res.data.failed);
 
         this.saveData(res.data);
       });
