@@ -63,4 +63,7 @@ body {
   font-weight: 500;
   background-color: var(--bg-main);
 }
+.selected {
+  background-color: #146153;
+}
 </style>

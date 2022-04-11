@@ -1,10 +1,11 @@
 <template>
   <div class="navbar">
     <button
-      class="button"
-      style="height: 100%"
       v-for="(button, index) in this.buttons"
       :key="index"
+      v-bind:style="this.selected === index && 'background-color: #146153'"
+      @click="this.clicked(index)"
+      class="button"
     >
       {{ button }}
     </button>
@@ -40,12 +41,17 @@ export default {
   data() {
     return {
       search: "",
+      selected: 0,
     };
   },
   methods: {
     handleChange(e) {
       this.search = e.target.value;
       this.$emit("search", e.target.value);
+    },
+    clicked(index) {
+      this.selected = index;
+      this.$emit("clicked", this.selected);
     },
   },
   props: {

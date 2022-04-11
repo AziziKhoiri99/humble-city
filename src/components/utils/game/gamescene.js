@@ -22,7 +22,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
 
         this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
-        this.load.atlas("atlas", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");      
+        this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");      
     }
 
     create() {
@@ -53,7 +53,7 @@ export default class GameScene extends Phaser.Scene {
 
 
         player = this.physics.add.
-        sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front").
+        sprite(spawnPoint.x, spawnPoint.y, "atlas", "chara-front").
         setSize(30, 40).
         setOffset(0, 24);
 
@@ -61,26 +61,26 @@ export default class GameScene extends Phaser.Scene {
 
         const anims = this.anims;
         anims.create({
-            key: "misa-left-walk",
-            frames: anims.generateFrameNames("atlas", { prefix: "misa-left-walk.", start: 0, end: 3, zeroPad: 3 }),
+            key: "chara-left-walk",
+            frames: anims.generateFrameNames("atlas", { prefix: "chara-left-walk.", start: 0, end: 3, zeroPad: 3 }),
             frameRate: 10,
             repeat: -1 });
 
         anims.create({
-            key: "misa-right-walk",
-            frames: anims.generateFrameNames("atlas", { prefix: "misa-right-walk.", start: 0, end: 3, zeroPad: 3 }),
+            key: "chara-right-walk",
+            frames: anims.generateFrameNames("atlas", { prefix: "chara-right-walk.", start: 0, end: 3, zeroPad: 3 }),
             frameRate: 10,
             repeat: -1 });
 
         anims.create({
-            key: "misa-front-walk",
-            frames: anims.generateFrameNames("atlas", { prefix: "misa-front-walk.", start: 0, end: 3, zeroPad: 3 }),
+            key: "chara-front-walk",
+            frames: anims.generateFrameNames("atlas", { prefix: "chara-front-walk.", start: 0, end: 3, zeroPad: 3 }),
             frameRate: 10,
             repeat: -1 });
 
         anims.create({
-            key: "misa-back-walk",
-            frames: anims.generateFrameNames("atlas", { prefix: "misa-back-walk.", start: 0, end: 3, zeroPad: 3 }),
+            key: "chara-back-walk",
+            frames: anims.generateFrameNames("atlas", { prefix: "chara-back-walk.", start: 0, end: 3, zeroPad: 3 }),
             frameRate: 10,
             repeat: -1 });
 
@@ -143,21 +143,21 @@ export default class GameScene extends Phaser.Scene {
 
         
         if (cursors.left.isDown) {
-            player.anims.play("misa-left-walk", true);
+            player.anims.play("chara-left-walk", true);
         } else if (cursors.right.isDown) {
-            player.anims.play("misa-right-walk", true);
+            player.anims.play("chara-right-walk", true);
         } else if (cursors.up.isDown) {
-            player.anims.play("misa-back-walk", true);
+            player.anims.play("chara-back-walk", true);
         } else if (cursors.down.isDown) {
-            player.anims.play("misa-front-walk", true);
+            player.anims.play("chara-front-walk", true);
         } else {
             player.anims.stop();
 
             
-            if (prevVelocity.x < 0) player.setTexture("atlas", "misa-left");else
-            if (prevVelocity.x > 0) player.setTexture("atlas", "misa-right");else
-            if (prevVelocity.y < 0) player.setTexture("atlas", "misa-back");else
-            if (prevVelocity.y > 0) player.setTexture("atlas", "misa-front");
+            if (prevVelocity.x < 0) player.setTexture("atlas", "chara-left");else
+            if (prevVelocity.x > 0) player.setTexture("atlas", "chara-right");else
+            if (prevVelocity.y < 0) player.setTexture("atlas", "chara-back");else
+            if (prevVelocity.y > 0) player.setTexture("atlas", "chara-front");
         }
     }
 }
