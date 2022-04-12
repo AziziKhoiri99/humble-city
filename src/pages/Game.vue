@@ -1,7 +1,7 @@
 <template>
   <div>
     <Game />
-    <BotBar :my="this.my"/>
+    <BotBar/>
   </div>
 </template>
 
@@ -17,9 +17,6 @@ export default {
   components: {
     Game,
     BotBar
-  },
-  props: {
-    my: Object,
   },
   data() {
     return {
@@ -63,6 +60,7 @@ export default {
         //update room history locally
         //check is user logged in and has visited the room before
         if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
+          alert("sembarangan")
           const user = JSON.parse(window.localStorage.getItem("user"));
           window.localStorage.setItem(
             "user",

@@ -11,45 +11,46 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        // this.load.image("tiles", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
-        // this.load.tilemapTiledJSON("map", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json");
+        this.load.image("tiles", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
+        this.load.tilemapTiledJSON("map", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json");
       
         this.load.atlas("atlas", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");
 
-        this.load.image("gather_floors", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_floors.png");
-        this.load.image("gather_chairs", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_chairs.png");
-        this.load.image("gather_tables", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_tables.png");
-        this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
+        // this.load.image("gather_floors", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_floors.png");
+        // this.load.image("gather_chairs", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_chairs.png");
+        // this.load.image("gather_tables", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_tables.png");
+        // this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
 
-        this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
+        // this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
         // this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");      
     }
 
     create() {
-        const map = this.make.tilemap({ key: "humble-city" });
+        const map = this.make.tilemap({ key: "map" });
         
-        const floors = map.addTilesetImage("gather_floors", "gather_floors");
-        const chairs = map.addTilesetImage("gather_chairs", "gather_chairs");
-        const tables = map.addTilesetImage("gather_tables", "gather_tables");
-        const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
+        // const floors = map.addTilesetImage("gather_floors", "gather_floors");
+        // const chairs = map.addTilesetImage("gather_chairs", "gather_chairs");
+        // const tables = map.addTilesetImage("gather_tables", "gather_tables");
+        // const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
 
-        const belowLayer = map.createLayer("Below Player", [floors, chairs, tables, decoration], 0, 0);
-        const secondLayer = map.createLayer("Second Layer", [floors, chairs, tables, decoration], 0, 0);
-        const worldLayer = map.createLayer("World", [floors, chairs, tables, decoration], 0, 0);
-        const aboveLayer = map.createLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
+        // const belowLayer = map.createLayer("Below Player", [floors, chairs, tables, decoration], 0, 0);
+        // const secondLayer = map.createLayer("Second Layer", [floors, chairs, tables, decoration], 0, 0);
+        // const worldLayer = map.createLayer("World", [floors, chairs, tables, decoration], 0, 0);
+        // const aboveLayer = map.createLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
 
+        const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
+
+        const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
+        const worldLayer = map.createLayer("World", tileset, 0, 0);
+        const aboveLayer = map.createLayer("Above Player", tileset, 0, 0);
+        
         belowLayer
-        secondLayer
+        // secondLayer
         worldLayer.setCollisionByProperty({ collides: true });
         aboveLayer.setDepth(10);
 
-        // const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
 
-        // const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
-        // const worldLayer = map.createLayer("World", tileset, 0, 0);
-        // const aboveLayer = map.createLayer("Above Player", tileset, 0, 0);
-
-        const spawnPoint = map.findObject("Spawn", obj => obj.name === "Spawn Point");
+        const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
 
 
         player = this.physics.add.

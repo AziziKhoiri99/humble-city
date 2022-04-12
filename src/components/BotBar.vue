@@ -34,9 +34,6 @@
         <i class="fa-solid fa-comments"></i>
     </li>
     <li class="nav-link" href="#">
-        {{this.my.username}}
-    </li>
-    <li class="nav-link" href="#">
         <i class="fa-solid fa-user-group" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>
     </li>
     <!-- </span> -->
@@ -64,12 +61,3 @@ li:hover {
 }
 
 </style>
-
-<script>
-export default {
-    name: "my-page",
-    props: {
-        my: Object,
-    },
-}
-</script>
