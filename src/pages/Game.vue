@@ -1,7 +1,7 @@
 <template>
   <div>
     <Game />
-    <BotBar/>
+    <BotBar :my="this.my"/>
   </div>
 </template>
 

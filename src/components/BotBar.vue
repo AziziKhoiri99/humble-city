@@ -5,7 +5,7 @@
         <img src="../assets/image/acai.png" width="30px" class="rounded" alt="...">
     </li>
     <li class="nav-link" href="#">
-      Friends
+        Friends
       <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
     </li>
     <li class="nav-link" href="#">
@@ -34,11 +34,13 @@
         <i class="fa-solid fa-comments"></i>
     </li>
     <li class="nav-link" href="#">
+        {{this.my.username}}
+    </li>
+    <li class="nav-link" href="#">
         <i class="fa-solid fa-user-group" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i>
     </li>
     <!-- </span> -->
-  </ul>
-      <div class="offcanvas offcanvas-end bg-success" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end bg-success" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -47,6 +49,7 @@
         ...
     </div>
     </div>
+  </ul>
 </div>
 </template>
 
@@ -61,3 +64,12 @@ li:hover {
 }
 
 </style>
+
+<script>
+export default {
+    name: "my-page",
+    props: {
+        my: Object,
+    },
+}
+</script>
