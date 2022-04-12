@@ -35,9 +35,6 @@ export default {
       pages: this.page,
     };
   },
-  mounted() {
-    console.log(this.pages);
-  },
   computed: {
     searched() {
       return this.my.roomHistory.filter((x) => {
