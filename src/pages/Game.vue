@@ -50,11 +50,19 @@ export default {
       await axios.post(API_URL + "connect-room", payload).then((res) => {
         if (res.data.failed) return alert(res.data.failed);
 
+        //use socket to join room
+        this.socket.emit(
+          "join-room",
+          this.my.username,
+          userId,
+          this.$route.params.roomId
+        );
+        console.log(res.data);
         this.onlineUser = res.data;
 
         //update room history locally
         //check is user logged in and has visited the room before
-        if (this.my.id && !this.my.roomHistory.filter((x) => x.id == roomId)) {
+        if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
           const user = JSON.parse(window.localStorage.getItem("user"));
           window.localStorage.setItem(
             "user",
@@ -68,14 +76,6 @@ export default {
             { name: roomName, roomId },
           ]);
         }
-
-        //use socket to join room
-        this.socket.emit(
-          "join-room",
-          this.my.username,
-          userId,
-          this.$route.params.roomId
-        );
       });
     });
   },
