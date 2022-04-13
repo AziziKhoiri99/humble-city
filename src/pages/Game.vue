@@ -1,11 +1,13 @@
 <template>
   <div>
     <Game />
+    <BotBar :my="this.my" :room="this.$route.params.roomName" />
   </div>
 </template>
 
 <script>
 import Game from "../components/Game.vue";
+import BotBar from "../components/BotBar.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import io from "socket.io-client";
@@ -14,6 +16,7 @@ export default {
   name: "game-page",
   components: {
     Game,
+    BotBar,
   },
   props: {
     my: Object,
@@ -55,21 +58,26 @@ export default {
           this.$route.params.roomId
         );
         console.log(res.data);
-        this.onlineUser = res.data;
+        this.onlineUser = res.data.results;
 
         //update room history locally
         //check is user logged in and has visited the room before
         if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
-          const user = JSON.parse(window.localStorage.getItem("user"));
-          window.localStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...user,
-              roomHistory: [...user.roomHistory, { name: roomName, roomId }],
-            })
-          );
+          if (this.my.id > 0) {
+            const user = JSON.parse(window.localStorage.getItem("user"));
+            window.localStorage.setItem(
+              "user",
+              JSON.stringify({
+                ...user,
+                roomHistory: [
+                  ...user.roomHistory,
+                  { name: roomName, roomId, creator: res.data.creator },
+                ],
+              })
+            );
+          }
           this.$emit("addRoomHistory", [
-            ...user.roomHistory,
+            this.my.roomHistory,
             { name: roomName, roomId },
           ]);
         }

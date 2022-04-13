@@ -5,7 +5,7 @@
       class="login"
     >
       <div class="text-header">
-        {{ this.hadAccount ? "Login" : "Register" }} To Gather
+        {{ this.hadAccount ? "Login" : "Register" }} To Humble City
       </div>
       <div class="input">
         <div v-if="!this.hadAccount">

@@ -12,33 +12,27 @@
         @search="(value) => (this.search = value)"
         @clicked="(value) => (this.selected[1] = value)"
       />
-      <NotFound
-        :notFoundMsg="this.page[this.selected[0]].notFoundMsg"
-        v-if="this.my.roomHistory.length < 1"
-      />
       <Content
-        v-if="this.my.roomHistory.length >= 1"
+        :notFoundMsg="this.page[this.selected[0]].notFoundMsg"
         :my="this.my"
         :page="this.selected"
         :search="this.search"
       />
     </main>
-    <Modal @close-modal="this.modal = false" v-if="this.modal" />
+    <Modal :my="this.my" @close-modal="this.modal = false" v-if="this.modal" />
   </div>
 </template>
 
 <script>
 import Content from "../components/Content.vue";
-import NotFound from "../components/NotFound.vue";
 import Sidebar from "../components/Sidebar.vue";
 import Navbar from "../components/Navbar.vue";
 import Modal from "../components/Modal.vue";
 
 export default {
-  name: "App",
+  name: "homePage",
   components: {
     Content,
-    NotFound,
     Sidebar,
     Navbar,
     Modal,
