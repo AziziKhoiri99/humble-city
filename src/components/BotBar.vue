@@ -53,9 +53,6 @@
       </li>
       <li class="nav-link" href="#">
         {{ this.my.username }}
-        <span class="badge bg-light text-dark rounded-pill align-text-bottom"
-          >27</span
-        >
       </li>
       <li class="nav-link" href="#">
         <i class="fa-solid fa-microphone"></i>
@@ -80,7 +77,13 @@
         <i class="fa-solid fa-calendar-days"></i>
       </li>
       <li class="nav-link" href="#">
-        <i class="fa-solid fa-comments"></i>
+        <i
+          class="fa-solid fa-comments"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasRight"
+          aria-controls="offcanvasRight"
+        ></i>
       </li>
       <li class="nav-link" href="#">
         <i
@@ -92,34 +95,22 @@
         ></i>
       </li>
       <!-- </span> -->
-      <div
-        class="offcanvas offcanvas-end bg-success text-light"
-        data-bs-scroll="true"
-        data-bs-backdrop="false"
-        tabindex="-1"
-        id="offcanvasRight"
-        aria-labelledby="offcanvasRightLabel"
-      >
-        <div class="offcanvas-header">
-          <h5 id="offcanvasRightLabel">{{ this.room }}</h5>
-          <button
-            type="button"
-            class="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="offcanvas-body">...</div>
-      </div>
+      <SideMenu :room="this.room" :onlineUser="this.onlineUser" />
     </ul>
   </div>
 </template>
 
 <script>
+import SideMenu from "./SideMenu.vue";
+
 export default {
+  components: {
+    SideMenu,
+  },
   props: {
     my: Object,
     room: String,
+    onlineUser: Array,
   },
 };
 </script>
@@ -132,8 +123,5 @@ li {
 li:hover {
   color: white;
   text-decoration: none;
-}
-.offcanvas-end {
-  width: 270px;
 }
 </style>

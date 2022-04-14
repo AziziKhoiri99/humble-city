@@ -9,7 +9,7 @@
     >
       {{ button }}
     </button>
-    <div class="search">
+    <div class="search" style="margin-left: 16px">
       <svg
         width="20"
         viewBox="0 0 24 24"
@@ -59,8 +59,7 @@ export default {
   },
 };
 </script>
-
-<style scoped>
+<style>
 .navbar {
   height: 5rem;
   background-color: var(--bg-primary);
@@ -69,7 +68,6 @@ export default {
   padding: 1.25rem 54px 1.25rem 0;
 }
 .search {
-  margin-left: 16px;
   width: 240px;
   border: var(--border);
   border-radius: 16px;
@@ -98,8 +96,6 @@ export default {
 .search input:focus-visible {
   outline: none;
 }
-</style>
-<style>
 .button {
   background-color: transparent;
   border: none;

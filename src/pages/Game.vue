@@ -1,7 +1,11 @@
 <template>
   <div>
     <Game />
-    <BotBar :my="this.my" :room="this.$route.params.roomName" />
+    <BotBar
+      :my="this.my"
+      :onlineUser="this.onlineUser"
+      :room="this.$route.params.roomName"
+    />
   </div>
 </template>
 

@@ -1,7 +1,9 @@
 <template>
   <div class="content">
     <div
-      v-for="(room, index) in this.choosed"
+      v-for="(room, index) in this.choosed.filter((x) =>
+        x.name.toLowerCase().includes(this.search.toLowerCase())
+      )"
       :key="index"
       style="margin: 10px"
     >
