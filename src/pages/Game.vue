@@ -1,7 +1,11 @@
 <template>
   <div>
     <Game />
-    <BotBar/>
+    <BotBar
+      :my="this.my"
+      :onlineUser="this.onlineUser"
+      :room="this.$route.params.roomName"
+    />
   </div>
 </template>
 
@@ -16,7 +20,10 @@ export default {
   name: "game-page",
   components: {
     Game,
-    BotBar
+    BotBar,
+  },
+  props: {
+    my: Object,
   },
   data() {
     return {
@@ -55,7 +62,7 @@ export default {
           this.$route.params.roomId
         );
         console.log(res.data);
-        this.onlineUser = res.data;
+        this.onlineUser = res.data.results;
 
         //update room history locally
         //check is user logged in and has visited the room before
@@ -66,12 +73,15 @@ export default {
               "user",
               JSON.stringify({
                 ...user,
-                roomHistory: [...user.roomHistory, { name: roomName, roomId }],
+                roomHistory: [
+                  ...user.roomHistory,
+                  { name: roomName, roomId, creator: res.data.creator },
+                ],
               })
             );
           }
           this.$emit("addRoomHistory", [
-            ...this.my.roomHistory,
+            this.my.roomHistory,
             { name: roomName, roomId },
           ]);
         }

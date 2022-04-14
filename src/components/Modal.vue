@@ -42,16 +42,19 @@ export default {
       name: "",
     };
   },
+  props: {
+    my: Object,
+  },
   methods: {
     createRoom(e) {
       e.preventDefault();
-
+      console.log(this.my);
       //post room name and create random id with uuidV4
       const payload = {
         name: this.name,
         id: uuidV4().replace(/-/g, "_"),
+        user: this.my.id,
       };
-
       axios.post(API_URL + "create-room", payload).then((res) => {
         if (res.data.failed) return alert(res.data.failed);
         this.$router.push(`/${payload.id}/${payload.name}`);
