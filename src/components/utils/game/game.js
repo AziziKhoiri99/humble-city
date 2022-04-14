@@ -17,11 +17,11 @@ function launch(containerId) {
         scene: [ 
             GameScene
         ],
-        // scale: {
-        //     mode: Phaser.Scale.FIT,
-        //     width: '100%',
-        //     height: '100%'
-        // }
+        scale: {
+            mode: Phaser.Scale.FIT,
+            width: '90%',
+            height: '70%'
+        }
     });
 }
 

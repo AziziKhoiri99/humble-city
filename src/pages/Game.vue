@@ -60,17 +60,6 @@ export default {
         //update room history locally
         //check is user logged in and has visited the room before
         if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
-<<<<<<< HEAD
-          alert("sembarangan")
-          const user = JSON.parse(window.localStorage.getItem("user"));
-          window.localStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...user,
-              roomHistory: [...user.roomHistory, { name: roomName, roomId }],
-            })
-          );
-=======
           if (this.my.id > 0) {
             const user = JSON.parse(window.localStorage.getItem("user"));
             window.localStorage.setItem(
@@ -81,7 +70,6 @@ export default {
               })
             );
           }
->>>>>>> ab0af97912d5fefd8b535b729fa2b4f80a966a61
           this.$emit("addRoomHistory", [
             ...this.my.roomHistory,
             { name: roomName, roomId },
