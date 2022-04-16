@@ -66,4 +66,17 @@ body {
 .selected {
   background-color: #146153;
 }
+.text-input {
+  border: var(--border);
+  height: 40px;
+  border-radius: 16px;
+  width: 100%;
+  font-size: inherit;
+  color: var(--text-primary);
+  background-color: transparent;
+  padding: 0 15px;
+}
+.text-input:focus-visible {
+  outline: none;
+}
 </style>

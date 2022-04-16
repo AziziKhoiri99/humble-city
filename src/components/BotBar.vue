@@ -76,41 +76,50 @@
       <li class="nav-link" href="#">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
-      <li class="nav-link" href="#">
-        <i
-          class="fa-solid fa-comments"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-        ></i>
-      </li>
-      <li class="nav-link" href="#">
-        <i
-          class="fa-solid fa-user-group"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-        ></i>
-      </li>
+      <div class="right-corner">
+        <li
+          v-bind:style="
+            this.sideMenu &&
+            this.corner == 0 &&
+            'background-color: var(--bg-primary);'
+          "
+          @click="this.toggleSideMenu(0)"
+          class="nav-link"
+        >
+          <i class="fa-solid fa-comments"></i>
+        </li>
+        <li
+          v-bind:style="
+            this.sideMenu &&
+            this.corner == 1 &&
+            'background-color: var(--bg-primary);'
+          "
+          @click="this.toggleSideMenu(1)"
+          class="nav-link"
+        >
+          <i class="fa-solid fa-user-group"></i>
+        </li>
+      </div>
       <!-- </span> -->
-      <SideMenu :room="this.room" :onlineUser="this.onlineUser" />
     </ul>
   </div>
 </template>
 
 <script>
-import SideMenu from "./SideMenu.vue";
-
 export default {
-  components: {
-    SideMenu,
-  },
   props: {
     my: Object,
-    room: String,
-    onlineUser: Array,
+    corner: Number,
+    sideMenu: Boolean,
+  },
+  methods: {
+    toggleSideMenu(clicked) {
+      if (this.corner === clicked) {
+        return this.$emit("toggleSideMenu", this.sideMenu ? false : true);
+      }
+
+      this.$emit("changeSideMenu", clicked);
+    },
   },
 };
 </script>
@@ -123,5 +132,20 @@ li {
 li:hover {
   color: white;
   text-decoration: none;
+}
+.right-corner {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.right-corner .nav-link {
+  width: 134.5px;
+  text-align: center;
+  padding: 0.5rem 0;
+  transition: var(--transition-speed);
+  cursor: pointer;
+}
+.right-corner .nav-link:hover {
+  background-color: var(--bg-secondary);
 }
 </style>

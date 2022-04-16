@@ -3,8 +3,18 @@
     <Game />
     <BotBar
       :my="this.my"
-      :onlineUser="this.onlineUser"
+      :corner="this.corner"
+      :sideMenu="this.sideMenu"
+      @toggleSideMenu="(val) => (this.sideMenu = val)"
+      @changeSideMenu="(val) => (this.corner = val)"
+    />
+    <SideMenu
+      :corner="this.corner"
+      :sideMenu="this.sideMenu"
       :room="this.$route.params.roomName"
+      :onlineUser="this.onlineUser"
+      :socket="this.socket"
+      @toggleSideMenu="this.sideMenu = false"
     />
   </div>
 </template>
@@ -12,6 +22,7 @@
 <script>
 import Game from "../components/Game.vue";
 import BotBar from "../components/BotBar.vue";
+import SideMenu from "../components/SideMenu.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import io from "socket.io-client";
@@ -21,6 +32,7 @@ export default {
   components: {
     Game,
     BotBar,
+    SideMenu,
   },
   props: {
     my: Object,
@@ -29,6 +41,8 @@ export default {
     return {
       onlineUser: [],
       socket: "",
+      corner: 0,
+      sideMenu: false,
     };
   },
   created() {
