@@ -1,6 +1,6 @@
 import Phaser from "phaser";
+// import GameScene from "./gridMovement";
 import GameScene from "./gamescene";
-
 
 function launch(containerId) {
     return new Phaser.Game({    
@@ -19,11 +19,11 @@ function launch(containerId) {
         ],
         scale: {
             mode: Phaser.Scale.FIT,
-            width: '80%',
-            height: '90%'
+            width: '79%',
+            height: '92%'
         }
     });
 }
 
 export default launch;
-export { launch }
+export { launch };

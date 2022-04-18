@@ -12,6 +12,7 @@
         <input
           v-model="name"
           type="text"
+          class="text-input"
           placeholder="yourspacename"
           required
         />
@@ -99,19 +100,6 @@ export default {
 }
 .modal-input {
   margin-bottom: 20px;
-}
-.modal-input input {
-  border: var(--border);
-  height: 40px;
-  border-radius: 16px;
-  width: 100%;
-  font-size: inherit;
-  color: var(--text-primary);
-  background-color: transparent;
-  padding: 0 15px;
-}
-.modal-input input:focus-visible {
-  outline: none;
 }
 .modal-input label {
   font-size: 0.75rem;

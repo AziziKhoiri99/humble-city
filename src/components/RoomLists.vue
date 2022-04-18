@@ -31,7 +31,7 @@ export default {
     page: Object,
     my: Object,
     search: String,
-    choosed: Function,
+    choosed: Array,
   },
   data() {
     return {
