@@ -22,7 +22,7 @@ export default class GameScene extends Phaser.Scene {
         // this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
 
         // this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
-        // this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/misa.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/misa.json");      
+        // this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");      
     }
 
     create() {
@@ -43,8 +43,7 @@ export default class GameScene extends Phaser.Scene {
         const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
         const worldLayer = map.createLayer("World", tileset, 0, 0);
         const aboveLayer = map.createLayer("Above Player", tileset, 0, 0);
-
-
+        
         belowLayer
         // secondLayer
         worldLayer.setCollisionByProperty({ collides: true });
@@ -89,33 +88,32 @@ export default class GameScene extends Phaser.Scene {
         const camera = this.cameras.main;
         camera.startFollow(player);
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
         cursors = this.input.keyboard.createCursorKeys();
 
         
-        this.add.
-        text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
-            font: "18px monospace",
-            fill: "#000000",
-            padding: { x: 20, y: 10 },
-            backgroundColor: "#ffffff" }).
+        // this.add.
+        // text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
+        //     font: "18px monospace",
+        //     fill: "#000000",
+        //     padding: { x: 20, y: 10 },
+        //     backgroundColor: "#ffffff" }).
 
-        setScrollFactor(0).
-        setDepth(30);
+        // setScrollFactor(0).
+        // setDepth(30);
 
-        this.input.keyboard.once("keydown-D", () => {
-            this.physics.world.createDebugGraphic();
+        // this.input.keyboard.once("keydown-D", () => {
+        //     this.physics.world.createDebugGraphic();
 
-            const graphics = this.add.
-            graphics().
-            setAlpha(0.75).
-            setDepth(20);
-            worldLayer.renderDebug(graphics, {
-            tileColor: null, 
-            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), 
-            faceColor: new Phaser.Display.Color(40, 39, 37, 255) 
-            });
-        });
+        //     const graphics = this.add.
+        //     graphics().
+        //     setAlpha(0.75).
+        //     setDepth(20);
+        //     worldLayer.renderDebug(graphics, {
+        //     tileColor: null, 
+        //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), 
+        //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) 
+        //     });
+        // });
     }
 
     update() {

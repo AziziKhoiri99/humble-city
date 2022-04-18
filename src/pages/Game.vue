@@ -1,11 +1,13 @@
 <template>
   <div>
     <Game />
+    <BotBar/>
   </div>
 </template>
 
 <script>
 import Game from "../components/Game.vue";
+import BotBar from "../components/BotBar.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import io from "socket.io-client";
@@ -14,9 +16,7 @@ export default {
   name: "game-page",
   components: {
     Game,
-  },
-  props: {
-    my: Object,
+    BotBar
   },
   data() {
     return {
@@ -47,25 +47,6 @@ export default {
       await axios.post(API_URL + "connect-room", payload).then((res) => {
         if (res.data.failed) return alert(res.data.failed);
 
-        this.onlineUser = res.data;
-
-        //update room history locally
-        //check is user logged in and has visited the room before
-        if (this.my.id && !this.my.roomHistory.filter((x) => x.id == roomId)) {
-          const user = JSON.parse(window.localStorage.getItem("user"));
-          window.localStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...user,
-              roomHistory: [...user.roomHistory, { name: roomName, roomId }],
-            })
-          );
-          this.$emit("addRoomHistory", [
-            ...user.roomHistory,
-            { name: roomName, roomId },
-          ]);
-        }
-
         //use socket to join room
         this.socket.emit(
           "join-room",
@@ -73,6 +54,27 @@ export default {
           userId,
           this.$route.params.roomId
         );
+        console.log(res.data);
+        this.onlineUser = res.data;
+
+        //update room history locally
+        //check is user logged in and has visited the room before
+        if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
+          if (this.my.id > 0) {
+            const user = JSON.parse(window.localStorage.getItem("user"));
+            window.localStorage.setItem(
+              "user",
+              JSON.stringify({
+                ...user,
+                roomHistory: [...user.roomHistory, { name: roomName, roomId }],
+              })
+            );
+          }
+          this.$emit("addRoomHistory", [
+            ...this.my.roomHistory,
+            { name: roomName, roomId },
+          ]);
+        }
       });
     });
   },
