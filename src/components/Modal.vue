@@ -12,6 +12,7 @@
         <input
           v-model="name"
           type="text"
+          class="text-input"
           placeholder="yourspacename"
           required
         />
@@ -42,16 +43,19 @@ export default {
       name: "",
     };
   },
+  props: {
+    my: Object,
+  },
   methods: {
     createRoom(e) {
       e.preventDefault();
-
+      console.log(this.my);
       //post room name and create random id with uuidV4
       const payload = {
         name: this.name,
         id: uuidV4().replace(/-/g, "_"),
+        user: this.my.id,
       };
-
       axios.post(API_URL + "create-room", payload).then((res) => {
         if (res.data.failed) return alert(res.data.failed);
         this.$router.push(`/${payload.id}/${payload.name}`);
@@ -96,19 +100,6 @@ export default {
 }
 .modal-input {
   margin-bottom: 20px;
-}
-.modal-input input {
-  border: var(--border);
-  height: 40px;
-  border-radius: 16px;
-  width: 100%;
-  font-size: inherit;
-  color: var(--text-primary);
-  background-color: transparent;
-  padding: 0 15px;
-}
-.modal-input input:focus-visible {
-  outline: none;
 }
 .modal-input label {
   font-size: 0.75rem;

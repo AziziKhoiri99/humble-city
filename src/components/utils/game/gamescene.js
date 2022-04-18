@@ -1,43 +1,173 @@
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
 let cursors;
 let player;
 
 export default class GameScene extends Phaser.Scene {
-    constructor() {
-        super({
-            key: 'GameScene'
-        });
+  constructor() {
+    super({
+      key: "GameScene",
+    });
+  }
+
+  preload() {
+    this.load.image(
+      "tiles",
+      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png"
+    );
+    this.load.tilemapTiledJSON(
+      "map",
+      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json"
+    );
+
+    this.load.atlas(
+      "atlas",
+      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png",
+      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json"
+    );
+
+    // this.load.image("gather_floors", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_floors.png");
+    // this.load.image("gather_chairs", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_chairs.png");
+    // this.load.image("gather_tables", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_tables.png");
+    // this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
+
+    // this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
+    // this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");
+  }
+
+  create() {
+    const map = this.make.tilemap({ key: "map" });
+
+    // const floors = map.addTilesetImage("gather_floors", "gather_floors");
+    // const chairs = map.addTilesetImage("gather_chairs", "gather_chairs");
+    // const tables = map.addTilesetImage("gather_tables", "gather_tables");
+    // const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
+
+    // const belowLayer = map.createLayer("Below Player", [floors, chairs, tables, decoration], 0, 0);
+    // const secondLayer = map.createLayer("Second Layer", [floors, chairs, tables, decoration], 0, 0);
+    // const worldLayer = map.createLayer("World", [floors, chairs, tables, decoration], 0, 0);
+    // const aboveLayer = map.createLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
+
+    const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
+
+    const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
+    const worldLayer = map.createLayer("World", tileset, 0, 0);
+    const aboveLayer = map.createLayer("Above Player", tileset, 0, 0);
+
+    belowLayer;
+    // secondLayer
+    worldLayer.setCollisionByProperty({ collides: true });
+    aboveLayer.setDepth(10);
+
+    const spawnPoint = map.findObject(
+      "Objects",
+      (obj) => obj.name === "Spawn Point"
+    );
+
+    player = this.physics.add
+      .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
+      .setSize(30, 40)
+      .setOffset(0, 24);
+
+    this.physics.add.collider(player, worldLayer);
+
+    const anims = this.anims;
+    anims.create({
+      key: "misa-left-walk",
+      frames: anims.generateFrameNames("atlas", {
+        prefix: "misa-left-walk.",
+        start: 0,
+        end: 3,
+        zeroPad: 3,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    anims.create({
+      key: "misa-right-walk",
+      frames: anims.generateFrameNames("atlas", {
+        prefix: "misa-right-walk.",
+        start: 0,
+        end: 3,
+        zeroPad: 3,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    anims.create({
+      key: "misa-front-walk",
+      frames: anims.generateFrameNames("atlas", {
+        prefix: "misa-front-walk.",
+        start: 0,
+        end: 3,
+        zeroPad: 3,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    anims.create({
+      key: "misa-back-walk",
+      frames: anims.generateFrameNames("atlas", {
+        prefix: "misa-back-walk.",
+        start: 0,
+        end: 3,
+        zeroPad: 3,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    const camera = this.cameras.main;
+    camera.startFollow(player);
+    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    cursors = this.input.keyboard.createCursorKeys();
+
+    this.add
+      .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
+        font: "18px monospace",
+        fill: "#000000",
+        padding: { x: 20, y: 10 },
+        backgroundColor: "#ffffff",
+      })
+      .setScrollFactor(0)
+      .setDepth(30);
+  }
+
+  update() {
+    const speed = 200;
+    const prevVelocity = player.body.velocity.clone();
+
+    player.body.setVelocity(0);
+
+    if (cursors.left.isDown) {
+      player.body.setVelocityX(-speed);
+    } else if (cursors.right.isDown) {
+      player.body.setVelocityX(speed);
     }
 
-    preload() {
-        this.load.image("tiles", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png");
-        this.load.tilemapTiledJSON("map", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json");
-      
-        this.load.atlas("atlas", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png", "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json");
-
-        // this.load.image("gather_floors", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_floors.png");
-        // this.load.image("gather_chairs", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_chairs.png");
-        // this.load.image("gather_tables", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_tables.png");
-        // this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
-
-        // this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
-        // this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");      
+    if (cursors.up.isDown) {
+      player.body.setVelocityY(-speed);
+    } else if (cursors.down.isDown) {
+      player.body.setVelocityY(speed);
     }
 
-    create() {
-        const map = this.make.tilemap({ key: "map" });
-        
-        // const floors = map.addTilesetImage("gather_floors", "gather_floors");
-        // const chairs = map.addTilesetImage("gather_chairs", "gather_chairs");
-        // const tables = map.addTilesetImage("gather_tables", "gather_tables");
-        // const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
+    player.body.velocity.normalize().scale(speed);
 
-        // const belowLayer = map.createLayer("Below Player", [floors, chairs, tables, decoration], 0, 0);
-        // const secondLayer = map.createLayer("Second Layer", [floors, chairs, tables, decoration], 0, 0);
-        // const worldLayer = map.createLayer("World", [floors, chairs, tables, decoration], 0, 0);
-        // const aboveLayer = map.createLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
+    if (cursors.left.isDown) {
+      player.anims.play("misa-left-walk", true);
+    } else if (cursors.right.isDown) {
+      player.anims.play("misa-right-walk", true);
+    } else if (cursors.up.isDown) {
+      player.anims.play("misa-back-walk", true);
+    } else if (cursors.down.isDown) {
+      player.anims.play("misa-front-walk", true);
+    } else {
+      player.anims.stop();
 
+<<<<<<< HEAD
         const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
 
         const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
@@ -160,3 +290,12 @@ export default class GameScene extends Phaser.Scene {
         }
     }
 }
+=======
+      if (prevVelocity.x < 0) player.setTexture("atlas", "misa-left");
+      else if (prevVelocity.x > 0) player.setTexture("atlas", "misa-right");
+      else if (prevVelocity.y < 0) player.setTexture("atlas", "misa-back");
+      else if (prevVelocity.y > 0) player.setTexture("atlas", "misa-front");
+    }
+  }
+}
+>>>>>>> 4843136e7dd03f45a5893128afa603d44902613c
