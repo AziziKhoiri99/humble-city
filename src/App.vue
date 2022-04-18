@@ -62,6 +62,7 @@ body {
   margin: 0;
   font-weight: 500;
   background-color: var(--bg-main);
+  min-height: 100vh;
 }
 .selected {
   background-color: #146153;

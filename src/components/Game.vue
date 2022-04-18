@@ -17,7 +17,6 @@ export default {
     this.$nextTick(() => {
       this.gameInstance = game.launch(this.containerId);
     });
-    console.log(game);
   },
 };
 </script>

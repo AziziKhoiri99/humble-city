@@ -87,6 +87,7 @@ export default {
       e.preventDefault();
       this.chat = [...this.chat, { username: "Me", message: this.message }];
       this.socket.emit("message", this.message);
+      console.log(this.chat);
       this.message = "";
     },
   },

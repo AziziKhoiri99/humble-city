@@ -45,9 +45,30 @@ export default {
       sideMenu: false,
     };
   },
-  created() {
+  async created() {
     //set socket data to backend websocket before used in mounted
     this.socket = io("ws://192.168.6.208:3001");
+
+    this.socket.on("move to", (x) => {
+      console.log(x);
+    });
+
+    addEventListener("keydown", (e) => {
+      switch (e.code) {
+        case "KeyW":
+          this.socket.emit("character move", "up");
+          break;
+        case "KeyA":
+          this.socket.emit("character move", "left");
+          break;
+        case "KeyS":
+          this.socket.emit("character move", "down");
+          break;
+        case "KeyD":
+          this.socket.emit("character move", "right");
+          break;
+      }
+    });
   },
   mounted() {
     const { roomId, roomName } = this.$route.params;
@@ -75,7 +96,6 @@ export default {
           userId,
           this.$route.params.roomId
         );
-        console.log(res.data);
         this.onlineUser = res.data.results;
 
         //update room history locally

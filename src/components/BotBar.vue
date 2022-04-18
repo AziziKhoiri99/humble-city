@@ -139,7 +139,7 @@ li:hover {
   flex-wrap: wrap;
 }
 .right-corner .nav-link {
-  width: 134.5px;
+  width: 135px;
   text-align: center;
   padding: 0.5rem 0;
   transition: var(--transition-speed);
