@@ -114,29 +114,29 @@ export default class GameScene extends Phaser.Scene {
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     cursors = this.input.keyboard.createCursorKeys();
 
-    this.add
-      .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
-        font: "18px monospace",
-        fill: "#000000",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#ffffff",
-      })
-      .setScrollFactor(0)
-      .setDepth(30);
+    // this.add
+    //   .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
+    //     font: "18px monospace",
+    //     fill: "#000000",
+    //     padding: { x: 20, y: 10 },
+    //     backgroundColor: "#ffffff",
+    //   })
+    //   .setScrollFactor(0)
+    //   .setDepth(30);
 
-    this.input.keyboard.once("keydown-D", () => {
-    this.physics.world.createDebugGraphic();
+  //   this.input.keyboard.once("keydown-D", () => {
+  //   this.physics.world.createDebugGraphic();
 
-    const graphics = this.add.
-    graphics().
-    setAlpha(0.75).
-    setDepth(20);
-    worldLayer.renderDebug(graphics, {
-      tileColor: null, // Color of non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-    });
-  });
+  //   const graphics = this.add.
+  //   graphics().
+  //   setAlpha(0.75).
+  //   setDepth(20);
+  //   worldLayer.renderDebug(graphics, {
+  //     tileColor: null, // Color of non-colliding tiles
+  //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+  //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+  //   });
+  // });
   
   }
 
