@@ -19,8 +19,8 @@ function launch(containerId) {
         ],
         scale: {
             mode: Phaser.Scale.FIT,
-            width: '90%',
-            height: '70%'
+            width: '80%',
+            height: '90%'
         }
     });
 }
