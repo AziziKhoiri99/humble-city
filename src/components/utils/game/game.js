@@ -5,8 +5,8 @@ import GameScene from "./gamescene";
 function launch(containerId) {
   return new Phaser.Game({
     type: Phaser.AUTO,
-    width: innerWidth,
-    height: innerHeight - 44,
+    width: 1000,
+    height: 640,
     pixelArt: true,
     physics: {
       default: "arcade",
@@ -19,6 +19,8 @@ function launch(containerId) {
     scene: [GameScene],
     scale: {
       mode: Phaser.Scale.FIT,
+      width: "80%",
+      height: "90%",
     },
   });
 }
