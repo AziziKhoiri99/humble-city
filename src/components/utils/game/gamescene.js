@@ -11,56 +11,45 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image(
-      "tiles",
-      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilesets/tuxmon-sample-32px-extruded.png"
-    );
-    this.load.tilemapTiledJSON(
-      "map",
-      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/tilemaps/tuxemon-town.json"
-    );
+    this.load.image("gather_floors", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilesets/gather_floors.png");
+    this.load.image("gather_chairs", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilesets/gather_chairs.png");
+    this.load.image("gather_tables", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilesets/gather_tables.png");
+    this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilesets/gather_decoration.png");
+    this.load.image("gather_games", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilesets/gather_games.png")
 
+    this.load.tilemapTiledJSON("map", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
     this.load.atlas(
       "atlas",
       "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png",
       "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json"
     );
-
-    // this.load.image("gather_floors", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_floors.png");
-    // this.load.image("gather_chairs", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_chairs.png");
-    // this.load.image("gather_tables", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_tables.png");
-    // this.load.image("gather_decoration", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/components/utils/game/tilesets/gather_decoration.png");
-
-    // this.load.tilemapTiledJSON("humble-city", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
     // this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");
   }
 
   create() {
     const map = this.make.tilemap({ key: "map" });
 
-    // const floors = map.addTilesetImage("gather_floors", "gather_floors");
-    // const chairs = map.addTilesetImage("gather_chairs", "gather_chairs");
-    // const tables = map.addTilesetImage("gather_tables", "gather_tables");
-    // const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
+    const floors = map.addTilesetImage("gather_floors", "gather_floors");
+    const chairs = map.addTilesetImage("gather_chairs", "gather_chairs");
+    const tables = map.addTilesetImage("gather_tables", "gather_tables");
+    const decoration = map.addTilesetImage("gather_decoration", "gather_decoration");
+    const games = map.addTilesetImage("gather_games", "gather_games");
 
-    // const belowLayer = map.createLayer("Below Player", [floors, chairs, tables, decoration], 0, 0);
-    // const secondLayer = map.createLayer("Second Layer", [floors, chairs, tables, decoration], 0, 0);
-    // const worldLayer = map.createLayer("World", [floors, chairs, tables, decoration], 0, 0);
-    // const aboveLayer = map.createLayer("Above Player", [floors, chairs, tables, decoration], 0, 0);
 
-    const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
-
-    const belowLayer = map.createLayer("Below Player", tileset, 0, 0);
-    const worldLayer = map.createLayer("World", tileset, 0, 0);
-    const aboveLayer = map.createLayer("Above Player", tileset, 0, 0);
+    const belowLayer = map.createLayer("Below Player", [floors, chairs, tables, decoration, games], 0, 0);
+    const secondLayer = map.createLayer("Second Layer", [floors, chairs, tables, decoration, games], 0, 0);
+    const worldLayer = map.createLayer("World", [floors, chairs, tables, decoration, games], 0, 0);
+    const interactLayer = map.createLayer("Interact", [floors, chairs, tables, decoration, games], 0, 0); 
+    const aboveLayer = map.createLayer("Above Player", [floors, chairs, tables, decoration, games], 0, 0);
 
     belowLayer;
-    // secondLayer
+    secondLayer;
     worldLayer.setCollisionByProperty({ collides: true });
+    interactLayer;
     aboveLayer.setDepth(10);
 
     const spawnPoint = map.findObject(
-      "Objects",
+      "Spawn",
       (obj) => obj.name === "Spawn Point"
     );
 
@@ -125,19 +114,34 @@ export default class GameScene extends Phaser.Scene {
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     cursors = this.input.keyboard.createCursorKeys();
 
-    this.add
-      .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
-        font: "18px monospace",
-        fill: "#000000",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#ffffff",
-      })
-      .setScrollFactor(0)
-      .setDepth(30);
+    // this.add
+    //   .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
+    //     font: "18px monospace",
+    //     fill: "#000000",
+    //     padding: { x: 20, y: 10 },
+    //     backgroundColor: "#ffffff",
+    //   })
+    //   .setScrollFactor(0)
+    //   .setDepth(30);
+
+  //   this.input.keyboard.once("keydown-D", () => {
+  //   this.physics.world.createDebugGraphic();
+
+  //   const graphics = this.add.
+  //   graphics().
+  //   setAlpha(0.75).
+  //   setDepth(20);
+  //   worldLayer.renderDebug(graphics, {
+  //     tileColor: null, // Color of non-colliding tiles
+  //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+  //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+  //   });
+  // });
+  
   }
 
   update() {
-    const speed = 200;
+    const speed = 120;
     const prevVelocity = player.body.velocity.clone();
 
     player.body.setVelocity(0);

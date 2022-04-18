@@ -117,7 +117,6 @@ export default {
       if (this.corner === clicked) {
         return this.$emit("toggleSideMenu", this.sideMenu ? false : true);
       }
-
       this.$emit("changeSideMenu", clicked);
     },
   },
