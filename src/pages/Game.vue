@@ -49,30 +49,38 @@ export default {
     //set socket data to backend websocket before used in mounted
     this.socket = io("ws://192.168.6.208:3001");
 
-    this.socket.on("move to", (x) => {
+    this.socket.on("move-to", (x) => {
       console.log(x);
+    });
+
+    this.socket.on("new-user", (player, id) => {
+      this.onlineUser = [...this.onlineUser, { player, id }];
+    });
+
+    this.socket.on("user-disconnected", (id) => {
+      console.log("a");
+      this.onlineUser = this.onlineUser.filter((x) => x.id !== id);
     });
 
     addEventListener("keydown", (e) => {
       switch (e.code) {
         case "KeyW":
-          this.socket.emit("character move", "up");
+          this.socket.emit("character-move", "up");
           break;
         case "KeyA":
-          this.socket.emit("character move", "left");
+          this.socket.emit("character-move", "left");
           break;
         case "KeyS":
-          this.socket.emit("character move", "down");
+          this.socket.emit("character-move", "down");
           break;
         case "KeyD":
-          this.socket.emit("character move", "right");
+          this.socket.emit("character-move", "right");
           break;
       }
     });
   },
   mounted() {
     const { roomId, roomName } = this.$route.params;
-
     //get socket id
     this.socket.on("joining-room", async (userId) => {
       const payload = {
@@ -122,7 +130,7 @@ export default {
       });
     });
   },
-  unmounted() {
+  async unmounted() {
     this.socket.disconnect();
   },
 };

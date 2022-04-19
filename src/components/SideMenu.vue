@@ -4,7 +4,9 @@
     class="sidemenu text-light"
   >
     <div class="offcanvas-header">
-      <h5 id="offcanvasRightLabel">{{ this.sideMenu ? "Chat" : this.room }}</h5>
+      <h5 id="offcanvasRightLabel">
+        {{ this.corner === 0 ? "Chat" : this.room }}
+      </h5>
       <button @click="this.$emit('toggleSideMenu')">
         <i class="fa-solid fa-xmark"></i>
       </button>
@@ -52,9 +54,15 @@
             stroke-linejoin="round"
           ></path>
         </svg>
-        <input placeholder="Search" type="text" />
+        <input v-model="this.search" placeholder="Search" type="text" />
       </div>
-      <div class="user-list" v-for="user in this.onlineUser" :key="user.id">
+      <div
+        class="user-list"
+        v-for="user in this.onlineUser.filter((x) =>
+          x.player.toLowerCase().includes(this.search.toLowerCase())
+        )"
+        :key="user.id"
+      >
         <img src="../assets/image/placeholder.png" alt="" />
         {{ user.player }}
       </div>
@@ -67,6 +75,7 @@ export default {
   data() {
     return {
       message: "",
+      search: "",
       chat: [],
     };
   },
