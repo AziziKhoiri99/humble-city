@@ -184,10 +184,10 @@ export default class GameScene extends Phaser.Scene {
     } else {
       player.anims.stop();
 
-      if (prevVelocity.x < 0) player.setTexture("atlas", "chara-left.png");
-      else if (prevVelocity.x > 0) player.setTexture("atlas", "chara-right.png");
-      else if (prevVelocity.y < 0) player.setTexture("atlas", "chara-back.png");
-      else if (prevVelocity.y > 0) player.setTexture("atlas", "chara-front.png");
+      if (prevVelocity.x < 0) player.setTexture("atlas", "chara-left");
+      else if (prevVelocity.x > 0) player.setTexture("atlas", "chara-right");
+      else if (prevVelocity.y < 0) player.setTexture("atlas", "chara-back");
+      else if (prevVelocity.y > 0) player.setTexture("atlas", "chara-front");
     }
   }
 }
