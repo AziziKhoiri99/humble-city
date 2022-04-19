@@ -18,12 +18,15 @@ export default class GameScene extends Phaser.Scene {
     this.load.image("gather_games", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilesets/gather_games.png")
 
     this.load.tilemapTiledJSON("map", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/tilemap/humble-city.json");
+    // this.load.atlas(
+    //   "atlas",
+    //   "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png",
+    //   "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json"
+    // );
     this.load.atlas(
-      "atlas",
-      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.png",
-      "https://mikewesthad.github.io/phaser-3-tilemap-blog-posts/post-1/assets/atlas/atlas.json"
-    );
-    // this.load.atlas("atlas", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");
+      "atlas", 
+      "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.png", 
+      "https://raw.githubusercontent.com/AziziKhoiri99/humble-city/main/src/assets/avatars/chara.json");
   }
 
   create() {
@@ -53,18 +56,26 @@ export default class GameScene extends Phaser.Scene {
       (obj) => obj.name === "Spawn Point"
     );
 
+
+    
+// var sprite = game.add.sprite(0, 0, 'button');
+// var text = game.add.text(0, 0, "Some text", {font: "16px Arial", fill: "#ffffff"});
+// sprite.addChild(text);
+
     player = this.physics.add
-      .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
-      .setSize(30, 40)
-      .setOffset(0, 24);
+      .sprite(spawnPoint.x, spawnPoint.y, "atlas", "chara-front.png")
+      .setSize(20, 30)
+      .setOffset(5, 14);
+
+    this.followText = this.add.text(0, 0, "My Name");
 
     this.physics.add.collider(player, worldLayer);
 
     const anims = this.anims;
     anims.create({
-      key: "misa-left-walk",
+      key: "chara-left-walk",
       frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-left-walk.",
+        prefix: "chara-left-walk.",
         start: 0,
         end: 3,
         zeroPad: 3,
@@ -74,9 +85,9 @@ export default class GameScene extends Phaser.Scene {
     });
 
     anims.create({
-      key: "misa-right-walk",
+      key: "chara-right-walk",
       frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-right-walk.",
+        prefix: "chara-right-walk.",
         start: 0,
         end: 3,
         zeroPad: 3,
@@ -86,9 +97,9 @@ export default class GameScene extends Phaser.Scene {
     });
 
     anims.create({
-      key: "misa-front-walk",
+      key: "chara-front-walk",
       frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-front-walk.",
+        prefix: "chara-front-walk.",
         start: 0,
         end: 3,
         zeroPad: 3,
@@ -98,9 +109,9 @@ export default class GameScene extends Phaser.Scene {
     });
 
     anims.create({
-      key: "misa-back-walk",
+      key: "chara-back-walk",
       frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-back-walk.",
+        prefix: "chara-back-walk.",
         start: 0,
         end: 3,
         zeroPad: 3,
@@ -114,29 +125,29 @@ export default class GameScene extends Phaser.Scene {
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     cursors = this.input.keyboard.createCursorKeys();
 
-    // this.add
-    //   .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
-    //     font: "18px monospace",
-    //     fill: "#000000",
-    //     padding: { x: 20, y: 10 },
-    //     backgroundColor: "#ffffff",
-    //   })
-    //   .setScrollFactor(0)
-    //   .setDepth(30);
+    this.add
+      .text(16, 16, 'Arrow keys to move\nPress "D" to show hitboxes', {
+        font: "18px monospace",
+        fill: "#000000",
+        padding: { x: 20, y: 10 },
+        backgroundColor: "#ffffff",
+      })
+      .setScrollFactor(0)
+      .setDepth(30);
 
-  //   this.input.keyboard.once("keydown-D", () => {
-  //   this.physics.world.createDebugGraphic();
+    this.input.keyboard.once("keydown-D", () => {
+    this.physics.world.createDebugGraphic();
 
-  //   const graphics = this.add.
-  //   graphics().
-  //   setAlpha(0.75).
-  //   setDepth(20);
-  //   worldLayer.renderDebug(graphics, {
-  //     tileColor: null, // Color of non-colliding tiles
-  //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-  //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-  //   });
-  // });
+    const graphics = this.add.
+    graphics().
+    setAlpha(0.75).
+    setDepth(20);
+    worldLayer.renderDebug(graphics, {
+      tileColor: null, // Color of non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+    });
+  });
   
   }
 
@@ -144,6 +155,8 @@ export default class GameScene extends Phaser.Scene {
     const speed = 120;
     const prevVelocity = player.body.velocity.clone();
 
+    this.followText.setPosition(player.x - 30, player.y - 40);
+    
     player.body.setVelocity(0);
 
     if (cursors.left.isDown) {
@@ -161,20 +174,20 @@ export default class GameScene extends Phaser.Scene {
     player.body.velocity.normalize().scale(speed);
 
     if (cursors.left.isDown) {
-      player.anims.play("misa-left-walk", true);
+      player.anims.play("chara-left-walk", true);
     } else if (cursors.right.isDown) {
-      player.anims.play("misa-right-walk", true);
+      player.anims.play("chara-right-walk", true);
     } else if (cursors.up.isDown) {
-      player.anims.play("misa-back-walk", true);
+      player.anims.play("chara-back-walk", true);
     } else if (cursors.down.isDown) {
-      player.anims.play("misa-front-walk", true);
+      player.anims.play("chara-front-walk", true);
     } else {
       player.anims.stop();
 
-      if (prevVelocity.x < 0) player.setTexture("atlas", "misa-left");
-      else if (prevVelocity.x > 0) player.setTexture("atlas", "misa-right");
-      else if (prevVelocity.y < 0) player.setTexture("atlas", "misa-back");
-      else if (prevVelocity.y > 0) player.setTexture("atlas", "misa-front");
+      if (prevVelocity.x < 0) player.setTexture("atlas", "chara-left.png");
+      else if (prevVelocity.x > 0) player.setTexture("atlas", "chara-right.png");
+      else if (prevVelocity.y < 0) player.setTexture("atlas", "chara-back.png");
+      else if (prevVelocity.y > 0) player.setTexture("atlas", "chara-front.png");
     }
   }
 }
