@@ -1,6 +1,7 @@
 <template>
   <div>
     <Game />
+    <Camera/>
     <BotBar
       :my="this.my"
       :corner="this.corner"
@@ -21,6 +22,7 @@
 
 <script>
 import Game from "../components/Game.vue";
+import Camera from "../components/Camera.vue"
 import BotBar from "../components/BotBar.vue";
 import SideMenu from "../components/SideMenu.vue";
 import axios from "axios";
@@ -31,6 +33,7 @@ export default {
   name: "game-page",
   components: {
     Game,
+    Camera,
     BotBar,
     SideMenu,
   },
