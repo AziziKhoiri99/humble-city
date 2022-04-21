@@ -26,6 +26,9 @@ import SideMenu from "../components/SideMenu.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import io from "socket.io-client";
+export let onlineUser;
+export let socketId;
+export const socket = io("ws://192.168.6.208:3001");
 
 export default {
   name: "game-page",
@@ -47,7 +50,7 @@ export default {
   },
   async created() {
     //set socket data to backend websocket before used in mounted
-    this.socket = io("ws://192.168.6.208:3001");
+    this.socket = socket;
 
     this.socket.on("move-to", (x) => {
       console.log(x);
@@ -55,11 +58,15 @@ export default {
 
     this.socket.on("new-user", (player, id) => {
       this.onlineUser = [...this.onlineUser, { player, id }];
+      console.log(this.onlineUser);
+      onlineUser = this.onlineUser;
     });
 
     this.socket.on("user-disconnected", (id) => {
       console.log("a");
       this.onlineUser = this.onlineUser.filter((x) => x.id !== id);
+      console.log(this.onlineUser);
+      onlineUser = this.onlineUser;
     });
 
     addEventListener("keydown", (e) => {
@@ -93,6 +100,8 @@ export default {
         playerId: userId,
       };
 
+      socketId = userId;
+
       //posting to room that a new user joined
       await axios.post(API_URL + "connect-room", payload).then((res) => {
         if (res.data.failed) return alert(res.data.failed);
@@ -106,6 +115,7 @@ export default {
         );
         this.onlineUser = res.data.results;
 
+        onlineUser = res.data.results;
         //update room history locally
         //check is user logged in and has visited the room before
         if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
