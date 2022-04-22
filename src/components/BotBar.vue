@@ -69,8 +69,20 @@
     <span class="popuptext" id="myPopup">Microphone</span>
       </div>
       <div class="popup">
+
       <li class="nav-link" href="#">
         <i class="fa-solid fa-video"></i>
+      </li>
+      <li class="nav-link rounded bg-light my-2" style="width: 60px; height: 30px" href="#">
+      </li>
+      <li class="nav-link" href="#">
+        {{ this.my.username }}
+      </li>
+      <li class="nav-link" href="#" @click="changeMic()">
+        <i :class="isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'"></i>
+      </li>    
+      <li class="nav-link" href="#" @click="changeVideo()">
+        <i :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"></i>
       </li>
     <span class="popuptext" id="myPopup">Camera</span>
       </div>
@@ -148,6 +160,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isMic: true,
+      isVideo: true
+    }
+  },
   props: {
     my: Object,
     corner: Number,
@@ -159,6 +177,12 @@ export default {
         return this.$emit("toggleSideMenu", this.sideMenu ? false : true);
       }
       this.$emit("changeSideMenu", clicked);
+    },
+    changeMic(){
+      this.isMic = !this.isMic;
+    },
+    changeVideo(){
+      this.isVideo = !this.isVideo;
     },
   },
 };
