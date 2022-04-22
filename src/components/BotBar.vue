@@ -61,13 +61,10 @@
         <i class="fa-solid fa-video"></i>
       </li>
       <li class="nav-link" href="#">
-        <i class="fa-solid fa-tv"></i>
-      </li>
-      <li class="nav-link" href="#">
         <i class="fa-solid fa-face-smile"></i>
       </li>
       <li class="nav-link" href="#">
-        <i class="fa-solid fa-angle-right"></i>
+        <i class="fa-solid fa-tv"></i>
       </li>
       <!-- <span class="float-end">     -->
       <li class="nav-link" href="#">
@@ -75,6 +72,9 @@
       </li>
       <li class="nav-link" href="#">
         <i class="fa-solid fa-calendar-days"></i>
+      </li>
+      <li class="nav-link" href="#">
+        <i class="fa-solid fa-angle-right"></i>
       </li>
       <div class="right-corner">
         <li
