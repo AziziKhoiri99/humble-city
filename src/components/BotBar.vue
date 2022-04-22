@@ -73,11 +73,6 @@
       <li class="nav-link" href="#" @click="changeVideo()">
         <i :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"></i>
       </li>
-<<<<<<< HEAD
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-video"></i>
-      </li>
-=======
     <span class="popuptext" id="myPopup">Camera</span>
       </div>
       <div class="popup">
@@ -87,7 +82,6 @@
     <span class="popuptext" id="myPopup">Screen share</span>
       </div>
       <div class="popup">
->>>>>>> 7739a6dcc6b46a65b9adda53bb5154e2fb474ae4
       <li class="nav-link" href="#">
         <i class="fa-solid fa-face-smile"></i>
       </li>
@@ -96,7 +90,7 @@
       <div class="popup">
 
       <li class="nav-link" href="#">
-        <i class="fa-solid fa-tv"></i>
+        <i class="fa-solid fa-angle-right"></i>
       </li>
     <span class="popuptext" id="myPopup">See more</span>
       </div>
@@ -111,15 +105,9 @@
       <li class="nav-link" href="#">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
-<<<<<<< HEAD
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-angle-right"></i>
-      </li>
-=======
     <span class="popuptext" id="myPopup">Calender</span>
       </div>
 
->>>>>>> 7739a6dcc6b46a65b9adda53bb5154e2fb474ae4
       <div class="right-corner">
 
       <div class="popup">
@@ -154,7 +142,6 @@
     <span class="popuptext" id="myPopup">Particiants</span>
       </div>
       </div>
-      <!-- </span> -->
     </ul>
   </div>
 </template>
@@ -213,8 +200,9 @@ li:hover {
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
 }
-.popup {-webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
+.popup:hover {
+  /* -webkit-animation: fadeIn 1s; */
+  /* animation: fadeIn 1s; */
   position: relative;
   display: inline-block;
   cursor: pointer;
