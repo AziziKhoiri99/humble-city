@@ -1,7 +1,6 @@
 <template>
 <div class="card fixed-top mx-auto" style="width: 50px; height: 50px;">
-  <div class="video">
-  </div>
+  <video></video>
 </div>
 </template>
 
@@ -13,6 +12,16 @@
 
 <script>
 export default {
-    name: "my-camera"
+    name: "my-camera",
+    methods: {
+      camera() {
+        document.querySelector('video').addEventListener (
+          navigator.mediaDevices.getUserMedia({
+            video : true,
+            audio : true
+          })
+        )
+      }
+    },
 }
 </script>
