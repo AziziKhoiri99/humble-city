@@ -1,6 +1,7 @@
 <template>
   <div>
     <ul class="nav fixed-bottom navbar-dark bg-success">
+      <!-- <div class="popup-main"> -->
       <li class="nav-link active" aria-current="page" href="#">
         <svg
           width="30px"
@@ -51,32 +52,83 @@
           </g>
         </svg>
       </li>
+      <!-- <span class="popuptext-main">Main Menu
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         {{ this.my.username }}
       </li>
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-microphone"></i>
+      <!-- <span class="popuptext">Personal menu
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
+      <li class="nav-link" href="#" @click="changeMic()">
+        <i
+          :class="
+            isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
+          "
+        ></i>
       </li>
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-video"></i>
+      <!-- <span class="popuptext">Microphone
+    </span>
+      </div> -->
+
+      <!--
+      <div class="popup">  -->
+      <li class="nav-link" href="#" @click="changeVideo()">
+        <i
+          :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
+        ></i>
       </li>
+      <!-- <span class="popuptext">Camera
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         <i class="fa-solid fa-tv"></i>
       </li>
+      <!-- <span class="popuptext">Screen share
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         <i class="fa-solid fa-face-smile"></i>
       </li>
+      <!-- <span class="popuptext">(Emote")
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         <i class="fa-solid fa-angle-right"></i>
       </li>
-      <!-- <span class="float-end">     -->
+      <!-- <span class="popuptext">See more
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         <i class="fa-solid fa-hammer"></i>
       </li>
+      <!-- <span class="popuptext">Build Tools
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
+      <!-- <span class="popuptext">Calender
+    </span>
+      </div> -->
+
       <div class="right-corner">
+        <!-- <div class="popup"> -->
         <li
           v-bind:style="
             this.sideMenu &&
@@ -88,6 +140,11 @@
         >
           <i class="fa-solid fa-comments"></i>
         </li>
+
+        <!-- <span class="popuptext">Chat</span>
+      </div> -->
+
+        <!-- <div class="popup"> -->
         <li
           v-bind:style="
             this.sideMenu &&
@@ -99,8 +156,10 @@
         >
           <i class="fa-solid fa-user-group"></i>
         </li>
+
+        <!-- <span class="popuptext">Particiants</span>
+      </div> -->
       </div>
-      <!-- </span> -->
     </ul>
   </div>
 </template>
@@ -124,6 +183,9 @@ export default {
 </script>
 
 <style scoped>
+.nav {
+  height: 53px;
+}
 li {
   color: white;
   text-decoration: none;
@@ -146,5 +208,83 @@ li:hover {
 }
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
+}
+.popup:hover {
+  /* -webkit-animation: fadeIn 1s; */
+  /* animation: fadeIn 1s; */
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* The actual popup */
+.popup .popuptext {
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  /* left: 50%; */
+  right: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+}
+.popup-main .show {
+  visibility: visible;
+}
+.popup-main:hover {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.popup-main .popuptext-main {
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 75%;
+  margin-left: -40px;
+}
+
+.popup-main .popuptext-main::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -62px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
 }
 </style>
