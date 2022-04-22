@@ -156,6 +156,10 @@
     <!-- <span class="popuptext">Particiants</span>
       </div> -->
       </div>
+<<<<<<< HEAD
+=======
+      </div>
+>>>>>>> a4ae5696b681e36566812d86c9b959f7f1037516
     </ul>
   </div>
 </template>
