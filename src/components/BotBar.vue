@@ -2,7 +2,7 @@
   <div>
     <ul class="nav fixed-bottom navbar-dark bg-success">
       
-      <div class="popup">
+      <!-- <div class="popup-main"> -->
 <li class="nav-link active" aria-current="page" href="#">
         <svg
           width="30px"
@@ -49,68 +49,82 @@
               class="icon"
               d="M116.4,46.4c4.1-6.4,16.3-26.9,11-33c-6.3-7.3-25.8,1-25.8,1v0.1c3.8,9.3,3.8,19.7,0.1,29h0.1
                 C106.8,43.5,111.7,44.5,116.4,46.4z"
-            />
+            /> 
           </g>
         </svg>
       </li>
-    <span class="popuptext" id="myPopup">Main Menu</span>
-      </div>
-      
-      <div class="popup">
+    <!-- <span class="popuptext-main">Main Menu
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         {{ this.my.username }}
       </li>
-    <span class="popuptext" id="myPopup">Personal menu</span>
-      </div>
-      <div class="popup">
+    <!-- <span class="popuptext">Personal menu
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#" @click="changeMic()">
         <i :class="isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'"></i>
       </li>    
-    <span class="popuptext" id="myPopup">Microphone</span>
-      </div>
-      <div class="popup">
+    <!-- <span class="popuptext">Microphone
+    </span>
+      </div> -->
 
+<!--
+      <div class="popup">  -->
       <li class="nav-link" href="#" @click="changeVideo()">
         <i :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"></i>
       </li>
-    <span class="popuptext" id="myPopup">Camera</span>
-      </div>
-      <div class="popup">
+    <!-- <span class="popuptext">Camera
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
         <li class="nav-link" href="#">
         <i class="fa-solid fa-tv"></i>
       </li>
-    <span class="popuptext" id="myPopup">Screen share</span>
-      </div>
-      <div class="popup">
+    <!-- <span class="popuptext">Screen share
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         <i class="fa-solid fa-face-smile"></i>
       </li>
-    <span class="popuptext" id="myPopup">(Emote")</span>
-      </div>
-      <div class="popup">
+    <!-- <span class="popuptext">(Emote")
+    </span>
+      </div> -->
 
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
-        <i class="fa-solid fa-tv"></i>
+        <i class="fa-solid fa-angle-right"></i>
       </li>
-    <span class="popuptext" id="myPopup">See more</span>
-      </div>
-      <div class="popup">
+    <!-- <span class="popuptext">See more
+    </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
       <li  class="nav-link" href="#">
         <i class="fa-solid fa-hammer"></i>
       </li>
-    <span class="popuptext" id="myPopup">Build Tools</span>
-      </div>
-      <div class="popup">
+    <!-- <span class="popuptext">Build Tools
+    </span>
+      </div> -->
 
+      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
-    <span class="popuptext" id="myPopup">Calender</span>
-      </div>
+    <!-- <span class="popuptext">Calender
+    </span>
+      </div> -->
 
       <div class="right-corner">
 
-      <div class="popup">
+      <!-- <div class="popup"> -->
         <li 
           v-bind:style="
             this.sideMenu &&
@@ -123,10 +137,10 @@
           <i class="fa-solid fa-comments"></i>
         </li>
 
-    <span class="popuptext" id="myPopup">Chat</span>
-      </div>
+    <!-- <span class="popuptext">Chat</span>
+      </div> -->
       
-      <div class="popup">
+      <!-- <div class="popup"> -->
         <li
           v-bind:style="
             this.sideMenu &&
@@ -139,10 +153,9 @@
           <i class="fa-solid fa-user-group"></i>
         </li>
 
-    <span class="popuptext" id="myPopup">Particiants</span>
+    <!-- <span class="popuptext">Particiants</span>
+      </div> -->
       </div>
-      </div>
-      <!-- </span> -->
     </ul>
   </div>
 </template>
@@ -178,6 +191,9 @@ export default {
 </script>
 
 <style scoped>
+.nav {
+  height: 53px;
+}
 li {
   color: white;
   text-decoration: none;
@@ -201,8 +217,9 @@ li:hover {
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
 }
-.popup {-webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
+.popup:hover {
+  /* -webkit-animation: fadeIn 1s; */
+  /* animation: fadeIn 1s; */
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -225,13 +242,13 @@ li:hover {
   left: 50%;
   margin-left: -80px;
 }
-
 /* Popup arrow */
 .popup .popuptext::after {
   content: "";
   position: absolute;
   top: 100%;
-  left: 50%;
+  /* left: 50%; */
+  right: 50%;
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
@@ -240,18 +257,42 @@ li:hover {
 
 /* Toggle this class - hide and show the popup */
 .popup .show {
-  visibility: visible;
-  
+  visibility: visible; 
+}
+.popup-main .show {
+  visibility: visible; 
+}
+.popup-main:hover {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.popup-main .popuptext-main {
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 75%;
+  margin-left: -40px;
 }
 
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;} 
-  to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
+.popup-main .popuptext-main::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -62px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
 }
 </style>

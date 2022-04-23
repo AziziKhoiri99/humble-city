@@ -15,12 +15,12 @@ export default {
     name: "my-camera",
     methods: {
       camera() {
-        document.querySelector('video').addEventListener (
-          navigator.mediaDevices.getUserMedia({
-            video : true,
-            audio : true
-          })
-        )
+        this.$name.querySelector('video').addEventListener('click', async () => {
+        navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true
+        })
+})
       }
     },
 }
