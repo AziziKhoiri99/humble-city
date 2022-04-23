@@ -4,7 +4,7 @@
       <div class="modal-title">
         Create a new space
         <button type="button" @click="this.$emit('close-modal')">
-          &times;
+          <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
       <div class="modal-input">
@@ -93,10 +93,15 @@ export default {
   width: 100%;
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 .modal-title button {
   float: right;
+  background-color: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.7rem;
+  padding: 0;
 }
 .modal-input {
   margin-bottom: 20px;
@@ -108,10 +113,10 @@ export default {
 .modal-foot button {
   height: 40px;
 }
-.close-text {
+/* .close-text {
   background-color: #146153;
   width: 20%;
-}
+} */
 .create {
   background-color: #2f9dbb;
   width: calc(80% - 16px);

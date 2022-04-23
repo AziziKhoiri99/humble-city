@@ -4,8 +4,10 @@
       
       <!-- <div class="popup-main"> -->
 <li class="nav-link active" aria-current="page" href="#">
+  <image src="https://gitlab.com/uploads/-/system/project/avatar/35056610/acai.png?width=64" width="40"/>
         <svg
           width="30px"
+          style="display: none"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 133.1 122.3"
         >
@@ -97,17 +99,17 @@
     <!-- <span class="popuptext">(Emote")
     </span>
       </div> -->
-
+    <div class="horizonLine"></div>
       <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-angle-right"></i>
+      <li  class="nav-link" href="#" v-if="!isHidden">
+        <i class="fa-solid fa-solid fa-map"></i>
       </li>
-    <!-- <span class="popuptext">See more
+    <!-- <span class="popuptext">Build Tools
     </span>
       </div> -->
 
       <!-- <div class="popup"> -->
-      <li  class="nav-link" href="#">
+      <li  class="nav-link" href="#" v-if="!isHidden">
         <i class="fa-solid fa-hammer"></i>
       </li>
     <!-- <span class="popuptext">Build Tools
@@ -115,12 +117,24 @@
       </div> -->
 
       <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
+      <li class="nav-link" href="#" v-if="!isHidden">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
     <!-- <span class="popuptext">Calender
     </span>
       </div> -->
+
+      <!-- <div class="popup"> -->
+      <li class="nav-link" href="#" @click="changeArrow()" v-on:click="isHidden = !isHidden">
+        <i :class="isArrow ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left' "></i>
+      </li>
+    <!-- <span class="popuptext" @click="changeWord()">
+      <span :class="isWord ? 'See more' : 'See less' "></span>
+    </span> -->
+    <!-- <span class="popuptext">See more</span>
+      </div> -->
+
+
 
       <div class="right-corner">
 
@@ -156,10 +170,6 @@
     <!-- <span class="popuptext">Particiants</span>
       </div> -->
       </div>
-<<<<<<< HEAD
-=======
-      </div>
->>>>>>> a4ae5696b681e36566812d86c9b959f7f1037516
     </ul>
   </div>
 </template>
@@ -169,7 +179,9 @@ export default {
   data() {
     return {
       isMic: true,
-      isVideo: true
+      isVideo: true,
+      isArrow: true,
+      isHidden: true
     }
   },
   props: {
@@ -184,11 +196,20 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
+    // moreLess(clicked) {
+    //   if (this.corner === clicked) {
+    //     return this.$emit("moreLess", this.wordChanged ? false : true);
+    //   }
+    //   this.$emit("changeWord", clicked);
+    // },
     changeMic(){
       this.isMic = !this.isMic;
     },
     changeVideo(){
       this.isVideo = !this.isVideo;
+    },
+    changeArrow(){
+      this.isArrow = !this.isArrow;
     },
   },
 };
@@ -198,13 +219,21 @@ export default {
 .nav {
   height: 53px;
 }
+.nav-link {
+  top:5px;
+  font-size: 20px;
+}
 li {
   color: white;
   text-decoration: none;
 }
+/* i{
+  width:40px;
+} */
 li:hover {
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 .right-corner {
   margin-left: auto;
@@ -217,11 +246,19 @@ li:hover {
   padding: 0.5rem 0;
   transition: var(--transition-speed);
   cursor: pointer;
+  border-left: solid 2px #00463a;
 }
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
 }
-.popup:hover {
+.horizonLine {
+    height: 32px;
+    width: 2px;
+    margin: auto 4px;
+    background-color: rgb(236, 236, 236);
+    border-radius: 8px;
+}
+.popup {
   /* -webkit-animation: fadeIn 1s; */
   /* animation: fadeIn 1s; */
   position: relative;
@@ -232,6 +269,7 @@ li:hover {
   -ms-user-select: none;
   user-select: none;
 }
+
 /* The actual popup */
 .popup .popuptext {
   width: 160px;
@@ -246,12 +284,12 @@ li:hover {
   left: 50%;
   margin-left: -80px;
 }
+
 /* Popup arrow */
 .popup .popuptext::after {
   content: "";
   position: absolute;
   top: 100%;
-  /* left: 50%; */
   right: 50%;
   margin-left: -5px;
   border-width: 5px;
@@ -260,13 +298,14 @@ li:hover {
 }
 
 /* Toggle this class - hide and show the popup */
-.popup .show {
+/* .popup .show {
   visibility: visible; 
-}
-.popup-main .show {
+} */
+/* .popup-main .show {
   visibility: visible; 
-}
-.popup-main:hover {
+} */
+
+/* .popup-main:hover {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -298,5 +337,5 @@ li:hover {
   border-width: 5px;
   border-style: solid;
   border-color: #555 transparent transparent transparent;
-}
+} */
 </style>
