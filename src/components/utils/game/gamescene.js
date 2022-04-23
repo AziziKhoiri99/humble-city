@@ -150,11 +150,11 @@ export default class GameScene extends Phaser.Scene {
       who.followText.destroy();
       players = players.filter((x) => x.id !== id);
     });
-    socket.on("get-coords", (id) => {
+    socket.on("give-coords", (id) => {
       const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
-      socket.emit("give-coord", mySprite.x, mySprite.y, socketId, id);
+      socket.emit("get-coord", mySprite.x, mySprite.y, id);
     });
-    socket.on("give-coord", (x, y, id) => {
+    socket.on("get-coord", (x, y, id) => {
       const who = players.filter((x) => x.id === id)[0].sprite;
       who.x = x;
       who.y = y;
@@ -196,21 +196,19 @@ export default class GameScene extends Phaser.Scene {
     }
 
     dirInput.on("keydown", (e) => {
-      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
       const dir = directions[e.code];
       if (dir && heldDirection.indexOf(dir) === -1) {
         heldDirection.unshift(directions[e.code]);
-        mySprite.body.setVelocity(0);
+        socket.emit("done-loading");
         socket.emit("character-move", heldDirection[0]);
       }
     });
     dirInput.on("keyup", (e) => {
-      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
       const dir = directions[e.code];
       const index = heldDirection.indexOf(dir);
       if (index > -1) {
         heldDirection.splice(index, 1);
-        mySprite.body.setVelocity(0);
+        socket.emit("done-loading");
         socket.emit("character-move", heldDirection[0]);
       }
     });
@@ -281,7 +279,6 @@ export default class GameScene extends Phaser.Scene {
     onlineUser.map((ou) => {
       const who = players.filter((x) => x.id === ou.id)[0];
       who.followText.setPosition(who.sprite.x - 25, who.sprite.y - 40);
-      // console.log(who[0]);
     });
   }
 }
