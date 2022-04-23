@@ -5,6 +5,7 @@
       <li class="nav-link active" aria-current="page" href="#">
         <svg
           width="30px"
+          style="display: none"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 133.1 122.3"
         >
@@ -102,17 +103,17 @@
       <!-- <span class="popuptext">(Emote")
     </span>
       </div> -->
-
+      <div class="horizonLine"></div>
       <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-angle-right"></i>
+      <li class="nav-link" href="#" v-if="!isHidden">
+        <i class="fa-solid fa-solid fa-map"></i>
       </li>
       <!-- <span class="popuptext">See more
     </span>
       </div> -->
 
       <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
+      <li class="nav-link" href="#" v-if="!isHidden">
         <i class="fa-solid fa-hammer"></i>
       </li>
       <!-- <span class="popuptext">Build Tools
@@ -120,11 +121,30 @@
       </div> -->
 
       <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
+      <li class="nav-link" href="#" v-if="!isHidden">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
       <!-- <span class="popuptext">Calender
     </span>
+      </div> -->
+
+      <!-- <div class="popup"> -->
+      <li
+        class="nav-link"
+        href="#"
+        @click="changeArrow()"
+        v-on:click="isHidden = !isHidden"
+      >
+        <i
+          :class="
+            isArrow ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'
+          "
+        ></i>
+      </li>
+      <!-- <span class="popuptext" @click="changeWord()">
+      <span :class="isWord ? 'See more' : 'See less' "></span>
+    </span> -->
+      <!-- <span class="popuptext">See more</span>
       </div> -->
 
       <div class="right-corner">
@@ -170,6 +190,8 @@ export default {
     return {
       isMic: true,
       isVideo: true,
+      isArrow: true,
+      isHidden: true,
     };
   },
   props: {
@@ -184,11 +206,30 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
+    // moreLess(clicked) {
+    //   if (this.corner === clicked) {
+    //     return this.$emit("moreLess", this.wordChanged ? false : true);
+    //   }
+    //   this.$emit("changeWord", clicked);
+    // },
+    changeMic() {
+      this.isMic = !this.isMic;
+    },
+    changeVideo() {
+      this.isVideo = !this.isVideo;
+    },
+    changeArrow() {
+      this.isArrow = !this.isArrow;
+    },
   },
 };
 </script>
 
 <style scoped>
+.nav-link {
+  top: 5px;
+  font-size: 20px;
+}
 li {
   color: white;
   text-decoration: none;
@@ -196,6 +237,7 @@ li {
 li:hover {
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 i {
   width: 20px;
@@ -211,13 +253,19 @@ i {
   padding: 0.5rem 0;
   transition: var(--transition-speed);
   cursor: pointer;
+  border-left: solid 2px #00463a;
 }
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
 }
-.popup:hover {
-  /* -webkit-animation: fadeIn 1s; */
-  /* animation: fadeIn 1s; */
+.horizonLine {
+  height: 32px;
+  width: 2px;
+  margin: auto 4px;
+  background-color: rgb(236, 236, 236);
+  border-radius: 8px;
+}
+.popup {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -226,7 +274,6 @@ i {
   -ms-user-select: none;
   user-select: none;
 }
-/* The actual popup */
 .popup .popuptext {
   width: 160px;
   background-color: #555;
@@ -240,55 +287,12 @@ i {
   left: 50%;
   margin-left: -80px;
 }
-/* Popup arrow */
 .popup .popuptext::after {
   content: "";
   position: absolute;
   top: 100%;
-  /* left: 50%; */
   right: 50%;
   margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-/* Toggle this class - hide and show the popup */
-.popup .show {
-  visibility: visible;
-}
-.popup-main .show {
-  visibility: visible;
-}
-.popup-main:hover {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.popup-main .popuptext-main {
-  width: 160px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 75%;
-  margin-left: -40px;
-}
-
-.popup-main .popuptext-main::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -62px;
   border-width: 5px;
   border-style: solid;
   border-color: #555 transparent transparent transparent;

@@ -167,8 +167,10 @@ export default class GameScene extends Phaser.Scene {
 
     // console.log(players.map((x) => x.id));
 
-    function move(direction, playerSprite) {
+    function move(direction, userId) {
+      const playerSprite = players.filter((x) => x.id === userId)[0].sprite;
       const spriteBody = playerSprite.body;
+      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
       const speed = 120;
 
       switch (direction) {
@@ -190,7 +192,9 @@ export default class GameScene extends Phaser.Scene {
           break;
         default:
           playerSprite.anims.stop();
-          spriteBody.setVelocity(0);
+          if (userId === socketId) {
+            socket.emit("share-coord", mySprite.x, mySprite.y);
+          }
           break;
       }
     }
@@ -199,7 +203,6 @@ export default class GameScene extends Phaser.Scene {
       const dir = directions[e.code];
       if (dir && heldDirection.indexOf(dir) === -1) {
         heldDirection.unshift(directions[e.code]);
-        socket.emit("done-loading");
         socket.emit("character-move", heldDirection[0]);
       }
     });
@@ -208,7 +211,6 @@ export default class GameScene extends Phaser.Scene {
       const index = heldDirection.indexOf(dir);
       if (index > -1) {
         heldDirection.splice(index, 1);
-        socket.emit("done-loading");
         socket.emit("character-move", heldDirection[0]);
       }
     });
@@ -264,9 +266,14 @@ export default class GameScene extends Phaser.Scene {
     });
 
     socket.on("character-move", (userId, direction) => {
-      const who = players.filter((x) => x.id === userId)[0].sprite;
-      who.setVelocity(0);
-      move(direction, who);
+      players.filter((x) => x.id === userId)[0].sprite.setVelocity(0);
+      move(direction, userId);
+    });
+
+    socket.on("share-coord", (x, y, userId) => {
+      const playerSprite = players.filter((x) => x.id === userId)[0].sprite;
+      playerSprite.x = x;
+      playerSprite.y = y;
     });
 
     const camera = this.cameras.main;
