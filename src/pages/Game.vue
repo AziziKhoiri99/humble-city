@@ -1,28 +1,26 @@
 <template>
   <div>
-    <Game />
-    <Camera/>
+    <Game :onlineUser="onlineUser" :isLoaded="isLoaded" />
     <BotBar
-      :my="this.my"
-      :corner="this.corner"
-      :sideMenu="this.sideMenu"
-      @toggleSideMenu="(val) => (this.sideMenu = val)"
-      @changeSideMenu="(val) => (this.corner = val)"
+      :my="my"
+      :corner="corner"
+      :sideMenu="sideMenu"
+      @toggleSideMenu="(val) => (sideMenu = val)"
+      @changeSideMenu="(val) => (corner = val)"
     />
     <SideMenu
-      :corner="this.corner"
-      :sideMenu="this.sideMenu"
-      :room="this.$route.params.roomName"
-      :onlineUser="this.onlineUser"
-      :socket="this.socket"
-      @toggleSideMenu="this.sideMenu = false"
+      :corner="corner"
+      :sideMenu="sideMenu"
+      :room="$route.params.roomName"
+      :onlineUser="onlineUser"
+      :socket="socket"
+      @toggleSideMenu="sideMenu = false"
     />
   </div>
 </template>
 
 <script>
 import Game from "../components/Game.vue";
-import Camera from "../components/Camera.vue"
 import BotBar from "../components/BotBar.vue";
 import SideMenu from "../components/SideMenu.vue";
 import axios from "axios";
@@ -36,7 +34,6 @@ export default {
   name: "game-page",
   components: {
     Game,
-    Camera,
     BotBar,
     SideMenu,
   },
@@ -49,15 +46,12 @@ export default {
       socket: "",
       corner: 0,
       sideMenu: false,
+      isLoaded: false,
     };
   },
   async created() {
     //set socket data to backend websocket before used in mounted
     this.socket = socket;
-
-    this.socket.on("move-to", (x) => {
-      console.log(x);
-    });
 
     this.socket.on("new-user", (player, id) => {
       this.onlineUser = [...this.onlineUser, { player, id }];
@@ -70,23 +64,6 @@ export default {
       this.onlineUser = this.onlineUser.filter((x) => x.id !== id);
       console.log(this.onlineUser);
       onlineUser = this.onlineUser;
-    });
-
-    addEventListener("keydown", (e) => {
-      switch (e.code) {
-        case "KeyW":
-          this.socket.emit("character-move", "up");
-          break;
-        case "KeyA":
-          this.socket.emit("character-move", "left");
-          break;
-        case "KeyS":
-          this.socket.emit("character-move", "down");
-          break;
-        case "KeyD":
-          this.socket.emit("character-move", "right");
-          break;
-      }
     });
   },
   mounted() {
@@ -116,9 +93,9 @@ export default {
           userId,
           this.$route.params.roomId
         );
-        this.onlineUser = res.data.results;
-
         onlineUser = res.data.results;
+        this.onlineUser = onlineUser;
+
         //update room history locally
         //check is user logged in and has visited the room before
         if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
@@ -140,6 +117,8 @@ export default {
             { name: roomName, roomId },
           ]);
         }
+        this.isLoaded = true;
+        console.log(this.isLoaded);
       });
     });
   },

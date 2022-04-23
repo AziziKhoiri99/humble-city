@@ -11,12 +11,18 @@ export default {
       containerId: "game-container",
     };
   },
-  async mounted() {
-    const game = await import("./utils/game/game");
-    this.downloaded = true;
-    this.$nextTick(() => {
-      this.gameInstance = game.launch(this.containerId);
-    });
+  props: {
+    onlineUser: Array,
+    isLoaded: Boolean,
+  },
+  watch: {
+    isLoaded: async function () {
+      const game = await import("./utils/game/game");
+      this.downloaded = true;
+      this.$nextTick(() => {
+        this.gameInstance = game.launch(this.containerId);
+      });
+    },
   },
 };
 </script>
