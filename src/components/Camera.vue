@@ -15,7 +15,7 @@ export default {
     name: "my-camera",
     methods: {
       camera() {
-        this.$name.querySelector('video').addEventListener('click', async () => {
+        this.$name.querySelector('button').addEventListener('click', async () => {
         navigator.mediaDevices.getUserMedia({
           video: true,
           audio: true

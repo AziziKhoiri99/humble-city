@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 let dirInput;
-let players = {};
+let players = [];
 let heldDirection = [];
 const directions = {
   ArrowUp: "up",
@@ -14,14 +14,7 @@ const directions = {
   KeyD: "right",
 };
 
-import App from "../../../App.vue";
 import { onlineUser, socketId, socket } from "../../../pages/Game.vue";
-
-const my = {
-  ...App.data().my,
-  socketId,
-};
-console.log(socket);
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -63,7 +56,7 @@ export default class GameScene extends Phaser.Scene {
     );
   }
 
-  create() {
+  async create() {
     dirInput = this.input.keyboard;
     const map = this.make.tilemap({ key: "map" });
 
@@ -119,52 +112,108 @@ export default class GameScene extends Phaser.Scene {
     );
 
     onlineUser.map((ou) => {
-      players[ou.id] = {
+      players.push({
+        id: ou.id,
         sprite: this.physics.add
           .sprite(spawnPoint.x, spawnPoint.y, "atlas", "chara-front")
           .setSize(20, 30)
           .setOffset(5, 14),
-        followText: this.add.text(0, 0, ou.player),
-      };
+        followText: this.add.text(0, 0, ou.player, {
+          backgroundColor: "#00000070",
+          fontFamily: "arial",
+          fontSize: 15,
+        }),
+      });
     });
 
     socket.on("new-user", (player, id) => {
-      players[id] = {
+      players.push({
+        id,
         sprite: this.physics.add
           .sprite(spawnPoint.x, spawnPoint.y, "atlas", "chara-front")
           .setSize(20, 30)
           .setOffset(5, 14),
-        followText: this.add.text(0, 0, player),
-      };
+        followText: this.add.text(0, 0, player, {
+          backgroundColor: "#00000070",
+          fontFamily: "arial",
+          fontSize: 15,
+        }),
+      });
+      this.physics.add.collider(
+        players.map((x) => x.sprite),
+        worldLayer
+      );
     });
-
     socket.on("user-disconnected", (id) => {
-      players[id].sprite.destroy();
-      players[id].followText.destroy();
-      delete players[id];
-      console.log(players);
+      const who = players.filter((x) => x.id === id)[0];
+      who.sprite.destroy();
+      who.followText.destroy();
+      players = players.filter((x) => x.id !== id);
     });
+    socket.on("get-coords", (id) => {
+      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
+      socket.emit("give-coord", mySprite.x, mySprite.y, socketId, id);
+    });
+    socket.on("give-coord", (x, y, id) => {
+      const who = players.filter((x) => x.id === id)[0].sprite;
+      who.x = x;
+      who.y = y;
+    });
+    //DON'T TOUCH LINE ABOVE! EDIT BELOW!
+    this.physics.add.collider(
+      players.map((x) => x.sprite),
+      worldLayer
+    );
+
+    // console.log(players.map((x) => x.id));
+
+    function move(direction, playerSprite) {
+      const spriteBody = playerSprite.body;
+      const speed = 120;
+
+      switch (direction) {
+        case "up":
+          playerSprite.anims.play("chara-back-walk", true);
+          spriteBody.setVelocityY(-speed);
+          break;
+        case "left":
+          playerSprite.anims.play("chara-left-walk", true);
+          spriteBody.setVelocityX(-speed);
+          break;
+        case "down":
+          playerSprite.anims.play("chara-front-walk", true);
+          spriteBody.setVelocityY(speed);
+          break;
+        case "right":
+          playerSprite.anims.play("chara-right-walk", true);
+          spriteBody.setVelocityX(speed);
+          break;
+        default:
+          playerSprite.anims.stop();
+          spriteBody.setVelocity(0);
+          break;
+      }
+    }
 
     dirInput.on("keydown", (e) => {
-      if (
-        directions[e.code] &&
-        heldDirection.indexOf(directions[e.code]) === -1
-      ) {
-        players[my.socketId].sprite.body.setVelocity(0);
+      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
+      const dir = directions[e.code];
+      if (dir && heldDirection.indexOf(dir) === -1) {
         heldDirection.unshift(directions[e.code]);
+        mySprite.body.setVelocity(0);
+        socket.emit("character-move", heldDirection[0]);
       }
     });
     dirInput.on("keyup", (e) => {
-      const index = heldDirection.indexOf(directions[e.code]);
+      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
+      const dir = directions[e.code];
+      const index = heldDirection.indexOf(dir);
       if (index > -1) {
-        players[my.socketId].sprite.body.setVelocity(0);
         heldDirection.splice(index, 1);
+        mySprite.body.setVelocity(0);
+        socket.emit("character-move", heldDirection[0]);
       }
     });
-
-    console.log(players);
-
-    this.physics.add.collider(players[my.socketId].sprite, worldLayer);
 
     //setting up animation for the sprite
     const anims = this.anims;
@@ -216,80 +265,23 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
+    socket.on("character-move", (userId, direction) => {
+      const who = players.filter((x) => x.id === userId)[0].sprite;
+      who.setVelocity(0);
+      move(direction, who);
+    });
+
     const camera = this.cameras.main;
-    camera.startFollow(players[my.socketId].sprite);
+    camera.startFollow(players.filter((x) => x.id === socketId)[0].sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    // cursors = this.input.keyboard.createCursorKeys();
+    socket.emit("done-loading");
   }
 
   update() {
-    const speed = 120;
-    const mySprite = players[my.socketId].sprite;
-    const spriteBody = mySprite.body;
-    const prevVelocity = spriteBody.velocity.clone();
-
-    switch (heldDirection[0]) {
-      case "up":
-        mySprite.anims.play("chara-back-walk", true);
-        spriteBody.setVelocityY(-speed);
-        break;
-      case "left":
-        mySprite.anims.play("chara-left-walk", true);
-        spriteBody.setVelocityX(-speed);
-        break;
-      case "down":
-        mySprite.anims.play("chara-front-walk", true);
-        spriteBody.setVelocityY(speed);
-        break;
-      case "right":
-        mySprite.anims.play("chara-right-walk", true);
-        spriteBody.setVelocityX(speed);
-        break;
-      default:
-        mySprite.anims.stop();
-        spriteBody.setVelocity(0);
-
-        if (prevVelocity.x < 0) mySprite.setTexture("atlas", "chara-left");
-        else if (prevVelocity.x > 0)
-          mySprite.setTexture("atlas", "chara-right");
-        else if (prevVelocity.y < 0) mySprite.setTexture("atlas", "chara-back");
-        else if (prevVelocity.y > 0)
-          mySprite.setTexture("atlas", "chara-front");
-        break;
-    }
-
     onlineUser.map((ou) => {
-      players[ou.id].followText.setPosition(
-        players[ou.id].sprite.x - 25,
-        players[ou.id].sprite.y - 40
-      );
+      const who = players.filter((x) => x.id === ou.id)[0];
+      who.followText.setPosition(who.sprite.x - 25, who.sprite.y - 40);
+      // console.log(who[0]);
     });
-
-    // if (cursors.left.isDown) {
-    //   mySprite.body.setVelocityX(-speed);
-    // } else if (cursors.right.isDown) {
-    //   mySprite.body.setVelocityX(speed);
-    // }
-
-    // if (cursors.up.isDown) {
-    //   mySprite.body.setVelocityY(-speed);
-    // } else if (cursors.down.isDown) {
-    //   mySprite.body.setVelocityY(speed);
-    // }
-
-    // mySprite.body.velocity.normalize().scale(speed);
-
-    // if (cursors.left.isDown) {
-    //   mySprite.anims.play("chara-left-walk", true);
-    // } else if (cursors.right.isDown) {
-    //   mySprite.anims.play("chara-right-walk", true);
-    // } else if (cursors.up.isDown) {
-    //   mySprite.anims.play("chara-back-walk", true);
-    // } else if (cursors.down.isDown) {
-    //   mySprite.anims.play("chara-front-walk", true);
-    // } else {
-    //   mySprite.anims.stop();
-
-    // }
   }
 }

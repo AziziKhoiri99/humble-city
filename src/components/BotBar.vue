@@ -1,9 +1,8 @@
 <template>
   <div>
     <ul class="nav fixed-bottom navbar-dark bg-success">
-      
       <!-- <div class="popup-main"> -->
-<li class="nav-link active" aria-current="page" href="#">
+      <li class="nav-link active" aria-current="page" href="#">
         <svg
           width="30px"
           xmlns="http://www.w3.org/2000/svg"
@@ -49,11 +48,11 @@
               class="icon"
               d="M116.4,46.4c4.1-6.4,16.3-26.9,11-33c-6.3-7.3-25.8,1-25.8,1v0.1c3.8,9.3,3.8,19.7,0.1,29h0.1
                 C106.8,43.5,111.7,44.5,116.4,46.4z"
-            /> 
+            />
           </g>
         </svg>
       </li>
-    <!-- <span class="popuptext-main">Main Menu
+      <!-- <span class="popuptext-main">Main Menu
     </span>
       </div> -->
 
@@ -61,32 +60,38 @@
       <li class="nav-link" href="#">
         {{ this.my.username }}
       </li>
-    <!-- <span class="popuptext">Personal menu
+      <!-- <span class="popuptext">Personal menu
     </span>
       </div> -->
 
       <!-- <div class="popup"> -->
       <li class="nav-link" href="#" @click="changeMic()">
-        <i :class="isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'"></i>
-      </li>    
-    <!-- <span class="popuptext">Microphone
+        <i
+          :class="
+            isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
+          "
+        ></i>
+      </li>
+      <!-- <span class="popuptext">Microphone
     </span>
       </div> -->
 
-<!--
+      <!--
       <div class="popup">  -->
       <li class="nav-link" href="#" @click="changeVideo()">
-        <i :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"></i>
+        <i
+          :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
+        ></i>
       </li>
-    <!-- <span class="popuptext">Camera
+      <!-- <span class="popuptext">Camera
     </span>
       </div> -->
 
       <!-- <div class="popup"> -->
-        <li class="nav-link" href="#">
+      <li class="nav-link" href="#">
         <i class="fa-solid fa-tv"></i>
       </li>
-    <!-- <span class="popuptext">Screen share
+      <!-- <span class="popuptext">Screen share
     </span>
       </div> -->
 
@@ -94,7 +99,7 @@
       <li class="nav-link" href="#">
         <i class="fa-solid fa-face-smile"></i>
       </li>
-    <!-- <span class="popuptext">(Emote")
+      <!-- <span class="popuptext">(Emote")
     </span>
       </div> -->
 
@@ -102,15 +107,15 @@
       <li class="nav-link" href="#">
         <i class="fa-solid fa-angle-right"></i>
       </li>
-    <!-- <span class="popuptext">See more
+      <!-- <span class="popuptext">See more
     </span>
       </div> -->
 
       <!-- <div class="popup"> -->
-      <li  class="nav-link" href="#">
+      <li class="nav-link" href="#">
         <i class="fa-solid fa-hammer"></i>
       </li>
-    <!-- <span class="popuptext">Build Tools
+      <!-- <span class="popuptext">Build Tools
     </span>
       </div> -->
 
@@ -118,14 +123,13 @@
       <li class="nav-link" href="#">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
-    <!-- <span class="popuptext">Calender
+      <!-- <span class="popuptext">Calender
     </span>
       </div> -->
 
       <div class="right-corner">
-
-      <!-- <div class="popup"> -->
-        <li 
+        <!-- <div class="popup"> -->
+        <li
           v-bind:style="
             this.sideMenu &&
             this.corner == 0 &&
@@ -137,10 +141,10 @@
           <i class="fa-solid fa-comments"></i>
         </li>
 
-    <!-- <span class="popuptext">Chat</span>
+        <!-- <span class="popuptext">Chat</span>
       </div> -->
-      
-      <!-- <div class="popup"> -->
+
+        <!-- <div class="popup"> -->
         <li
           v-bind:style="
             this.sideMenu &&
@@ -153,7 +157,7 @@
           <i class="fa-solid fa-user-group"></i>
         </li>
 
-    <!-- <span class="popuptext">Particiants</span>
+        <!-- <span class="popuptext">Particiants</span>
       </div> -->
       </div>
     </ul>
@@ -162,12 +166,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      isMic: true,
-      isVideo: true
-    }
-  },
   props: {
     my: Object,
     corner: Number,
@@ -179,12 +177,6 @@ export default {
         return this.$emit("toggleSideMenu", this.sideMenu ? false : true);
       }
       this.$emit("changeSideMenu", clicked);
-    },
-    changeMic(){
-      this.isMic = !this.isMic;
-    },
-    changeVideo(){
-      this.isVideo = !this.isVideo;
     },
   },
 };
@@ -257,10 +249,10 @@ li:hover {
 
 /* Toggle this class - hide and show the popup */
 .popup .show {
-  visibility: visible; 
+  visibility: visible;
 }
 .popup-main .show {
-  visibility: visible; 
+  visibility: visible;
 }
 .popup-main:hover {
   position: relative;
