@@ -65,7 +65,7 @@
       </div> -->
 
       <!-- <div class="popup"> -->
-      <li class="nav-link" href="#" @click="changeMic()">
+      <li class="nav-link" href="#" @click="this.isMic = !this.isMic">
         <i
           :class="
             isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
@@ -78,7 +78,7 @@
 
       <!--
       <div class="popup">  -->
-      <li class="nav-link" href="#" @click="changeVideo()">
+      <li class="nav-link" href="#" @click="this.isVideo = !this.isVideo">
         <i
           :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
         ></i>
@@ -166,6 +166,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isMic: true,
+      isVideo: true,
+    };
+  },
   props: {
     my: Object,
     corner: Number,
@@ -183,9 +189,6 @@ export default {
 </script>
 
 <style scoped>
-.nav {
-  height: 53px;
-}
 li {
   color: white;
   text-decoration: none;
@@ -193,6 +196,9 @@ li {
 li:hover {
   color: white;
   text-decoration: none;
+}
+i {
+  width: 20px;
 }
 .right-corner {
   margin-left: auto;

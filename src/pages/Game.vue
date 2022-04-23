@@ -28,7 +28,7 @@ import { API_URL } from "../components/utils";
 import io from "socket.io-client";
 export let onlineUser;
 export let socketId;
-export const socket = io("ws://localhost:3001");
+export const socket = io("ws://192.168.6.208:3001");
 
 export default {
   name: "game-page",
@@ -116,8 +116,9 @@ export default {
             this.my.roomHistory,
             { name: roomName, roomId },
           ]);
-          this.isLoaded = true;
         }
+        this.isLoaded = true;
+        console.log(this.isLoaded);
       });
     });
   },

@@ -8,4 +8,4 @@ exports.randomName = () => {
   return `${data.names[ran_a]}${ran_suffix}`;
 };
 
-exports.API_URL = "http://localhost:3001/api/";
+exports.API_URL = "http://192.168.6.208:3001/api/";
