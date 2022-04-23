@@ -34,7 +34,7 @@
           placeholder="Message..."
           required
           oninvalid="this.setCustomValidity(' ')"
-          oninput="setCustomValidity('')"
+          oninput="setCustomValidity(' ')"
         />
         <input type="submit" hidden />
       </form>
@@ -170,10 +170,10 @@ export default {
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey; 
   border-radius: 10px;
-}
+} */
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
