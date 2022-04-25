@@ -22,19 +22,14 @@
           </div>
         </div>
       </div>
-      <form
-        @submit="this.sendMessage"
-        class="position-absolute bottom-0"
-      >
+      <form @submit="this.sendMessage" class="position-absolute bottom-0">
         <hr style="border: var(--border); margin: 0" />
         <input
-          v-model="message"
           type="text"
+          v-model="message"
+          required
           class="text-input"
           placeholder="Message..."
-          required
-          oninvalid="this.setCustomValidity(' ')"
-          oninput="setCustomValidity(' ')"
         />
         <input type="submit" hidden />
       </form>
@@ -122,8 +117,9 @@ export default {
 .offcanvas-body {
   padding: 0;
   word-break: break-all;
-  width:230px;
-	white-space: normal;
+  width: 230px;
+  height: calc(100% - 140px);
+  white-space: normal;
 }
 .offcanvas-header {
   padding: 0;
@@ -160,37 +156,5 @@ export default {
 }
 .text-input {
   margin: 15px 0;
-}
-</style>
-<style>
-/* Sizes */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-/* Track */
-/* ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
-  border-radius: 10px;
-} */
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #00372d; 
-  border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #00372d; 
-}
-@media only screen and (max-height: 1000px) {
-  .offcanvas-body {
-    height: 490px;
-    /* Up, normal
-    Down, Full */
-    /* height: 560px; */
-  }
 }
 </style>

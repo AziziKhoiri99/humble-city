@@ -144,6 +144,7 @@ export default class GameScene extends Phaser.Scene {
         worldLayer
       );
     });
+    const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
     socket.on("user-disconnected", (id) => {
       const who = players.filter((x) => x.id === id)[0];
       who.sprite.destroy();
@@ -151,7 +152,6 @@ export default class GameScene extends Phaser.Scene {
       players = players.filter((x) => x.id !== id);
     });
     socket.on("give-coords", (id) => {
-      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
       socket.emit("get-coord", mySprite.x, mySprite.y, id);
     });
     socket.on("get-coord", (x, y, id) => {
@@ -168,10 +168,9 @@ export default class GameScene extends Phaser.Scene {
     // console.log(players.map((x) => x.id));
 
     function move(direction, userId) {
-      const playerSprite = players.filter((x) => x.id === userId)[0].sprite;
-      const spriteBody = playerSprite.body;
-      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
-      const speed = 120;
+      const playerSprite = players.filter((x) => x.id === userId)[0].sprite,
+        spriteBody = playerSprite.body,
+        speed = 120;
 
       switch (direction) {
         case "up":
@@ -276,6 +275,12 @@ export default class GameScene extends Phaser.Scene {
       playerSprite.y = y;
     });
 
+    socket.on("change-index", (fromWho, depth) => {
+      players.filter((x) => x.id === fromWho)[0].sprite.setDepth(depth);
+      const above = players.filter((x) => x.sprite.y < mySprite.y).length;
+      players.filter((x) => x.id === socketId)[0].sprite.setDepth(above);
+    });
+
     const camera = this.cameras.main;
     camera.startFollow(players.filter((x) => x.id === socketId)[0].sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -284,8 +289,31 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     onlineUser.map((ou) => {
-      const who = players.filter((x) => x.id === ou.id)[0];
-      who.followText.setPosition(who.sprite.x - 25, who.sprite.y - 40);
+      const who = players.filter((x) => x.id === ou.id)[0],
+      playerSprite = who.sprite,
+      above = players.filter((x) => x.sprite.y < playerSprite.y),
+      below = players.filter((x) => x.sprite.y > playerSprite.y)
+      
+      if (playerSprite.body.velocity != 0) {
+        who.followText.setPosition(playerSprite.x - 25, playerSprite.y - 40);
+
+        //check how much sprite above me
+        if (players.length - below.length - 1 !== playerSprite.depth ) {
+          switch (heldDirection[0]) {
+            case "up":
+              below.map((under) => {
+                under.sprite.setDepth(under.sprite.depth + 1)
+              })
+              break;
+            case "down":
+              above.map((upper) => {
+                upper.sprite.setDepth(upper.sprite.depth < 0 && upper.sprite.depth)
+              })
+              break;
+          }
+          playerSprite.setDepth(above.length); 
+        }
+      }
     });
   }
 }
