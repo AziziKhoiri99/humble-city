@@ -1,11 +1,9 @@
 <template>
   <div>
     <ul class="nav fixed-bottom navbar-dark bg-success">
-      <!-- <div class="popup-main"> -->
-      <li class="nav-link active" aria-current="page" href="#">
+      <li class="nav-link active" aria-current="page">
         <svg
           width="30px"
-          style="display: none"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 133.1 122.3"
         >
@@ -53,132 +51,60 @@
           </g>
         </svg>
       </li>
-      <!-- <span class="popuptext-main">Main Menu
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
-        {{ this.my.username }}
+      <li class="nav-link">
+        {{ my.username }}
       </li>
-      <!-- <span class="popuptext">Personal menu
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#" @click="this.isMic = !this.isMic">
-        <i
-          :class="
-            isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
-          "
-        ></i>
-      </li>
-      <!-- <span class="popuptext">Microphone
-    </span>
-      </div> -->
-
-      <!--
-      <div class="popup">  -->
-      <li class="nav-link" href="#" @click="this.isVideo = !this.isVideo">
-        <i
-          :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
-        ></i>
-      </li>
-      <!-- <span class="popuptext">Camera
-    </span>
-      </div> -->
-
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-tv"></i>
-      </li>
-      <!-- <span class="popuptext">Screen share
-    </span>
-      </div> -->
-
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
-        <i class="fa-solid fa-face-smile"></i>
-      </li>
-      <!-- <span class="popuptext">(Emote")
-    </span>
-      </div> -->
-      <div class="horizonLine"></div>
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#" v-if="!isHidden">
-        <i class="fa-solid fa-solid fa-map"></i>
-      </li>
-      <!-- <span class="popuptext">See more
-    </span>
-      </div> -->
-
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#" v-if="!isHidden">
-        <i class="fa-solid fa-hammer"></i>
-      </li>
-      <!-- <span class="popuptext">Build Tools
-    </span>
-      </div> -->
-
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#" v-if="!isHidden">
-        <i class="fa-solid fa-calendar-days"></i>
-      </li>
-      <!-- <span class="popuptext">Calender
-    </span>
-      </div> -->
-
-      <!-- <div class="popup"> -->
-      <li
-        class="nav-link"
-        href="#"
-        @click="changeArrow()"
-        v-on:click="isHidden = !isHidden"
-      >
-        <i
-          :class="
-            isArrow ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left'
-          "
-        ></i>
-      </li>
-      <!-- <span class="popuptext" @click="changeWord()">
-      <span :class="isWord ? 'See more' : 'See less' "></span>
-    </span> -->
-      <!-- <span class="popuptext">See more</span>
-      </div> -->
-
+      <div class="desc">
+        <li class="nav-link" @click="isMic = !isMic">
+          <i
+            :class="
+              isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
+            "
+          ></i>
+        </li>
+        <div class="popuptext">{{ isMic ? "Mute" : "Unmute" }}</div>
+      </div>
+      <div class="desc">
+        <li class="nav-link" @click="isVideo = !isVideo">
+          <i
+            :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
+          ></i>
+        </li>
+        <div class="popuptext">{{ isVideo ? "Video on" : "Video off" }}</div>
+      </div>
+      <div class="desc">
+        <li class="nav-link">
+          <i class="fa-solid fa-tv"></i>
+        </li>
+        <div class="popuptext">Share Screen</div>
+      </div>
       <div class="right-corner">
-        <!-- <div class="popup"> -->
-        <li
-          v-bind:style="
-            this.sideMenu &&
-            this.corner == 0 &&
-            'background-color: var(--bg-primary);'
-          "
-          @click="this.toggleSideMenu(0)"
-          class="nav-link"
-        >
-          <i class="fa-solid fa-comments"></i>
-        </li>
-
-        <!-- <span class="popuptext">Chat</span>
-      </div> -->
-
-        <!-- <div class="popup"> -->
-        <li
-          v-bind:style="
-            this.sideMenu &&
-            this.corner == 1 &&
-            'background-color: var(--bg-primary);'
-          "
-          @click="this.toggleSideMenu(1)"
-          class="nav-link"
-        >
-          <i class="fa-solid fa-user-group"></i>
-        </li>
-
-        <!-- <span class="popuptext">Particiants</span>
-      </div> -->
+        <div class="desc">
+          <li
+            class="nav-link"
+            v-bind:style="
+              sideMenu && corner == 0 && 'background-color: var(--bg-primary);'
+            "
+            @click="this.toggleSideMenu(0)"
+          >
+            <i class="fa-solid fa-comments"></i>
+          </li>
+          <div class="popuptext">Chat</div>
+        </div>
+        <div class="desc">
+          <li
+            class="nav-link"
+            v-bind:style="
+              sideMenu && corner == 1 && 'background-color: var(--bg-primary);'
+            "
+            @click="this.toggleSideMenu(1)"
+          >
+            <i class="fa-solid fa-user-group"></i>
+          </li>
+          <div class="popuptext">Particiants</div>
+        </div>
       </div>
     </ul>
   </div>
@@ -190,8 +116,6 @@ export default {
     return {
       isMic: true,
       isVideo: true,
-      isArrow: true,
-      isHidden: true,
     };
   },
   props: {
@@ -205,21 +129,6 @@ export default {
         return this.$emit("toggleSideMenu", this.sideMenu ? false : true);
       }
       this.$emit("changeSideMenu", clicked);
-    },
-    // moreLess(clicked) {
-    //   if (this.corner === clicked) {
-    //     return this.$emit("moreLess", this.wordChanged ? false : true);
-    //   }
-    //   this.$emit("changeWord", clicked);
-    // },
-    changeMic() {
-      this.isMic = !this.isMic;
-    },
-    changeVideo() {
-      this.isVideo = !this.isVideo;
-    },
-    changeArrow() {
-      this.isArrow = !this.isArrow;
     },
   },
 };
@@ -253,41 +162,31 @@ i {
   padding: 0.5rem 0;
   transition: var(--transition-speed);
   cursor: pointer;
-  border-left: solid 2px #00463a;
 }
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
 }
-.horizonLine {
-  height: 32px;
-  width: 2px;
-  margin: auto 4px;
-  background-color: rgb(236, 236, 236);
-  border-radius: 8px;
+.nav-link:hover + .popuptext {
+  visibility: visible;
 }
-.popup {
+.desc {
   position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
-.popup .popuptext {
-  width: 160px;
+.popuptext {
+  width: 112px;
   background-color: #555;
   color: #fff;
   text-align: center;
   border-radius: 6px;
+  visibility: hidden;
+  transition: 200ms;
   padding: 8px 0;
   position: absolute;
-  z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -80px;
+  margin-left: -50px;
 }
-.popup .popuptext::after {
+.popuptext:after {
   content: "";
   position: absolute;
   top: 100%;
