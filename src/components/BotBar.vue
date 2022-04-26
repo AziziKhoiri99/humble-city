@@ -4,8 +4,8 @@
 <li class="nav-link active" aria-current="page" href="#" style="margin: 0px">
   <image src="https://gitlab.com/uploads/-/system/project/avatar/35056610/acai.png?width=64" width="40"/>
         <svg
+        display: none;
           width="30px"
-          style="display: none"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 133.1 122.3"
         >
@@ -101,8 +101,32 @@
 
 
 
+      <div class="desc">
+        <li class="nav-link" @click="isMic = !isMic">
+          <i
+            :class="
+              isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
+            "
+          ></i>
+        </li>
+        <div class="popuptext">{{ isMic ? "Mute" : "Unmute" }}</div>
+      </div>
+      <div class="desc">
+        <li class="nav-link" @click="isVideo = !isVideo">
+          <i
+            :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
+          ></i>
+        </li>
+        <div class="popuptext">{{ isVideo ? "Video on" : "Video off" }}</div>
+      </div>
+      <div class="desc">
+        <li class="nav-link">
+          <i class="fa-solid fa-tv"></i>
+        </li>
+        <div class="popuptext">Share Screen</div>
+      </div>
       <div class="right-corner">
-    <div class="limiterChat"></div>
+        <!-- <div class="limiterChat"></div>
         <li
           v-bind:style="
             this.sideMenu &&
@@ -127,8 +151,32 @@
           class="nav-link"
         >
           <i class="fa-solid fa-user-group"></i>
-        </li>
+        </li> -->
 
+        <div class="desc">
+          <li
+            class="nav-link"
+            v-bind:style="
+              sideMenu && corner == 0 && 'background-color: var(--bg-primary);'
+            "
+            @click="this.toggleSideMenu(0)"
+          >
+            <i class="fa-solid fa-comments"></i>
+          </li>
+          <div class="popuptext">Chat</div>
+        </div>
+        <div class="desc">
+          <li
+            class="nav-link"
+            v-bind:style="
+              sideMenu && corner == 1 && 'background-color: var(--bg-primary);'
+            "
+            @click="this.toggleSideMenu(1)"
+          >
+            <i class="fa-solid fa-user-group"></i>
+          </li>
+          <div class="popuptext">Particiants</div>
+        </div>
       </div>
     </ul>
   </div>
@@ -156,21 +204,15 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
-    // moreLess(clicked) {
-    //   if (this.corner === clicked) {
-    //     return this.$emit("moreLess", this.wordChanged ? false : true);
-    //   }
-    //   this.$emit("changeWord", clicked);
+    // changeMic(){
+    //   this.isMic = !this.isMic;
     // },
-    changeMic(){
-      this.isMic = !this.isMic;
-    },
-    changeVideo(){
-      this.isVideo = !this.isVideo;
-    },
-    changeArrow(){
-      this.isArrow = !this.isArrow;
-    },
+    // changeVideo(){
+    //   this.isVideo = !this.isVideo;
+    // },
+    // changeArrow(){
+    //   this.isArrow = !this.isArrow;
+    // },
   },
 };
 </script>
@@ -180,10 +222,8 @@ export default {
   height: 53px;
 }
 .nav-link {
-  font-size: 18px;
-}
-.feature-icon{
-  margin-top: 5px;
+  top: 5px;
+  font-size: 20px;
 }
 li {
   color: white;
@@ -225,8 +265,7 @@ li:hover {
 }
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
-}
-.horizonLine {
+}.horizonLine {
   height: 32px;
   width: 2px;
   margin: auto 4px;
@@ -241,35 +280,27 @@ li:hover {
   background-color: #00463a;
   border-radius: 8px;
 }
-.popup {
-  /* -webkit-animation: fadeIn 1s; */
-  /* animation: fadeIn 1s; */
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+.nav-link:hover + .popuptext {
+  visibility: visible;
 }
-
-/* The actual popup */
-.popup .popuptext {
-  width: 160px;
+.desc {
+  position: relative;
+}
+.popuptext {
+  width: 112px;
   background-color: #555;
   color: #fff;
   text-align: center;
   border-radius: 6px;
+  visibility: hidden;
+  transition: 200ms;
   padding: 8px 0;
   position: absolute;
-  z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -80px;
+  margin-left: -50px;
 }
-
-/* Popup arrow */
-.popup .popuptext::after {
+.popuptext:after {
   content: "";
   position: absolute;
   top: 100%;

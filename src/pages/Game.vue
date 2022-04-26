@@ -28,7 +28,7 @@ import { API_URL } from "../components/utils";
 import io from "socket.io-client";
 export let onlineUser;
 export let socketId;
-export const socket = io("ws://192.168.6.208:3001");
+export const socket = io("ws://localhost:3001");
 
 export default {
   name: "game-page",
@@ -55,14 +55,11 @@ export default {
 
     this.socket.on("new-user", (player, id) => {
       this.onlineUser = [...this.onlineUser, { player, id }];
-      console.log(this.onlineUser);
       onlineUser = this.onlineUser;
     });
 
     this.socket.on("user-disconnected", (id) => {
-      console.log("a");
       this.onlineUser = this.onlineUser.filter((x) => x.id !== id);
-      console.log(this.onlineUser);
       onlineUser = this.onlineUser;
     });
   },

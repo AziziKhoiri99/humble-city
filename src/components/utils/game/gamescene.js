@@ -144,6 +144,7 @@ export default class GameScene extends Phaser.Scene {
         worldLayer
       );
     });
+    const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
     socket.on("user-disconnected", (id) => {
       const who = players.filter((x) => x.id === id)[0];
       who.sprite.destroy();
@@ -151,7 +152,6 @@ export default class GameScene extends Phaser.Scene {
       players = players.filter((x) => x.id !== id);
     });
     socket.on("give-coords", (id) => {
-      const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
       socket.emit("get-coord", mySprite.x, mySprite.y, id);
     });
     socket.on("get-coord", (x, y, id) => {
@@ -167,9 +167,10 @@ export default class GameScene extends Phaser.Scene {
 
     // console.log(players.map((x) => x.id));
 
-    function move(direction, playerSprite) {
-      const spriteBody = playerSprite.body;
-      const speed = 120;
+    function move(direction, userId) {
+      const playerSprite = players.filter((x) => x.id === userId)[0].sprite,
+        spriteBody = playerSprite.body,
+        speed = 120;
 
       switch (direction) {
         case "up":
@@ -190,7 +191,9 @@ export default class GameScene extends Phaser.Scene {
           break;
         default:
           playerSprite.anims.stop();
-          spriteBody.setVelocity(0);
+          if (userId === socketId) {
+            socket.emit("share-coord", mySprite.x, mySprite.y);
+          }
           break;
       }
     }
@@ -199,7 +202,6 @@ export default class GameScene extends Phaser.Scene {
       const dir = directions[e.code];
       if (dir && heldDirection.indexOf(dir) === -1) {
         heldDirection.unshift(directions[e.code]);
-        socket.emit("done-loading");
         socket.emit("character-move", heldDirection[0]);
       }
     });
@@ -208,7 +210,6 @@ export default class GameScene extends Phaser.Scene {
       const index = heldDirection.indexOf(dir);
       if (index > -1) {
         heldDirection.splice(index, 1);
-        socket.emit("done-loading");
         socket.emit("character-move", heldDirection[0]);
       }
     });
@@ -264,9 +265,20 @@ export default class GameScene extends Phaser.Scene {
     });
 
     socket.on("character-move", (userId, direction) => {
-      const who = players.filter((x) => x.id === userId)[0].sprite;
-      who.setVelocity(0);
-      move(direction, who);
+      players.filter((x) => x.id === userId)[0].sprite.setVelocity(0);
+      move(direction, userId);
+    });
+
+    socket.on("share-coord", (x, y, userId) => {
+      const playerSprite = players.filter((x) => x.id === userId)[0].sprite;
+      playerSprite.x = x;
+      playerSprite.y = y;
+    });
+
+    socket.on("change-index", (fromWho, depth) => {
+      players.filter((x) => x.id === fromWho)[0].sprite.setDepth(depth);
+      const above = players.filter((x) => x.sprite.y < mySprite.y).length;
+      players.filter((x) => x.id === socketId)[0].sprite.setDepth(above);
     });
 
     const camera = this.cameras.main;
@@ -277,8 +289,31 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     onlineUser.map((ou) => {
-      const who = players.filter((x) => x.id === ou.id)[0];
-      who.followText.setPosition(who.sprite.x - 25, who.sprite.y - 40);
+      const who = players.filter((x) => x.id === ou.id)[0],
+      playerSprite = who.sprite,
+      above = players.filter((x) => x.sprite.y < playerSprite.y),
+      below = players.filter((x) => x.sprite.y > playerSprite.y)
+      
+      if (playerSprite.body.velocity != 0) {
+        who.followText.setPosition(playerSprite.x - 25, playerSprite.y - 40);
+
+        //check how much sprite above me
+        if (players.length - below.length - 1 !== playerSprite.depth ) {
+          switch (heldDirection[0]) {
+            case "up":
+              below.map((under) => {
+                under.sprite.setDepth(under.sprite.depth + 1)
+              })
+              break;
+            case "down":
+              above.map((upper) => {
+                upper.sprite.setDepth(upper.sprite.depth < 0 && upper.sprite.depth)
+              })
+              break;
+          }
+          playerSprite.setDepth(above.length); 
+        }
+      }
     });
   }
 }
