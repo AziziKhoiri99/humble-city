@@ -90,6 +90,13 @@
             @click="this.toggleSideMenu(0)"
           >
             <i class="fa-solid fa-comments"></i>
+            <span
+              v-if="unreadMsg > 0"
+              class="position-absolute translate-middle badge rounded-pill bg-danger"
+              style="font-size: 0.7em; top: 5px; left: 69%"
+            >
+              {{ unreadMsg }}
+            </span>
           </li>
           <div class="popuptext">Chat</div>
         </div>
@@ -122,11 +129,18 @@ export default {
     my: Object,
     corner: Number,
     sideMenu: Boolean,
+    unreadMsg: Number,
   },
   methods: {
     toggleSideMenu(clicked) {
       if (this.corner === clicked) {
+        if (clicked === 0 && !this.sideMenu) {
+          this.$emit("readMessage");
+        }
         return this.$emit("toggleSideMenu", this.sideMenu ? false : true);
+      }
+      if (clicked === 0) {
+        this.$emit("readMessage");
       }
       this.$emit("changeSideMenu", clicked);
     },
