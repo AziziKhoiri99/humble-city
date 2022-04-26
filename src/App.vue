@@ -3,7 +3,6 @@
     :my="this.my"
     @loggingIn="this.setUser"
     @loggingOut="this.userLogout"
-    @addRoomHistory="(value) => (this.my.roomHistory = value)"
   />
 </template>
 
@@ -18,7 +17,6 @@ export default {
       my: {
         username: (user && user.username) || randomName(),
         id: (user && user.id) || false,
-        roomHistory: (user && user.roomHistory) || [],
       },
     };
   },

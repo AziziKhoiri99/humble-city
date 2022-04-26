@@ -290,30 +290,35 @@ export default class GameScene extends Phaser.Scene {
   update() {
     onlineUser.map((ou) => {
       const who = players.filter((x) => x.id === ou.id)[0],
-      playerSprite = who.sprite,
-      above = players.filter((x) => x.sprite.y < playerSprite.y),
-      below = players.filter((x) => x.sprite.y > playerSprite.y)
-      
+        playerSprite = who.sprite,
+        above = players.filter((x) => x.sprite.y < playerSprite.y),
+        below = players.filter((x) => x.sprite.y > playerSprite.y);
+
       if (playerSprite.body.velocity != 0) {
-        who.followText.setPosition(playerSprite.x - 25, playerSprite.y - 40);
+        who.followText.setPosition(playerSprite.x - 25, playerSprite.y - 30);
 
         //check how much sprite above me
-        if (players.length - below.length - 1 !== playerSprite.depth ) {
-          switch (heldDirection[0]) {
-            case "up":
-              below.map((under) => {
-                under.sprite.setDepth(under.sprite.depth + 1)
-              })
-              break;
-            case "down":
-              above.map((upper) => {
-                upper.sprite.setDepth(upper.sprite.depth < 0 && upper.sprite.depth)
-              })
-              break;
-          }
-          playerSprite.setDepth(above.length); 
+        if (players.length - below.length - 1 !== playerSprite.depth) {
+          playerSprite.setDepth(above.length);
         }
       }
     });
+    const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
+    if (mySprite.body.velocity != 0) {
+      switch (heldDirection[0]) {
+        case "up":
+          console.log(Math.floor(mySprite.y));
+          break;
+        case "left":
+          console.log(Math.floor(mySprite.x));
+          break;
+        case "down":
+          console.log(Math.floor(mySprite.y));
+          break;
+        case "right":
+          console.log(Math.floor(mySprite.x));
+          break;
+      }
+    }
   }
 }

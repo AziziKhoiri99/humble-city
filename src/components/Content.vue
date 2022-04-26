@@ -14,6 +14,8 @@
 <script>
 import RoomLists from "./RoomLists.vue";
 import NotFound from "./NotFound.vue";
+import axios from "axios";
+import { API_URL } from "./utils";
 
 export default {
   name: "main-content",
@@ -21,11 +23,25 @@ export default {
     RoomLists,
     NotFound,
   },
+  data() {
+    return {
+      roomHistory: [],
+    };
+  },
   props: {
     notFoundMsg: String,
     my: Object,
     page: Array,
     search: String,
+  },
+  created() {
+    if (this.my.id) {
+      axios
+        .post(API_URL + "get-roomhistory", { userId: this.my.id })
+        .then((res) => {
+          this.roomHistory = res.data;
+        });
+    }
   },
   computed: {
     choosed() {
@@ -37,9 +53,9 @@ export default {
         case 2:
           switch (this.page[1]) {
             case 0:
-              return this.my.roomHistory;
+              return this.roomHistory;
             case 1:
-              return this.my.roomHistory.filter(
+              return this.roomHistory.filter(
                 (x) => x.creator == this.my.id.toString()
               );
           }
