@@ -14,7 +14,7 @@
         <div class="card-image">
           &nbsp;
           <span class="online-counter">
-            0
+            {{ room.onlineUser }}
             <div class="green"></div>
           </span>
         </div>
@@ -37,13 +37,6 @@ export default {
     return {
       pages: this.page,
     };
-  },
-  computed: {
-    searched() {
-      return this.my.roomHistory.filter((x) => {
-        return x.name.toLowerCase().includes(this.search.toLowerCase());
-      });
-    },
   },
 };
 </script>

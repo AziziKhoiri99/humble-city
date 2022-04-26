@@ -5,16 +5,20 @@
       :my="my"
       :corner="corner"
       :sideMenu="sideMenu"
+      :unreadMsg="unreadMsg"
       @toggleSideMenu="(val) => (sideMenu = val)"
       @changeSideMenu="(val) => (corner = val)"
+      @readMessage="unreadMsg = 0"
     />
     <SideMenu
       :corner="corner"
       :sideMenu="sideMenu"
       :room="$route.params.roomName"
       :onlineUser="onlineUser"
+      :unreadMsg="unreadMsg"
       :socket="socket"
       @toggleSideMenu="sideMenu = false"
+      @newMessage="unreadMsg++"
     />
   </div>
 </template>
@@ -28,7 +32,7 @@ import { API_URL } from "../components/utils";
 import io from "socket.io-client";
 export let onlineUser;
 export let socketId;
-export const socket = io("ws://localhost:3001");
+export const socket = io("ws://192.168.6.208:3001");
 
 export default {
   name: "game-page",
@@ -45,6 +49,7 @@ export default {
       onlineUser: [],
       socket: "",
       corner: 0,
+      unreadMsg: 0,
       sideMenu: false,
       isLoaded: false,
     };
@@ -93,29 +98,7 @@ export default {
         onlineUser = res.data.results;
         this.onlineUser = onlineUser;
 
-        //update room history locally
-        //check is user logged in and has visited the room before
-        if (this.my.roomHistory.filter((x) => x.roomId == roomId).length == 0) {
-          if (this.my.id > 0) {
-            const user = JSON.parse(window.localStorage.getItem("user"));
-            window.localStorage.setItem(
-              "user",
-              JSON.stringify({
-                ...user,
-                roomHistory: [
-                  ...user.roomHistory,
-                  { name: roomName, roomId, creator: res.data.creator },
-                ],
-              })
-            );
-          }
-          this.$emit("addRoomHistory", [
-            this.my.roomHistory,
-            { name: roomName, roomId },
-          ]);
-        }
         this.isLoaded = true;
-        console.log(this.isLoaded);
       });
     });
   },

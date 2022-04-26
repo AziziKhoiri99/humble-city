@@ -85,10 +85,14 @@ export default {
     socket: Object,
     corner: Number,
     sideMenu: Boolean,
+    unreadMsg: Number,
   },
   created() {
     this.socket.on("send-message", (x) => {
       this.chat = [...this.chat, x];
+      if (!this.sideMenu || this.corner === 1) {
+        this.$emit("new-message");
+      }
     });
   },
   methods: {
