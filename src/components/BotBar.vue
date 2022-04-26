@@ -1,13 +1,8 @@
 <template>
   <div>
     <ul class="nav fixed-bottom navbar-dark bg-success">
-      <!-- <div class="popup-main"> -->
-<<<<<<< HEAD
-<li class="nav-link active" aria-current="page" href="#">
+<li class="nav-link active" aria-current="page" href="#" style="margin: 0px">
   <image src="https://gitlab.com/uploads/-/system/project/avatar/35056610/acai.png?width=64" width="40"/>
-=======
-      <li class="nav-link active" aria-current="page" href="#">
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99
         <svg
           width="30px"
           style="display: none"
@@ -58,103 +53,56 @@
           </g>
         </svg>
       </li>
-      <!-- <span class="popuptext-main">Main Menu
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
       <li class="nav-link" href="#">
-        {{ this.my.username }}
+        <span>{{ this.my.username }}</span>
       </li>
-      <!-- <span class="popuptext">Personal menu
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
+        <span class="toggleOff">
       <li class="nav-link" href="#" @click="this.isMic = !this.isMic">
-        <i
-          :class="
+          <i :class="
             isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
           "
         ></i>
       </li>
-      <!-- <span class="popuptext">Microphone
-    </span>
-      </div> -->
+        </span>
 
-      <!--
-      <div class="popup">  -->
+        <span class="toggleOff">
       <li class="nav-link" href="#" @click="this.isVideo = !this.isVideo">
-        <i
+          <i
           :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
         ></i>
       </li>
-      <!-- <span class="popuptext">Camera
-    </span>
-      </div> -->
+        </span>
 
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
+      <li class="nav-link feature-icon" href="#">
         <i class="fa-solid fa-tv"></i>
       </li>
-      <!-- <span class="popuptext">Screen share
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#">
+      <li class="nav-link feature-icon" href="#">
         <i class="fa-solid fa-face-smile"></i>
       </li>
-      <!-- <span class="popuptext">(Emote")
-    </span>
-      </div> -->
     <div class="horizonLine"></div>
-      <!-- <div class="popup"> -->
-      <li  class="nav-link" href="#" v-if="!isHidden">
+      <li  class="nav-link feature-icon" href="#" v-if="!isHidden">
         <i class="fa-solid fa-solid fa-map"></i>
       </li>
-<<<<<<< HEAD
-    <!-- <span class="popuptext">Build Tools
-=======
-      <!-- <span class="popuptext">See more
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
-<<<<<<< HEAD
-      <li  class="nav-link" href="#" v-if="!isHidden">
-=======
-      <li class="nav-link" href="#">
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99
+      <li  class="nav-link feature-icon" href="#" v-if="!isHidden">
         <i class="fa-solid fa-hammer"></i>
       </li>
-      <!-- <span class="popuptext">Build Tools
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#" v-if="!isHidden">
+      <li class="nav-link feature-icon" href="#" v-if="!isHidden">
         <i class="fa-solid fa-calendar-days"></i>
       </li>
-      <!-- <span class="popuptext">Calender
-    </span>
-      </div> -->
 
-      <!-- <div class="popup"> -->
-      <li class="nav-link" href="#" @click="changeArrow()" v-on:click="isHidden = !isHidden">
+      <li class="nav-link feature-icon" href="#" @click="changeArrow()" v-on:click="isHidden = !isHidden">
         <i :class="isArrow ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left' "></i>
       </li>
-    <!-- <span class="popuptext" @click="changeWord()">
-      <span :class="isWord ? 'See more' : 'See less' "></span>
-    </span> -->
-    <!-- <span class="popuptext">See more</span>
-      </div> -->
 
 
 
       <div class="right-corner">
-        <!-- <div class="popup"> -->
+    <div class="limiterChat"></div>
         <li
           v-bind:style="
             this.sideMenu &&
@@ -167,10 +115,8 @@
           <i class="fa-solid fa-comments"></i>
         </li>
 
-        <!-- <span class="popuptext">Chat</span>
-      </div> -->
 
-        <!-- <div class="popup"> -->
+    <div class="limiterChat"></div>
         <li
           v-bind:style="
             this.sideMenu &&
@@ -183,8 +129,6 @@
           <i class="fa-solid fa-user-group"></i>
         </li>
 
-        <!-- <span class="popuptext">Particiants</span>
-      </div> -->
       </div>
     </ul>
   </div>
@@ -194,15 +138,11 @@
 export default {
   data() {
     return {
-      isMic: true,
-      isVideo: true,
-<<<<<<< HEAD
+      isMic: false,
+      isVideo: false,
       isArrow: true,
       isHidden: true
     }
-=======
-    };
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99
   },
   props: {
     my: Object,
@@ -216,7 +156,6 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
-<<<<<<< HEAD
     // moreLess(clicked) {
     //   if (this.corner === clicked) {
     //     return this.$emit("moreLess", this.wordChanged ? false : true);
@@ -232,37 +171,45 @@ export default {
     changeArrow(){
       this.isArrow = !this.isArrow;
     },
-=======
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99
   },
 };
 </script>
 
 <style scoped>
-<<<<<<< HEAD
 .nav {
   height: 53px;
 }
 .nav-link {
-  top:5px;
-  font-size: 20px;
+  font-size: 18px;
 }
-=======
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99
+.feature-icon{
+  margin-top: 5px;
+}
 li {
   color: white;
   text-decoration: none;
 }
-/* i{
-  width:40px;
-} */
+.toggleOff {
+  margin-left: 5px;
+  margin-top: 8px;
+  top: 10px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  border: none;
+  background-color: red;
+  transition: background-color 200ms ease 0.7s;
+  cursor: pointer;
+}
 li:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
-}
-i {
-  width: 20px;
 }
 .right-corner {
   margin-left: auto;
@@ -275,17 +222,24 @@ i {
   padding: 0.5rem 0;
   transition: var(--transition-speed);
   cursor: pointer;
-  border-left: solid 2px #00463a;
 }
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
 }
 .horizonLine {
-    height: 32px;
-    width: 2px;
-    margin: auto 4px;
-    background-color: rgb(236, 236, 236);
-    border-radius: 8px;
+  height: 32px;
+  width: 2px;
+  margin: auto 4px;
+  margin-top: 10px;
+  background-color: rgb(236, 236, 236);
+  border-radius: 8px;
+}
+.limiterChat {
+  height: 53px;
+  width: 2px;
+  /* margin: auto 4px; */
+  background-color: #00463a;
+  border-radius: 8px;
 }
 .popup {
   /* -webkit-animation: fadeIn 1s; */
@@ -327,7 +281,6 @@ i {
 }
 
 /* Toggle this class - hide and show the popup */
-<<<<<<< HEAD
 /* .popup .show {
   visibility: visible; 
 } */
@@ -336,15 +289,6 @@ i {
 } */
 
 /* .popup-main:hover {
-=======
-.popup .show {
-  visibility: visible;
-}
-.popup-main .show {
-  visibility: visible;
-}
-.popup-main:hover {
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -376,10 +320,5 @@ i {
   border-width: 5px;
   border-style: solid;
   border-color: #555 transparent transparent transparent;
-<<<<<<< HEAD
 } */
 </style>
-=======
-}
-</style>
->>>>>>> 271afcf9d999ed95ef6eb84697ec005b2a26eb99

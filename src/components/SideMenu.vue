@@ -33,8 +33,9 @@
           class="text-input"
           placeholder="Message..."
           required
+          aria-label="Enter Some.."
           oninvalid="this.setCustomValidity(' ')"
-          oninput="setCustomValidity(' ')"
+          oninput="setCustomValidity('')"
         />
         <input type="submit" hidden />
       </form>
