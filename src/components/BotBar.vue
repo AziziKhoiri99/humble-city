@@ -1,10 +1,13 @@
 <template>
   <div>
     <ul class="nav fixed-bottom navbar-dark bg-success">
-<li class="nav-link active" aria-current="page" href="#" style="margin: 0px">
-  <image src="https://gitlab.com/uploads/-/system/project/avatar/35056610/acai.png?width=64" width="40"/>
+      <li
+        class="nav-link active"
+        aria-current="page"
+        href="#"
+        style="margin: 0px"
+      >
         <svg
-        display: none;
           width="30px"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 133.1 122.3"
@@ -58,101 +61,42 @@
         <span>{{ this.my.username }}</span>
       </li>
 
-        <span class="toggleOff">
-      <li class="nav-link" href="#" @click="this.isMic = !this.isMic">
-          <i :class="
-            isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
-          "
-        ></i>
-      </li>
-        </span>
-
-        <span class="toggleOff">
-      <li class="nav-link" href="#" @click="this.isVideo = !this.isVideo">
-          <i
-          :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
-        ></i>
-      </li>
-        </span>
-
-      <li class="nav-link feature-icon" href="#">
-        <i class="fa-solid fa-tv"></i>
-      </li>
-
-      <li class="nav-link feature-icon" href="#">
-        <i class="fa-solid fa-face-smile"></i>
-      </li>
-    <div class="horizonLine"></div>
-      <li  class="nav-link feature-icon" href="#" v-if="!isHidden">
-        <i class="fa-solid fa-solid fa-map"></i>
-      </li>
-
-      <li  class="nav-link feature-icon" href="#" v-if="!isHidden">
-        <i class="fa-solid fa-hammer"></i>
-      </li>
-
-      <li class="nav-link feature-icon" href="#" v-if="!isHidden">
-        <i class="fa-solid fa-calendar-days"></i>
-      </li>
-
-      <li class="nav-link feature-icon" href="#" @click="changeArrow()" v-on:click="isHidden = !isHidden">
-        <i :class="isArrow ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left' "></i>
-      </li>
-
-
-
       <div class="desc">
-        <li class="nav-link" @click="isMic = !isMic">
+        <li
+          v-bind:class="!isMic && 'disable'"
+          class="nav-link"
+          @click="isMic = !isMic"
+        >
           <i
             :class="
-              isMic ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash'
+              'fa-solid icon ' +
+              (isMic ? 'fa-microphone' : 'fa-microphone-slash')
             "
           ></i>
         </li>
         <div class="popuptext">{{ isMic ? "Mute" : "Unmute" }}</div>
       </div>
       <div class="desc">
-        <li class="nav-link" @click="isVideo = !isVideo">
+        <li
+          v-bind:class="!isVideo && 'disable'"
+          class="nav-link"
+          @click="isVideo = !isVideo"
+        >
           <i
-            :class="isVideo ? 'fa-solid fa-video' : 'fa-solid fa-video-slash'"
+            :class="
+              'fa-solid icon ' + (isVideo ? 'fa-video' : 'fa-video-slash')
+            "
           ></i>
         </li>
         <div class="popuptext">{{ isVideo ? "Video on" : "Video off" }}</div>
       </div>
       <div class="desc">
         <li class="nav-link">
-          <i class="fa-solid fa-tv"></i>
+          <i class="fa-solid icon fa-tv"></i>
         </li>
         <div class="popuptext">Share Screen</div>
       </div>
       <div class="right-corner">
-        <!-- <div class="limiterChat"></div>
-        <li
-          v-bind:style="
-            this.sideMenu &&
-            this.corner == 0 &&
-            'background-color: var(--bg-primary);'
-          "
-          @click="this.toggleSideMenu(0)"
-          class="nav-link"
-        >
-          <i class="fa-solid fa-comments"></i>
-        </li>
-
-
-    <div class="limiterChat"></div>
-        <li
-          v-bind:style="
-            this.sideMenu &&
-            this.corner == 1 &&
-            'background-color: var(--bg-primary);'
-          "
-          @click="this.toggleSideMenu(1)"
-          class="nav-link"
-        >
-          <i class="fa-solid fa-user-group"></i>
-        </li> -->
-
         <div class="desc">
           <li
             class="nav-link"
@@ -195,9 +139,7 @@ export default {
     return {
       isMic: false,
       isVideo: false,
-      isArrow: true,
-      isHidden: true
-    }
+    };
   },
   props: {
     my: Object,
@@ -218,47 +160,29 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
-    // changeMic(){
-    //   this.isMic = !this.isMic;
-    // },
-    // changeVideo(){
-    //   this.isVideo = !this.isVideo;
-    // },
-    // changeArrow(){
-    //   this.isArrow = !this.isArrow;
-    // },
   },
 };
 </script>
 
 <style scoped>
-.nav {
-  height: 53px;
-}
 .nav-link {
   top: 5px;
   font-size: 20px;
+  padding: 10.61px 14.61px;
+  margin: 0 0.25rem;
+  border-radius: 50%;
+}
+.disable {
+  background-color: var(--bg-secondary);
+  transition: 300ms;
 }
 li {
   color: white;
   text-decoration: none;
+  text-align: center;
 }
-.toggleOff {
-  margin-left: 5px;
-  margin-top: 8px;
-  top: 10px;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  border: none;
-  background-color: red;
-  transition: background-color 200ms ease 0.7s;
-  cursor: pointer;
+.icon {
+  width: 25px;
 }
 li:hover {
   color: white;
@@ -273,26 +197,13 @@ li:hover {
 .right-corner .nav-link {
   width: 135px;
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 10.61px 0;
   transition: var(--transition-speed);
-  cursor: pointer;
+  border-radius: 0;
+  margin: 0;
 }
 .right-corner .nav-link:hover {
   background-color: var(--bg-secondary);
-}.horizonLine {
-  height: 32px;
-  width: 2px;
-  margin: auto 4px;
-  margin-top: 10px;
-  background-color: rgb(236, 236, 236);
-  border-radius: 8px;
-}
-.limiterChat {
-  height: 53px;
-  width: 2px;
-  /* margin: auto 4px; */
-  background-color: #00463a;
-  border-radius: 8px;
 }
 .nav-link:hover + .popuptext {
   visibility: visible;
@@ -324,46 +235,4 @@ li:hover {
   border-style: solid;
   border-color: #555 transparent transparent transparent;
 }
-
-/* Toggle this class - hide and show the popup */
-/* .popup .show {
-  visibility: visible; 
-} */
-/* .popup-main .show {
-  visibility: visible; 
-} */
-
-/* .popup-main:hover {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.popup-main .popuptext-main {
-  width: 160px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 75%;
-  margin-left: -40px;
-}
-
-.popup-main .popuptext-main::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -62px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-} */
 </style>
