@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 
+export let doneLoading = false;
 let dirInput;
 let players = [];
 let heldDirection = [];
@@ -170,7 +171,8 @@ export default class GameScene extends Phaser.Scene {
     function move(direction, userId) {
       const playerSprite = players.filter((x) => x.id === userId)[0].sprite,
         spriteBody = playerSprite.body,
-        speed = 120;
+        speed = 120,
+        prevVelocity = playerSprite.body.velocity.clone();
 
       switch (direction) {
         case "up":
@@ -191,6 +193,13 @@ export default class GameScene extends Phaser.Scene {
           break;
         default:
           playerSprite.anims.stop();
+
+          // If we were moving, pick and idle frame to use
+          if (prevVelocity.x < 0) playerSprite.setTexture("atlas", "chara-left");else
+          if (prevVelocity.x > 0) playerSprite.setTexture("atlas", "chara-right");else
+          if (prevVelocity.y < 0) playerSprite.setTexture("atlas", "chara-back");else
+          if (prevVelocity.y > 0) playerSprite.setTexture("atlas", "chara-front");
+
           if (userId === socketId) {
             socket.emit("share-coord", mySprite.x, mySprite.y);
           }
@@ -221,7 +230,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-left-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -233,7 +242,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-right-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -245,7 +254,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-front-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -257,7 +266,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-back-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -285,6 +294,7 @@ export default class GameScene extends Phaser.Scene {
     camera.startFollow(players.filter((x) => x.id === socketId)[0].sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     socket.emit("done-loading");
+    doneLoading = true;
   }
 
   update() {
@@ -303,22 +313,5 @@ export default class GameScene extends Phaser.Scene {
         }
       }
     });
-    const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
-    if (mySprite.body.velocity != 0) {
-      switch (heldDirection[0]) {
-        case "up":
-          console.log(Math.floor(mySprite.y));
-          break;
-        case "left":
-          console.log(Math.floor(mySprite.x));
-          break;
-        case "down":
-          console.log(Math.floor(mySprite.y));
-          break;
-        case "right":
-          console.log(Math.floor(mySprite.x));
-          break;
-      }
-    }
   }
 }
