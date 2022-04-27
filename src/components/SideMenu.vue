@@ -56,6 +56,14 @@
         </svg>
         <input v-model="this.search" placeholder="Search" type="text" />
       </div>
+      <div class="nearby">
+        <div class="arrowDown">
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <span class="areaOnline">
+          Nearby - 1
+        </span>
+      </div>
       <div
         class="user-list"
         v-for="user in this.onlineUser.filter((x) =>
@@ -65,6 +73,14 @@
       >
         <img src="../assets/image/placeholder.png" alt="" />
         {{ user.player }}
+      </div>
+      <div class="nearby">
+        <div class="arrowDown">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        <span class="areaOnline">
+          Offline Members - 0
+        </span>
       </div>
     </div>
   </div>
@@ -163,5 +179,52 @@ export default {
 }
 .text-input {
   margin: 15px 0;
+}
+.nearby{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  padding-bottom: 8px;
+  padding-right: 8px;
+}
+.arrowDown {
+  display: block;
+  width: 20px;
+  color: rgb(255, 255, 255);
+  flex-shrink: 0;
+}
+.areaOnline {
+  color: rgb(224, 224, 224);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+}
+</style>
+
+<style>
+/* Sizes */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+  */
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #00372d; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00372d; 
 }
 </style>

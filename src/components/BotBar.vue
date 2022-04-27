@@ -96,6 +96,11 @@
         </li>
         <div class="popuptext">Share Screen</div>
       </div>
+      
+      <li class="nav-link feature-icon" href="#">
+        <i class="fa-solid fa-face-smile"></i>
+      </li>
+    
       <div class="right-corner">
         <div class="desc">
           <li
@@ -126,7 +131,7 @@
           >
             <i class="fa-solid fa-user-group"></i>
           </li>
-          <div class="popuptext">Particiants</div>
+          <div class="popuptext">Participants</div>
         </div>
       </div>
     </ul>
@@ -166,8 +171,9 @@ export default {
 
 <style scoped>
 .nav-link {
+  margin-top: 5px;
   top: 5px;
-  font-size: 20px;
+  font-size: 18px;
   padding: 10.61px 14.61px;
   margin: 0 0.25rem;
   border-radius: 50%;
@@ -182,7 +188,7 @@ li {
   text-align: center;
 }
 .icon {
-  width: 25px;
+  width: 24px;
 }
 li:hover {
   color: white;
@@ -234,5 +240,20 @@ li:hover {
   border-width: 5px;
   border-style: solid;
   border-color: #555 transparent transparent transparent;
+}
+.horizonLine {
+  height: 32px;
+  width: 2px;
+  margin: auto 4px;
+  margin-top: 10px;
+  background-color: rgb(236, 236, 236);
+  border-radius: 8px;
+}
+.limiterChat {
+  height: 53px;
+  width: 2px;
+  /* margin: auto 4px; */
+  background-color: #00463a;
+  border-radius: 8px;
 }
 </style>
