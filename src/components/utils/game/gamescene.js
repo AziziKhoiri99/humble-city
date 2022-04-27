@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 
+export let doneLoading = false;
 let dirInput;
 let players = [];
 let heldDirection = [];
@@ -285,6 +286,7 @@ export default class GameScene extends Phaser.Scene {
     camera.startFollow(players.filter((x) => x.id === socketId)[0].sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     socket.emit("done-loading");
+    doneLoading = true;
   }
 
   update() {
@@ -307,7 +309,7 @@ export default class GameScene extends Phaser.Scene {
     if (mySprite.body.velocity != 0) {
       switch (heldDirection[0]) {
         case "up":
-          console.log(Math.floor(mySprite.y));
+          Math.floor(mySprite.y - 80);
           break;
         case "left":
           console.log(Math.floor(mySprite.x));

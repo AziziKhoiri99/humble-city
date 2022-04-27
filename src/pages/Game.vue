@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Game :onlineUser="onlineUser" :isLoaded="isLoaded" />
+    <Game :onlineUser="onlineUser" :isLoaded="loadingStep[0]" />
     <BotBar
       :my="my"
       :corner="corner"
@@ -20,6 +20,7 @@
       @toggleSideMenu="sideMenu = false"
       @newMessage="unreadMsg++"
     />
+    <LoadingScreen v-if="!loadingStep[1]" :loadingStep="loadingStep" />
   </div>
 </template>
 
@@ -29,10 +30,12 @@ import BotBar from "../components/BotBar.vue";
 import SideMenu from "../components/SideMenu.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
+import { doneLoading } from "../components/utils/game/gamescene";
 import io from "socket.io-client";
 export let onlineUser;
 export let socketId;
 export const socket = io("ws://192.168.6.208:3001");
+import LoadingScreen from "../components/Loading.vue";
 
 export default {
   name: "game-page",
@@ -40,6 +43,7 @@ export default {
     Game,
     BotBar,
     SideMenu,
+    LoadingScreen,
   },
   props: {
     my: Object,
@@ -51,7 +55,7 @@ export default {
       corner: 0,
       unreadMsg: 0,
       sideMenu: false,
-      isLoaded: false,
+      loadingStep: [false, false],
     };
   },
   async created() {
@@ -69,6 +73,8 @@ export default {
     });
   },
   mounted() {
+    this.loop();
+
     const { roomId, roomName } = this.$route.params;
     //get socket id
     this.socket.on("joining-room", async (userId) => {
@@ -98,9 +104,19 @@ export default {
         onlineUser = res.data.results;
         this.onlineUser = onlineUser;
 
-        this.isLoaded = true;
+        this.loadingStep[0] = true;
       });
     });
+  },
+  methods: {
+    loop() {
+      setTimeout(() => {
+        if (doneLoading) {
+          this.loadingStep[1] = true;
+        }
+        this.loop();
+      }, 500);
+    },
   },
   async unmounted() {
     this.socket.disconnect();
