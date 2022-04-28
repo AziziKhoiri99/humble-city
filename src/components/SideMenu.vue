@@ -17,6 +17,9 @@
         <img src="../assets/image/placeholder.png" alt="" />
         <div>
           <span>{{ text.username }}</span>
+          <span class="date-chat">
+            {{currentDateTime()}}
+          </span>
           <div>
             {{ text.message }}
           </div>
@@ -56,12 +59,12 @@
         </svg>
         <input v-model="this.search" placeholder="Search" type="text" />
       </div>
-      <div class="nearby">
+      <div class="memberStat">
         <div class="arrowDown">
           <i class="fa-solid fa-chevron-down"></i>
         </div>
         <span class="areaOnline">
-          Nearby - 1
+          Member - 2
         </span>
       </div>
       <div
@@ -74,7 +77,7 @@
         <img src="../assets/image/placeholder.png" alt="" />
         {{ user.player }}
       </div>
-      <div class="nearby">
+      <div class="memberStat">
         <div class="arrowDown">
           <i class="fa-solid fa-chevron-right"></i>
         </div>
@@ -118,6 +121,14 @@ export default {
       this.socket.emit("message", this.message);
       console.log(this.chat);
       this.message = "";
+    },
+    currentDateTime() {
+      const current = new Date();
+      // const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
+      const time = current.getHours() + ":" + current.getMinutes();
+      const dateTime =  time;
+
+      return dateTime;
     },
   },
 };
@@ -180,7 +191,7 @@ export default {
 .text-input {
   margin: 15px 0;
 }
-.nearby{
+.memberStat{
   display: flex;
   width: 100%;
   align-items: center;
@@ -199,8 +210,12 @@ export default {
   color: rgb(224, 224, 224);
   font-family: "DM Sans", sans-serif;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 18px;
+}
+.date-chat{
+  font-size: 12px;
+  margin-left: 110px;
 }
 </style>
 
