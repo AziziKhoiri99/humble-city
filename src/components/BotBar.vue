@@ -132,8 +132,9 @@
 export default {
   data() {
     return {
-      isMic: false,
-      isVideo: false,
+      isMic: true,
+      isVideo: true,
+      localStream: null
     };
   },
   props: {
@@ -155,6 +156,23 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
+    async method(){
+      this.localStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+      });
+    },
+    start() {
+      this.camera();
+    },
+    camera() {
+      this.$nextTick(function() { 
+          this.$refs.videoBackup.srcObject = this.localStream; 
+      })
+    }
+  },
+  mounted() {
+    this.method();
   },
 };
 </script>
