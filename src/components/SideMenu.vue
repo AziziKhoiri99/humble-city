@@ -25,8 +25,10 @@
           </div>
         </div>
       </div>
+      <!-- Before ↓ -->
       <form @submit="this.sendMessage" class="position-absolute bottom-0">
         <hr style="border: var(--border); margin: 0" />
+          <!-- <i class="fa-solid fa-face-smile-wink text-emoji"></i> -->
         <input
           type="text"
           v-model="message"
@@ -36,9 +38,12 @@
           aria-label="Enter Some.."
           oninvalid="this.setCustomValidity(' ')"
           oninput="setCustomValidity('')"
+          title=""
         />
+        <!-- <Emoji /> -->
         <input type="submit" hidden />
       </form>
+
     </div>
     <div v-else class="offcanvas-body">
       <div class="search" style="margin-bottom: 20px; width: 100%">
@@ -64,7 +69,7 @@
           <i class="fa-solid fa-chevron-down"></i>
         </div>
         <span class="areaOnline">
-          Member - 2
+          Member - 1
         </span>
       </div>
       <div
@@ -90,7 +95,13 @@
 </template>
 
 <script>
+// import Emoji from "./Emoji.vue";
+
 export default {
+  // name: "side-menu",
+  // components: {
+  //   Emoji,
+  // },
   data() {
     return {
       message: "",
@@ -190,6 +201,11 @@ export default {
 }
 .text-input {
   margin: 15px 0;
+}
+.text-emoji {
+  margin-left: 190px;
+  /* margin-top: 20px; */
+  /* bottom: 0; */
 }
 .memberStat{
   display: flex;
