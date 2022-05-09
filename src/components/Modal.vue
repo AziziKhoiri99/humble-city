@@ -49,7 +49,6 @@ export default {
   methods: {
     createRoom(e) {
       e.preventDefault();
-      console.log(this.my);
       //post room name and create random id with uuidV4
       const payload = {
         name: this.name,

@@ -62,29 +62,32 @@
 
     <div class="desc">
       <li
-        v-bind:class="!isMic && 'disable'"
+        @click="this.$emit('toggleInput', 0)"
+        v-bind:class="!comsInput[0] && 'disable'"
         class="nav-link"
-        @click="isMic = !isMic"
       >
         <i
           :class="
-            'fa-solid icon ' + (isMic ? 'fa-microphone' : 'fa-microphone-slash')
+            'fa-solid icon ' +
+            (comsInput[0] ? 'fa-microphone' : 'fa-microphone-slash')
           "
         ></i>
       </li>
-      <div class="popuptext">{{ isMic ? "Mute" : "Unmute" }}</div>
+      <div class="popuptext">{{ comsInput[0] ? "Mute" : "Unmute" }}</div>
     </div>
     <div class="desc">
       <li
-        v-bind:class="!isVideo && 'disable'"
+        @click="this.$emit('toggleInput', 1)"
+        v-bind:class="!comsInput[1] && 'disable'"
         class="nav-link"
-        @click="isVideo = !isVideo"
       >
         <i
-          :class="'fa-solid icon ' + (isVideo ? 'fa-video' : 'fa-video-slash')"
+          :class="
+            'fa-solid icon ' + (comsInput[1] ? 'fa-video' : 'fa-video-slash')
+          "
         ></i>
       </li>
-      <div class="popuptext">{{ isVideo ? "Video on" : "Video off" }}</div>
+      <div class="popuptext">{{ comsInput[1] ? "Video on" : "Video off" }}</div>
     </div>
     <div class="desc">
       <li class="nav-link">
@@ -132,8 +135,7 @@
 export default {
   data() {
     return {
-      isMic: false,
-      isVideo: false,
+      localStream: null,
     };
   },
   props: {
@@ -141,6 +143,7 @@ export default {
     corner: Number,
     sideMenu: Boolean,
     unreadMsg: Number,
+    comsInput: Array,
   },
   methods: {
     toggleSideMenu(clicked) {

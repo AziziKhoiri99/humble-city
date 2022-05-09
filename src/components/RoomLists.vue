@@ -54,10 +54,7 @@ export default {
 .card-component {
   border: var(--border);
   border-radius: 16px;
-  height: calc(
-    (100vw - 5rem - 20px) / var(--number-of-col) - (100vh - 20px) /
-      var(--subtract)
-  );
+  aspect-ratio: 3 / 2;
   width: 100%;
   position: relative;
   overflow: hidden;

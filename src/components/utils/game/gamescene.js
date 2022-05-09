@@ -4,6 +4,8 @@ export let doneLoading = false;
 let dirInput;
 let players = [];
 let heldDirection = [];
+let onCall = [];
+
 const directions = {
   ArrowUp: "up",
   KeyW: "up",
@@ -16,6 +18,7 @@ const directions = {
 };
 
 import { onlineUser, socketId, socket } from "../../../pages/Game.vue";
+import Peer from "peerjs";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -166,12 +169,11 @@ export default class GameScene extends Phaser.Scene {
       worldLayer
     );
 
-    // console.log(players.map((x) => x.id));
-
     function move(direction, userId) {
       const playerSprite = players.filter((x) => x.id === userId)[0].sprite,
         spriteBody = playerSprite.body,
-        speed = 120;
+        speed = 120,
+        prevVelocity = playerSprite.body.velocity.clone();
 
       switch (direction) {
         case "up":
@@ -192,9 +194,16 @@ export default class GameScene extends Phaser.Scene {
           break;
         default:
           playerSprite.anims.stop();
-          if (userId === socketId) {
-            socket.emit("share-coord", mySprite.x, mySprite.y);
-          }
+
+          // If we were moving, pick and idle frame to use
+          if (prevVelocity.x < 0)
+            playerSprite.setTexture("atlas", "chara-left");
+          else if (prevVelocity.x > 0)
+            playerSprite.setTexture("atlas", "chara-right");
+          else if (prevVelocity.y < 0)
+            playerSprite.setTexture("atlas", "chara-back");
+          else if (prevVelocity.y > 0)
+            playerSprite.setTexture("atlas", "chara-front");
           break;
       }
     }
@@ -204,6 +213,7 @@ export default class GameScene extends Phaser.Scene {
       if (dir && heldDirection.indexOf(dir) === -1) {
         heldDirection.unshift(directions[e.code]);
         socket.emit("character-move", heldDirection[0]);
+        // socket.emit("share-coord", mySprite.x, mySprite.y);
       }
     });
     dirInput.on("keyup", (e) => {
@@ -212,6 +222,7 @@ export default class GameScene extends Phaser.Scene {
       if (index > -1) {
         heldDirection.splice(index, 1);
         socket.emit("character-move", heldDirection[0]);
+        socket.emit("share-coord", mySprite.x, mySprite.y);
       }
     });
 
@@ -222,7 +233,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-left-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -234,7 +245,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-right-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -246,7 +257,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-front-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -258,7 +269,7 @@ export default class GameScene extends Phaser.Scene {
       frames: anims.generateFrameNames("atlas", {
         prefix: "chara-back-walk.",
         start: 0,
-        end: 3,
+        end: 1,
         zeroPad: 3,
       }),
       frameRate: 10,
@@ -285,6 +296,59 @@ export default class GameScene extends Phaser.Scene {
     const camera = this.cameras.main;
     camera.startFollow(players.filter((x) => x.id === socketId)[0].sprite);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+    //VIDEO CHAT PART
+
+    const peer = new Peer(socketId, {
+      host: "/",
+      port: 3002,
+    });
+
+    const callBox = document.getElementById("call-box");
+    const myVideo = document.createElement("video");
+    myVideo.muted = true;
+
+    navigator.mediaDevices
+      .getUserMedia({
+        video: true,
+        audio: true,
+      })
+      .then((stream) => {
+        addVideoStream(myVideo, stream, socketId);
+
+        peer.on("call", (call) => {
+          call.answer(stream);
+          const video = document.createElement("video");
+          call.on("stream", (userVideoStream) => {
+            addVideoStream(video, userVideoStream, call.peer);
+          });
+        });
+
+        socket.on("called", (userId) => {
+          onCall = [...onCall, userId];
+          const call = peer.call(userId, stream);
+          const video = document.createElement("video");
+          call.on("stream", (stream) => {
+            addVideoStream(video, stream, userId);
+          });
+        });
+      });
+
+    socket.on("leaved-call", (who) => {
+      document.getElementById(who).remove();
+      onCall = onCall.filter((x) => x !== who);
+    });
+
+    function addVideoStream(video, stream, userId) {
+      video.srcObject = stream;
+      console.log(userId);
+      video.setAttribute("id", userId);
+      video.addEventListener("loadedmetadata", () => {
+        video.play();
+      });
+      callBox.append(video);
+    }
+
     socket.emit("done-loading");
     doneLoading = true;
   }
@@ -305,21 +369,29 @@ export default class GameScene extends Phaser.Scene {
         }
       }
     });
-    const mySprite = players.filter((x) => x.id === socketId)[0].sprite;
-    if (mySprite.body.velocity != 0) {
-      switch (heldDirection[0]) {
-        case "up":
-          Math.floor(mySprite.y - 80);
-          break;
-        case "left":
-          console.log(Math.floor(mySprite.x));
-          break;
-        case "down":
-          console.log(Math.floor(mySprite.y));
-          break;
-        case "right":
-          console.log(Math.floor(mySprite.x));
-          break;
+    const mySprite = players.filter((x) => x.id === socketId)[0].sprite,
+      radius = 100,
+      nearby = players.filter(
+        (x) =>
+          x.sprite.y > mySprite.y - radius &&
+          x.sprite.y < mySprite.y + radius &&
+          x.sprite.x > mySprite.x - radius &&
+          x.sprite.x < mySprite.x + radius &&
+          x.id != socketId
+      );
+    if (mySprite.body.velocity.x != 0 || mySprite.body.velocity.y != 0) {
+      if (nearby.length > onCall.length) {
+        const who = nearby.filter((x) => !onCall.includes(x.id))[0].id;
+        socket.emit("calling", who);
+        onCall = nearby.map((x) => x.id);
+      }
+      if (nearby.length < onCall.length) {
+        const who = onCall.filter(
+          (x) => !nearby.map((y) => y.id).includes(x)
+        )[0];
+        document.getElementById(who).remove();
+        socket.emit("leaving-call", who);
+        onCall = nearby.map((x) => x.id);
       }
     }
   }

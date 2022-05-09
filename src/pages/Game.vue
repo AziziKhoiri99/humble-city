@@ -1,11 +1,14 @@
 <template>
   <div>
+    <Nearby />
     <Game :onlineUser="onlineUser" :isLoaded="loadingStep[0]" />
     <BotBar
       :my="my"
       :corner="corner"
       :sideMenu="sideMenu"
       :unreadMsg="unreadMsg"
+      :comsInput="comsInput"
+      @toggleInput="(val) => (comsInput[val] = !comsInput[val])"
       @toggleSideMenu="(val) => (sideMenu = val)"
       @changeSideMenu="(val) => (corner = val)"
       @readMessage="unreadMsg = 0"
@@ -28,13 +31,15 @@
 import Game from "../components/Game.vue";
 import BotBar from "../components/BotBar.vue";
 import SideMenu from "../components/SideMenu.vue";
+import Nearby from "../components/Nearby.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
 import { doneLoading } from "../components/utils/game/gamescene";
 import io from "socket.io-client";
 export let onlineUser;
 export let socketId;
-export const socket = io("ws://192.168.6.208:3001");
+export let comsInput;
+export let socket;
 import LoadingScreen from "../components/Loading.vue";
 
 export default {
@@ -43,6 +48,7 @@ export default {
     Game,
     BotBar,
     SideMenu,
+    Nearby,
     LoadingScreen,
   },
   props: {
@@ -51,16 +57,19 @@ export default {
   data() {
     return {
       onlineUser: [],
-      socket: "",
+      socketId: "",
+      socket: null,
       corner: 0,
       unreadMsg: 0,
       sideMenu: false,
+      comsInput: [false, false],
       loadingStep: [false, false],
     };
   },
   async created() {
     //set socket data to backend websocket before used in mounted
-    this.socket = socket;
+    this.socket = io("ws://localhost:3001");
+    socket = this.socket;
 
     this.socket.on("new-user", (player, id) => {
       this.onlineUser = [...this.onlineUser, { player, id }];
@@ -87,7 +96,7 @@ export default {
         },
         playerId: userId,
       };
-
+      this.socketId = userId;
       socketId = userId;
 
       //posting to room that a new user joined
@@ -112,7 +121,7 @@ export default {
     loop() {
       setTimeout(() => {
         if (doneLoading) {
-          this.loadingStep[1] = true;
+          return (this.loadingStep[1] = true);
         }
         this.loop();
       }, 500);

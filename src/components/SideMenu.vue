@@ -58,8 +58,8 @@
       </div>
       <div
         class="user-list"
-        v-for="user in this.onlineUser.filter((x) =>
-          x.player.toLowerCase().includes(this.search.toLowerCase())
+        v-for="user in onlineUser.filter((x) =>
+          x.player.toLowerCase().includes(search.toLowerCase())
         )"
         :key="user.id"
       >
@@ -100,7 +100,6 @@ export default {
       e.preventDefault();
       this.chat = [...this.chat, { username: "You", message: this.message }];
       this.socket.emit("message", this.message);
-      console.log(this.chat);
       this.message = "";
     },
   },
