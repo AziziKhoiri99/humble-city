@@ -196,7 +196,6 @@ export default class GameScene extends Phaser.Scene {
           playerSprite.anims.stop();
 
           // If we were moving, pick and idle frame to use
-<<<<<<< HEAD
           if (prevVelocity.x < 0)
             playerSprite.setTexture("atlas", "chara-left");
           else if (prevVelocity.x > 0)
@@ -205,16 +204,10 @@ export default class GameScene extends Phaser.Scene {
             playerSprite.setTexture("atlas", "chara-back");
           else if (prevVelocity.y > 0)
             playerSprite.setTexture("atlas", "chara-front");
-=======
-          if (prevVelocity.x < 0) playerSprite.setTexture("atlas", "chara-left");else
-          if (prevVelocity.x > 0) playerSprite.setTexture("atlas", "chara-right");else
-          if (prevVelocity.y < 0) playerSprite.setTexture("atlas", "chara-back");else
-          if (prevVelocity.y > 0) playerSprite.setTexture("atlas", "chara-front");
 
           if (userId === socketId) {
             socket.emit("share-coord", mySprite.x, mySprite.y);
           }
->>>>>>> b522f517cfeb9e85fab2d61fb812096c54caeb87
           break;
       }
     }
@@ -380,7 +373,6 @@ export default class GameScene extends Phaser.Scene {
         }
       }
     });
-<<<<<<< HEAD
     const mySprite = players.filter((x) => x.id === socketId)[0].sprite,
       radius = 100,
       nearby = players.filter(
@@ -406,7 +398,5 @@ export default class GameScene extends Phaser.Scene {
         onCall = nearby.map((x) => x.id);
       }
     }
-=======
->>>>>>> b522f517cfeb9e85fab2d61fb812096c54caeb87
   }
 }
