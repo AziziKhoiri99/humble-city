@@ -17,13 +17,18 @@
         <img src="../assets/image/placeholder.png" alt="" />
         <div>
           <span>{{ text.username }}</span>
+          <span class="date-chat">
+            {{currentDateTime()}}
+          </span>
           <div>
             {{ text.message }}
           </div>
         </div>
       </div>
+      <!-- Before ↓ -->
       <form @submit="this.sendMessage" class="position-absolute bottom-0">
         <hr style="border: var(--border); margin: 0" />
+          <!-- <i class="fa-solid fa-face-smile-wink text-emoji"></i> -->
         <input
           type="text"
           v-model="message"
@@ -33,9 +38,12 @@
           aria-label="Enter Some.."
           oninvalid="this.setCustomValidity(' ')"
           oninput="setCustomValidity('')"
+          title=""
         />
+        <!-- <Emoji /> -->
         <input type="submit" hidden />
       </form>
+
     </div>
     <div v-else class="offcanvas-body">
       <div class="search" style="margin-bottom: 20px; width: 100%">
@@ -56,6 +64,14 @@
         </svg>
         <input v-model="this.search" placeholder="Search" type="text" />
       </div>
+      <div class="memberStat">
+        <div class="arrowDown">
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <span class="areaOnline">
+          Member - 1
+        </span>
+      </div>
       <div
         class="user-list"
         v-for="user in onlineUser.filter((x) =>
@@ -66,12 +82,26 @@
         <img src="../assets/image/placeholder.png" alt="" />
         {{ user.player }}
       </div>
+      <div class="memberStat">
+        <div class="arrowDown">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        <span class="areaOnline">
+          Offline Members - 0
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+// import Emoji from "./Emoji.vue";
+
 export default {
+  // name: "side-menu",
+  // components: {
+  //   Emoji,
+  // },
   data() {
     return {
       message: "",
@@ -101,6 +131,14 @@ export default {
       this.chat = [...this.chat, { username: "You", message: this.message }];
       this.socket.emit("message", this.message);
       this.message = "";
+    },
+    currentDateTime() {
+      const current = new Date();
+      // const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
+      const time = current.getHours() + ":" + current.getMinutes();
+      const dateTime =  time;
+
+      return dateTime;
     },
   },
 };
@@ -162,5 +200,61 @@ export default {
 }
 .text-input {
   margin: 15px 0;
+}
+.text-emoji {
+  margin-left: 190px;
+  /* margin-top: 20px; */
+  /* bottom: 0; */
+}
+.memberStat{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  padding-bottom: 8px;
+  padding-right: 8px;
+}
+.arrowDown {
+  display: block;
+  width: 20px;
+  color: rgb(255, 255, 255);
+  flex-shrink: 0;
+}
+.areaOnline {
+  color: rgb(224, 224, 224);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+}
+.date-chat{
+  font-size: 12px;
+  margin-left: 110px;
+}
+</style>
+
+<style>
+/* Sizes */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+  */
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #00372d; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00372d; 
 }
 </style>

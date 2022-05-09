@@ -158,6 +158,23 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
+    async method() {
+      this.localStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+    },
+    start() {
+      this.camera();
+    },
+    camera() {
+      this.$nextTick(function () {
+        this.$refs.videoBackup.srcObject = this.localStream;
+      });
+    },
+  },
+  mounted() {
+    this.method();
   },
 };
 </script>
@@ -167,8 +184,9 @@ export default {
   z-index: 1;
 }
 .nav-link {
+  margin-top: 5px;
   top: 5px;
-  font-size: 20px;
+  font-size: 18px;
   padding: 10.61px 14.61px;
   margin: 0 0.25rem;
   border-radius: 50%;
@@ -183,7 +201,7 @@ li {
   text-align: center;
 }
 .icon {
-  width: 25px;
+  width: 24px;
 }
 li:hover {
   color: white;
@@ -235,5 +253,25 @@ li:hover {
   border-width: 5px;
   border-style: solid;
   border-color: #555 transparent transparent transparent;
+}
+.horizonLine {
+  height: 32px;
+  width: 2px;
+  margin: auto 4px;
+  margin-top: 10px;
+  background-color: rgb(236, 236, 236);
+  border-radius: 8px;
+}
+.limiterChat {
+  height: 53px;
+  width: 2px;
+  /* margin: auto 4px; */
+  background-color: #00463a;
+  border-radius: 8px;
+}
+.otherSection {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
 }
 </style>
