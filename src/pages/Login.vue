@@ -13,9 +13,10 @@
           <input v-model="this.username" type="text" required /><br />
         </div>
         <label>Email:</label><br />
-        <input v-model="this.email" type="email" required /><br />
+        <input @keydown.space.prevent v-model="this.email" type="email" required /><br />
         <label>Password:</label><br />
         <input
+          @keydown.space.prevent
           v-model="this.password"
           type="password"
           minlength="8"
