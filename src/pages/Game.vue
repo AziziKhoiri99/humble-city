@@ -68,7 +68,7 @@ export default {
   },
   async created() {
     //set socket data to backend websocket before used in mounted
-    this.socket = io("ws://localhost:3001");
+    this.socket = io("ws://192.168.6.208:3001");
     socket = this.socket;
 
     this.socket.on("new-user", (player, id) => {
