@@ -18,14 +18,13 @@
         <div>
           <span>{{ text.username }}</span>
           <span class="date-chat">
-            {{currentDateTime()}}
+            {{ text.time}}
           </span>
           <div>
             {{ text.message }}
           </div>
         </div>
       </div>
-      <!-- Before ↓ -->
       <form @submit="this.sendMessage" class="position-absolute bottom-0">
         <hr style="border: var(--border); margin: 0" />
           <!-- <i class="fa-solid fa-face-smile-wink text-emoji"></i> -->
@@ -104,8 +103,9 @@ export default {
   // },
   data() {
     return {
-      message: "",
+      time: new Date().getHours() + ":" + new Date().getMinutes(),
       search: "",
+      message: "",
       chat: [],
     };
   },
@@ -128,17 +128,10 @@ export default {
   methods: {
     sendMessage(e) {
       e.preventDefault();
-      this.chat = [...this.chat, { username: "You", message: this.message }];
-      this.socket.emit("message", this.message);
+      this.chat = [...this.chat, { username: "You", message: this.message, time: this.time }];
+      this.socket.emit("message", this.message, this.time);
       this.message = "";
-    },
-    currentDateTime() {
-      const current = new Date();
-      // const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
-      const time = current.getHours() + ":" + current.getMinutes();
-      const dateTime =  time;
-
-      return dateTime;
+      this.time = new Date().getHours() + ":" + new Date().getMinutes();
     },
   },
 };
@@ -245,16 +238,11 @@ export default {
 /* ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey; 
   border-radius: 10px;
-}
-  */
+} */
 /* Handle */
-::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover {
   background: #00372d; 
   border-radius: 10px;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #00372d; 
-}
 </style>

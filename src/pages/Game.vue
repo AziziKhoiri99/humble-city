@@ -34,7 +34,7 @@ import SideMenu from "../components/SideMenu.vue";
 import Nearby from "../components/Nearby.vue";
 import axios from "axios";
 import { API_URL } from "../components/utils";
-import { doneLoading } from "../components/utils/game/gamescene";
+import { doneLoading } from "../components/game/gamescene";
 import io from "socket.io-client";
 export let onlineUser;
 export let socketId;
@@ -68,7 +68,7 @@ export default {
   },
   async created() {
     //set socket data to backend websocket before used in mounted
-    this.socket = io("ws://192.168.6.208:3001");
+    this.socket = io("ws://localhost:3001");
     socket = this.socket;
 
     this.socket.on("new-user", (player, id) => {

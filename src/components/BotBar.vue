@@ -133,11 +133,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      localStream: null,
-    };
-  },
   props: {
     my: Object,
     corner: Number,
@@ -158,23 +153,6 @@ export default {
       }
       this.$emit("changeSideMenu", clicked);
     },
-    async method() {
-      this.localStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-    },
-    start() {
-      this.camera();
-    },
-    camera() {
-      this.$nextTick(function () {
-        this.$refs.videoBackup.srcObject = this.localStream;
-      });
-    },
-  },
-  mounted() {
-    this.method();
   },
 };
 </script>

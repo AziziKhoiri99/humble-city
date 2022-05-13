@@ -17,7 +17,7 @@ export default {
   },
   watch: {
     isLoaded: async function () {
-      const game = await import("./utils/game/game");
+      const game = await import("./game/game");
       this.downloaded = true;
       this.$nextTick(() => {
         this.gameInstance = game.launch(this.containerId);

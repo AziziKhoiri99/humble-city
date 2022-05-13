@@ -17,7 +17,8 @@ const directions = {
   KeyD: "right",
 };
 
-import { onlineUser, socketId, socket } from "../../../pages/Game.vue";
+import { onlineUser, socketId, socket } from "../../pages/Game.vue";
+import placeholder from "../../assets/image/placeholder.png";
 import Peer from "peerjs";
 
 export default class GameScene extends Phaser.Scene {
@@ -304,7 +305,7 @@ export default class GameScene extends Phaser.Scene {
     //VIDEO CHAT PART
 
     const peer = new Peer(socketId, {
-      host: "/",
+      host: "192.168.6.208",
       port: 3002,
     });
 
@@ -312,41 +313,59 @@ export default class GameScene extends Phaser.Scene {
     const myVideo = document.createElement("video");
     myVideo.muted = true;
 
-    navigator.mediaDevices
-      .getUserMedia({
-        video: true,
-        audio: true,
-      })
-      .then((stream) => {
-        addVideoStream(myVideo, stream, socketId);
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      let hasMic = false;
+      let hasWebcam = false;
 
-        peer.on("call", (call) => {
-          call.answer(stream);
-          const video = document.createElement("video");
-          call.on("stream", (userVideoStream) => {
-            addVideoStream(video, userVideoStream, call.peer);
-          });
-        });
-
-        socket.on("called", (userId) => {
-          onCall = [...onCall, userId];
-          const call = peer.call(userId, stream);
-          const video = document.createElement("video");
-          call.on("stream", (stream) => {
-            addVideoStream(video, stream, userId);
-          });
-        });
+      devices.forEach((device) => {
+        switch (device.kind) {
+          case "audioinput":
+            hasMic = true;
+            break;
+          case "videoinput":
+            hasWebcam = true;
+            break;
+        }
       });
 
-    socket.on("leaved-call", (who) => {
-      document.getElementById(who).remove();
-      onCall = onCall.filter((x) => x !== who);
+      navigator.mediaDevices
+        .getUserMedia({
+          video: hasMic,
+          audio: hasWebcam,
+        })
+        .then((stream) => {
+          addVideoStream(myVideo, stream, socketId);
+
+          peer.on("call", (call) => {
+            call.answer(stream);
+            const video = document.createElement("video");
+            call.on("stream", (userVideoStream) => {
+              addVideoStream(video, userVideoStream, call.peer);
+            });
+          });
+
+          socket.on("called", (userId) => {
+            onCall = [...onCall, userId];
+            const call = peer.call(userId, stream);
+            const video = document.createElement("video");
+            call.on("stream", (stream) => {
+              addVideoStream(video, stream, userId);
+            });
+            call.on("close", () => {
+              document.getElementById(userId).remove();
+            });
+            socket.on("leaved-call", (who) => {
+              call.close();
+              onCall = onCall.filter((x) => x !== who);
+            });
+          });
+        });
     });
+    placeholder;
 
     function addVideoStream(video, stream, userId) {
-      video.srcObject = stream;
-      console.log(userId);
       video.setAttribute("id", userId);
+      video.srcObject = stream;
       video.addEventListener("loadedmetadata", () => {
         video.play();
       });
@@ -364,7 +383,7 @@ export default class GameScene extends Phaser.Scene {
         above = players.filter((x) => x.sprite.y < playerSprite.y),
         below = players.filter((x) => x.sprite.y > playerSprite.y);
 
-      if (playerSprite.body.velocity != 0) {
+      if (playerSprite.body.velocity != { x: 0, y: 0 }) {
         who.followText.setPosition(playerSprite.x - 25, playerSprite.y - 30);
 
         //check how much sprite above me
