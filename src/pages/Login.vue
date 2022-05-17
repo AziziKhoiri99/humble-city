@@ -15,20 +15,25 @@
         <label>Email:</label><br />
         <input @keydown.space.prevent v-model="this.email" type="email" required /><br />
         <label>Password:</label><br />
-        <div class="search-wrapper cf">
-          <input class="input-logres" v-if="showPassword" type="text" v-model="password" />
+          <input v-if="showPassword"
+          class="input-logres" 
+          @keydown.space.prevent
+          type="text"
+          v-model="this.password"
+          minlength="8"
+          required
+          />
         <input v-else
+          class="input-logres"
           @keydown.space.prevent
           v-model="this.password"
           type="password"
           minlength="8"
           required
-          class="input-logres"
         /><br />
         <span @click="toggleShow" class="eye-icon" >
           <i class="fas" :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"></i>
           </span>
-        </div>
         <div style="text-align: center">
           <span v-if="this.hadAccount" @click="this.change"
             >i dont have an account</span
@@ -145,7 +150,7 @@ export default {
   border: solid 1px black;
   width: 100%;
   border-radius: 16px;
-  padding: 7px 20px;
+  padding: 7px 27px 7px 20px;
 }
 .button {
   margin: 10px 0;
@@ -161,7 +166,7 @@ span {
   display: flex;
   float: right;
   margin-top: -27px;
-  margin-right: 4px;
+  margin-right: 6px;
   /* color: #1AAD80; */
   background-color: transparent;
   text-decoration: none;
