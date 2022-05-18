@@ -45,10 +45,10 @@ export default {
   --text-primary: #fff;
   --text-secondary: #41aa79;
   --bg-primary: #00463a;
-  --bg-main: #00372d;
+  --bg-main: #87dcf1;
   --bg-secondary: #066b5b;
   --transition-speed: 600ms;
-  --border: 2px solid #070707;
+  --border: 2px solid;
 
       /* ===== Colors ===== */
     --body-color: #E4E9F7;
@@ -103,7 +103,7 @@ body {
   border-radius: 16px;
   width: 100%;
   font-size: inherit;
-  color: var(--text-primary);
+  color: var(--text-color);
   background-color: transparent;
   padding: 0 15px;
 }

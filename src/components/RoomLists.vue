@@ -52,7 +52,7 @@ export default {
   );
 }
 .card-component {
-  border: var(--border);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 16px;
   aspect-ratio: 3 / 2;
   width: 100%;
@@ -60,9 +60,12 @@ export default {
   overflow: hidden;
   cursor: pointer;
 }
+.card-component:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 .card-image {
   height: calc(100% - 2rem);
-  background-image: url("../assets/image/placeholder.png");
+  background-image: url("../assets/image/template.png");
   background-size: cover;
   background-repeat: no-repeat;
 }

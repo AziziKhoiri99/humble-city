@@ -8,23 +8,22 @@
         </button>
       </div>
       <div class="modal-input">
-        <label>Space Name</label><br />
         <input
           v-model="name"
           type="text"
           class="text-input"
-          placeholder="yourspacename"
+          placeholder="Space Name"
           required
         />
       </div>
-      <div class="modal-foot">
-        <button
+      <div class="modal-foot" style="text-align: center">
+        <!-- <button
           type="button"
           @click="this.$emit('close-modal')"
           class="button close"
         >
           Close
-        </button>
+        </button> -->
         <button type="submit" class="button create">Create</button>
       </div>
     </form>
@@ -78,9 +77,9 @@ export default {
   align-items: center;
 }
 .modal {
-  background-color: var(--bg-primary);
+  background-color: var(--sidebar-color);
   width: 400px;
-  color: var(--text-primary);
+  color: var(--text-color);
   padding: 30px;
   border-radius: 27px;
   display: block;
@@ -98,12 +97,13 @@ export default {
   float: right;
   background-color: transparent;
   border: none;
-  color: var(--text-primary);
+  color: var(--text-color);
   font-size: 1.7rem;
   padding: 0;
 }
 .modal-input {
   margin-bottom: 20px;
+  color: var(--text-color)
 }
 .modal-input label {
   font-size: 0.75rem;
@@ -117,7 +117,8 @@ export default {
   width: 20%;
 } */
 .create {
-  background-color: #2f9dbb;
+  background-color: var(--primary-color);
+  color: var(--sidebar-color);
   width: calc(80% - 16px);
 }
 .create:hover {

@@ -23,7 +23,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  background-color: var(--bg-main);
+  background-color: transparent;
   padding: 8px 4px;
   border-radius: 15px;
 }
@@ -38,7 +38,6 @@ video {
   border-radius: 15px;
   overflow: hidden;
   margin: 0 4px;
-  border: 2px solid lime;
 }
 .profile-picture {
   width: 50px;
