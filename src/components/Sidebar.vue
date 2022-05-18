@@ -185,7 +185,7 @@ export default {
 <style scoped>
 .sidebar {
   position: fixed;
-  background-color: var(--bg-primary);
+  background-color: var(--sidebar-color);
   transition: width 600ms ease;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -224,19 +224,19 @@ export default {
 }
 .normal-link:hover {
   filter: grayscale(10%) opacity(1);
-  background: var(--bg-secondary);
-  color: #53daff;
+  background: var(--primary-color);
+  color: var(--sidebar-color);
 }
 .normal-link:hover .icon {
-  color: #53daff;
+  color: var(--sidebar-color);
 }
 
 .nav-item:last-child {
-  background-color: #2f9dbb;
+  background-color: #b2d4dd;
   transition: var(--transition-speed);
 }
 .nav-item:last-child:hover {
-  background-color: #53daff;
+  background-color: var(--primary-color);
 }
 
 .nav-link {
@@ -244,12 +244,12 @@ export default {
   display: flex;
   align-items: center;
   height: 5rem;
-  color: var(--text-primary);
+  color: var(--text-color);
   text-decoration: none;
   cursor: pointer;
 }
 .bottom-link .link-text {
-  color: var(--bg-primary);
+  color: var(--sidebar-color);
   font-weight: 700;
 }
 .link-text {
@@ -274,7 +274,7 @@ export default {
 }
 
 .icon {
-  color: var(--text-primary);
+  color: black;
 }
 
 .icon {
@@ -286,8 +286,8 @@ export default {
   text-transform: uppercase;
   margin-bottom: 1rem;
   text-align: center;
-  color: var(--text-primary);
-  background: var(--bg-secondary);
+  color: var(--text-color);
+  background: var(--sidebar-color);
   font-size: 1.5rem;
   letter-spacing: 0.3ch;
   width: 100%;
@@ -320,7 +320,7 @@ export default {
   overflow: hidden;
   left: 16rem;
   position: fixed;
-  background-color: var(--bg-primary);
+  background-color: var(--primary-color);
   width: 0;
   border-radius: 0 20px 16px 0;
 }

@@ -15,13 +15,20 @@
         <label>Email:</label><br />
         <input @keydown.space.prevent v-model="this.email" type="email" required /><br />
         <label>Password:</label><br />
-        <input
+        <div class="search-wrapper cf">
+          <input class="input-logres" v-if="showPassword" type="text" v-model="password" />
+        <input v-else
           @keydown.space.prevent
           v-model="this.password"
           type="password"
           minlength="8"
           required
+          class="input-logres"
         /><br />
+        <span @click="toggleShow" class="eye-icon" >
+          <i class="fas" :class="{ 'fa-eye-slash': showPassword, 'fa-eye': !showPassword }"></i>
+          </span>
+        </div>
         <div style="text-align: center">
           <span v-if="this.hadAccount" @click="this.change"
             >i dont have an account</span
@@ -59,10 +66,16 @@ export default {
       email: "",
       password: "",
       hadAccount: true,
+      showPassword: false,
     };
   },
   props: {
     my: Object,
+  },
+  computed: {
+    buttonLabel() {
+      return (this.showPassword) ? "Hide" : "Show";
+    }
   },
   methods: {
     change() {
@@ -99,6 +112,9 @@ export default {
         this.saveData(res.data);
       });
     },
+    toggleShow() {
+      this.showPassword = !this.showPassword;
+    }
   },
 };
 </script>
@@ -139,5 +155,18 @@ span {
   color: #0d6efd;
   text-decoration: underline;
   cursor: pointer;
+}
+.eye-icon{
+  cursor: pointer;
+  display: flex;
+  float: right;
+  margin-top: -27px;
+  margin-right: 4px;
+  /* color: #1AAD80; */
+  background-color: transparent;
+  text-decoration: none;
+}
+.input-logres{
+  float: left;
 }
 </style>

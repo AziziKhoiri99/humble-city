@@ -3,7 +3,7 @@
     <button
       v-for="(button, index) in this.buttons"
       :key="index"
-      v-bind:style="this.selected === index && 'background-color: #146153'"
+      v-bind:style="this.selected === index && 'color: white; background-color: var(--primary-color)'"
       @click="this.clicked(index)"
       class="button"
     >
@@ -19,7 +19,7 @@
       >
         <path
           d="M11.167 17.833a6.667 6.667 0 100-13.333 6.667 6.667 0 000 13.333zM19.5 19.5l-3.625-3.625"
-          stroke="#fff"
+          stroke="black"
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -62,7 +62,7 @@ export default {
 <style>
 .navbar {
   height: 5rem;
-  background-color: var(--bg-primary);
+  background-color: var(--sidebar-color);
   display: flex;
   justify-content: flex-end;
   padding: 1.25rem 54px 1.25rem 0;
@@ -89,7 +89,6 @@ export default {
   font-weight: 500;
   font-size: inherit;
   font-family: inherit;
-  color: var(--text-primary);
   width: 100%;
   height: 100%;
 }
@@ -105,11 +104,11 @@ export default {
   font-family: inherit;
   font-size: inherit;
   font-weight: 700;
-  color: var(--text-primary);
   transition: 400ms;
   height: 40px;
 }
-.button:hover {
-  background-color: var(--bg-secondary);
+.button:hover{
+  color: white;
+  background-color: var(--primary-color);
 }
 </style>

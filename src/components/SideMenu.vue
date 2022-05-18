@@ -28,18 +28,29 @@
       <form @submit="this.sendMessage" class="position-absolute bottom-0">
         <hr style="border: var(--border); margin: 0" />
           <!-- <i class="fa-solid fa-face-smile-wink text-emoji"></i> -->
-        <input
-          type="text"
-          v-model="message"
-          class="text-input"
-          placeholder="Message..."
-          required
-          aria-label="Enter Some.."
-          oninvalid="this.setCustomValidity(' ')"
-          oninput="setCustomValidity('')"
-          title=""
-        />
-        <!-- <Emoji /> -->
+          <div class="textin-body">
+            <div class="text-input-area">
+            <input
+              type="text"
+              v-model="message"
+              class="text-input"
+              placeholder="Message..."
+              required
+              aria-label="Enter Some.."
+              oninvalid="this.setCustomValidity(' ')"
+              oninput="setCustomValidity('')"
+              title=""
+            />
+            <div class="icon-right">
+            <span class="icon-css">
+              <svg viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.999 3.496A8.501 8.501 0 003.496 12 8.501 8.501 0 0012 20.502a8.501 8.501 0 008.503-8.503 8.501 8.501 0 00-8.503-8.503zm0 15.36A6.864 6.864 0 015.142 12a6.864 6.864 0 016.857-6.857 6.864 6.864 0 016.857 6.857A6.864 6.864 0 0112 18.856zM9.256 11.45a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm5.486 0a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm.137 2.49a3.742 3.742 0 01-2.88 1.35 3.73 3.73 0 01-2.88-1.35.825.825 0 00-1.159-.107.825.825 0 00-.106 1.16 5.382 5.382 0 004.145 1.94 5.382 5.382 0 004.145-1.94.822.822 0 10-1.265-1.053z" fill="currentColor"></path></svg>
+            </span>
+            </div>
+            </div>
+          </div>
         <input type="submit" hidden />
       </form>
 
@@ -94,13 +105,7 @@
 </template>
 
 <script>
-// import Emoji from "./Emoji.vue";
-
 export default {
-  // name: "side-menu",
-  // components: {
-  //   Emoji,
-  // },
   data() {
     return {
       time: new Date().getHours() + ":" + new Date().getMinutes(),
@@ -155,7 +160,7 @@ export default {
   padding: 0;
   word-break: break-all;
   width: 230px;
-  height: calc(100% - 140px);
+  height: calc(99% - 140px);
   white-space: normal;
 }
 .offcanvas-header {
@@ -192,7 +197,10 @@ export default {
   font-size: 0.8rem;
 }
 .text-input {
-  margin: 15px 0;
+  display: flex;
+  width: 195px;
+  margin-left: -9px;
+  padding-left: 50px;
 }
 .text-emoji {
   margin-left: 190px;
@@ -224,6 +232,44 @@ export default {
 .date-chat{
   font-size: 12px;
   margin-left: 110px;
+}
+.textin-body {
+  height: 50px;
+  margin: 15px 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.text-input-area {
+  align-items: center;
+  border: 2px solid #279787;
+  border-radius: 16px;
+  display: flex;
+  padding: 0 12px;
+  position: relative;
+  width: 100%;
+}
+.text-input-area .text-input {
+  background: none;
+  color: #fff;
+  font-size: 16px;
+  overflow: hidden;
+  padding: 10px 0;
+}
+.text-input-area .text-input, .text-input-area .text-input {
+  border: none;
+  flex-grow: 1;
+  font-family: inherit;
+}
+.icon-right {
+  color: hsla(0,0%,100%,.6);
+  padding: 10px 0;
+}
+.icon-css {
+  display: block;
+  width: 24px;
+  color: rgb(255, 255, 255);
+  flex-shrink: 0;
 }
 </style>
 

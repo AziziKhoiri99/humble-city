@@ -32,6 +32,6 @@ export default {
 }
 .not-found span {
   padding-top: 30px;
-  color: var(--text-primary);
+  color: var(--text-color);
 }
 </style>
