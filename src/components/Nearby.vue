@@ -27,8 +27,7 @@ export default {
   padding: 8px 4px;
   border-radius: 15px;
 }
-.video,
-video {
+.user-box {
   height: 150px;
   width: 250px;
   display: flex;
@@ -38,6 +37,16 @@ video {
   border-radius: 15px;
   overflow: hidden;
   margin: 0 4px;
+}
+.name-tag {
+  color: var(--text-primary);
+  position: absolute;
+  top: calc(150px - 1rem - 5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0 5px;
+}
+video {
+  width: 100%;
 }
 .profile-picture {
   width: 50px;
