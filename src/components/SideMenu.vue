@@ -26,10 +26,7 @@
         </div>
       </div>
       <form @submit="this.sendMessage" class="position-absolute bottom-0">
-        <hr style="border: var(--border); margin: 0" />
-          <!-- <i class="fa-solid fa-face-smile-wink text-emoji"></i> -->
-          <div class="textin-body">
-            <div class="text-input-area">
+        <hr style="border: var(--border); margin: 0px 7px 0px 0px" />
             <input
               type="text"
               v-model="message"
@@ -41,16 +38,12 @@
               oninput="setCustomValidity('')"
               title=""
             />
-            <div class="icon-right">
-            <span class="icon-css">
-              <svg viewBox="0 0 24 24" 
+              <svg
+              class="icon-emoji"
+              viewBox="0 0 24 24" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg">
               <path d="M11.999 3.496A8.501 8.501 0 003.496 12 8.501 8.501 0 0012 20.502a8.501 8.501 0 008.503-8.503 8.501 8.501 0 00-8.503-8.503zm0 15.36A6.864 6.864 0 015.142 12a6.864 6.864 0 016.857-6.857 6.864 6.864 0 016.857 6.857A6.864 6.864 0 0112 18.856zM9.256 11.45a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm5.486 0a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm.137 2.49a3.742 3.742 0 01-2.88 1.35 3.73 3.73 0 01-2.88-1.35.825.825 0 00-1.159-.107.825.825 0 00-.106 1.16 5.382 5.382 0 004.145 1.94 5.382 5.382 0 004.145-1.94.822.822 0 10-1.265-1.053z" fill="currentColor"></path></svg>
-            </span>
-            </div>
-            </div>
-          </div>
         <input type="submit" hidden />
       </form>
 
@@ -74,14 +67,6 @@
         </svg>
         <input v-model="this.search" placeholder="Search" type="text" />
       </div>
-      <div class="memberStat">
-        <div class="arrowDown">
-          <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <span class="areaOnline">
-          Member - 1
-        </span>
-      </div>
       <div
         class="user-list"
         v-for="user in onlineUser.filter((x) =>
@@ -91,14 +76,6 @@
       >
         <img src="../assets/image/placeholder.png" alt="" />
         {{ user.player }}
-      </div>
-      <div class="memberStat">
-        <div class="arrowDown">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-        <span class="areaOnline">
-          Offline Members - 0
-        </span>
       </div>
     </div>
   </div>
@@ -197,79 +174,26 @@ export default {
   font-size: 0.8rem;
 }
 .text-input {
-  display: flex;
-  width: 195px;
-  margin-left: -9px;
-  padding-left: 50px;
-}
-.text-emoji {
-  margin-left: 190px;
-  /* margin-top: 20px; */
-  /* bottom: 0; */
-}
-.memberStat{
-  display: flex;
-  width: 100%;
-  align-items: center;
-  cursor: pointer;
-  background-color: transparent;
-  padding-bottom: 8px;
-  padding-right: 8px;
-}
-.arrowDown {
-  display: block;
-  width: 20px;
-  color: rgb(255, 255, 255);
-  flex-shrink: 0;
-}
-.areaOnline {
-  color: rgb(224, 224, 224);
-  font-family: "DM Sans", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 18px;
+  /* display: flex; */
+  margin-bottom: 20px; 
+  margin-top: 5px; 
+  margin-left: -3px; 
+  /* width: 195px;
+  padding-left: 50px; */
+  float:left;
+  padding: 5px 27px 5px 10px;
 }
 .date-chat{
   font-size: 12px;
   margin-left: 110px;
 }
-.textin-body {
-  height: 50px;
-  margin: 15px 0;
+.icon-emoji{
   display: flex;
-  width: 100%;
-  align-items: center;
-}
-.text-input-area {
-  align-items: center;
-  border: 2px solid #279787;
-  border-radius: 16px;
-  display: flex;
-  padding: 0 12px;
-  position: relative;
-  width: 100%;
-}
-.text-input-area .text-input {
-  background: none;
-  color: #fff;
-  font-size: 16px;
-  overflow: hidden;
-  padding: 10px 0;
-}
-.text-input-area .text-input, .text-input-area .text-input {
-  border: none;
-  flex-grow: 1;
-  font-family: inherit;
-}
-.icon-right {
-  color: hsla(0,0%,100%,.6);
-  padding: 10px 0;
-}
-.icon-css {
-  display: block;
   width: 24px;
-  color: rgb(255, 255, 255);
-  flex-shrink: 0;
+  float: right;
+  margin-top: -51px;
+  margin-right: 7px;
+  cursor: pointer;
 }
 </style>
 
