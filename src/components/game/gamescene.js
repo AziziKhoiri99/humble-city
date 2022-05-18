@@ -337,7 +337,7 @@ export default class GameScene extends Phaser.Scene {
 
     if (!hasMic && !hasWebcam) {
       alert(
-        "currently the code doesn't support without any audio or video device"
+        "currently the code doesn't support without any audio or video device and can cause error \n please connect input device then refresh this page"
       );
     } else {
       navigator.mediaDevices
