@@ -125,7 +125,7 @@
         >
           <i class="fa-solid fa-user-group"></i>
         </li>
-        <div class="popuptext">Particiants</div>
+        <div class="popuptext">Participants</div>
       </div>
     </div>
   </ul>
