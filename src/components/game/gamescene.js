@@ -1,10 +1,13 @@
+/* eslint-disable */
 import Phaser from "phaser";
 
-export let doneLoading = false;
-let dirInput;
-let players = [];
-let heldDirection = [];
-let onCall = [];
+export let doneLoading = false,
+  myDevices = { mic: null, cam: null };
+let dirInput,
+  players = [],
+  heldDirection = [],
+  onCall = [],
+  mySprite = null;
 
 const directions = {
   ArrowUp: "up",
@@ -116,7 +119,8 @@ export default class GameScene extends Phaser.Scene {
       "Spawn",
       (obj) => obj.name === "Spawn Point"
     );
-    onlineUser.map((ou) => {
+    for (let i = 0; i < onlineUser.length; i++) {
+      const ou = onlineUser[i];
       players.push({
         info: { id: ou.id, username: ou.player },
         sprite: this.physics.add
@@ -129,7 +133,7 @@ export default class GameScene extends Phaser.Scene {
           fontSize: 15,
         }),
       });
-    });
+    }
 
     socket.on("new-user", (player, id) => {
       players.push({
@@ -144,12 +148,15 @@ export default class GameScene extends Phaser.Scene {
           fontSize: 15,
         }),
       });
-      this.physics.add.collider(
-        players.map((x) => x.sprite),
-        worldLayer
-      );
     });
-    const mySprite = players.filter((x) => x.info.id === socketId)[0].sprite;
+
+    this.physics.add.collider(
+      players.map((x) => x.sprite),
+      worldLayer
+    );
+
+    mySprite = players.filter((x) => x.info.id === socketId)[0].sprite;
+
     socket.on("user-disconnected", (id) => {
       const who = players.filter((x) => x.info.id === id)[0];
       who.sprite.destroy();
@@ -174,43 +181,42 @@ export default class GameScene extends Phaser.Scene {
       const playerSprite = players.filter((x) => x.info.id === userId)[0]
           .sprite,
         spriteBody = playerSprite.body,
-        speed = 120,
-        prevVelocity = playerSprite.body.velocity.clone();
+        spriteAnim = playerSprite.anims,
+        speed = 120;
 
       switch (direction) {
         case "up":
-          playerSprite.anims.play("chara-back-walk", true);
+          spriteAnim.play("chara-back-walk", true);
           spriteBody.setVelocityY(-speed);
           break;
         case "left":
-          playerSprite.anims.play("chara-left-walk", true);
+          spriteAnim.play("chara-left-walk", true);
           spriteBody.setVelocityX(-speed);
           break;
         case "down":
-          playerSprite.anims.play("chara-front-walk", true);
+          spriteAnim.play("chara-front-walk", true);
           spriteBody.setVelocityY(speed);
           break;
         case "right":
-          playerSprite.anims.play("chara-right-walk", true);
+          spriteAnim.play("chara-right-walk", true);
           spriteBody.setVelocityX(speed);
           break;
         default:
-          playerSprite.anims.stop();
-
-          // If we were moving, pick and idle frame to use
-          if (prevVelocity.x < 0)
-            playerSprite.setTexture("atlas", "chara-left");
-          else if (prevVelocity.x > 0)
-            playerSprite.setTexture("atlas", "chara-right");
-          else if (prevVelocity.y < 0)
-            playerSprite.setTexture("atlas", "chara-back");
-          else if (prevVelocity.y > 0)
-            playerSprite.setTexture("atlas", "chara-front");
-
-          if (userId === socketId) {
-            socket.emit("share-coord", mySprite.x, mySprite.y);
+          spriteAnim.stop();
+          switch (spriteAnim.currentAnim.key) {
+            case "chara-back-walk":
+              playerSprite.setTexture("atlas", "chara-back");
+              break;
+            case "chara-left-walk":
+              playerSprite.setTexture("atlas", "chara-left");
+              break;
+            case "chara-front-walk":
+              playerSprite.setTexture("atlas", "chara-front");
+              break;
+            case "chara-right-walk":
+              playerSprite.setTexture("atlas", "chara-right");
+              break;
           }
-          break;
       }
     }
 
@@ -219,7 +225,6 @@ export default class GameScene extends Phaser.Scene {
       if (dir && heldDirection.indexOf(dir) === -1) {
         heldDirection.unshift(directions[e.code]);
         socket.emit("character-move", heldDirection[0]);
-        // socket.emit("share-coord", mySprite.x, mySprite.y);
       }
     });
     dirInput.on("keyup", (e) => {
@@ -290,8 +295,7 @@ export default class GameScene extends Phaser.Scene {
     socket.on("share-coord", (x, y, userId) => {
       const playerSprite = players.filter((x) => x.info.id === userId)[0]
         .sprite;
-      playerSprite.x = x;
-      playerSprite.y = y;
+      playerSprite.setPosition(x, y);
     });
 
     socket.on("change-index", (fromWho, depth) => {
@@ -310,45 +314,87 @@ export default class GameScene extends Phaser.Scene {
       host: serverIp,
       port: 3002,
     });
-    /* eslint-disable */
+
     const callBox = document.getElementById("call-box"),
       myVideo = document.createElement("video"),
       myAudio = document.createElement("audio"),
       myBox = document.createElement("div"),
       myNameTag = document.createElement("div"),
-      myPicture = document.createElement("img");
-    myAudio.muted = true;
-
-    const devices = await navigator.mediaDevices.enumerateDevices();
-
-    let hasMic = false;
-    let hasWebcam = false;
+      myPicture = document.createElement("img"),
+      devices = await navigator.mediaDevices.enumerateDevices();
 
     devices.forEach((device) => {
       switch (device.kind) {
         case "audioinput":
-          hasMic = true;
+          myDevices.mic = true;
           break;
         case "videoinput":
-          hasWebcam = true;
+          myDevices.cam = true;
           break;
       }
     });
 
-    if (!hasMic && !hasWebcam) {
+    if (!myDevices.mic && !myDevices.cam) {
       alert(
-        "currently the code doesn't support without any audio or video device and can cause error \n please connect input device then refresh this page"
+        "currently the app doesn't support running without any audio or video device \n please connect input device then refresh this page"
       );
     } else {
       navigator.mediaDevices
         .getUserMedia({
-          video: hasWebcam,
-          audio: hasMic,
+          audio: myDevices.mic,
+          video: myDevices.cam,
         })
         .then((stream) => {
           connectToNewUser(stream);
         });
     }
+
+    socket.on("ask-to-leave", (userId) => {
+      const userBox = document.getElementById(userId);
+      socket.emit("leaving-call", userId, true);
+      if (userBox) userBox.remove();
+      const index = onCall.map((x) => x.id).indexOf(userId);
+      if (index > -1) onCall.splice(index, 1);
+    });
+
+    socket.on("pass-device", (userId, mic, cam) => {
+      onCall = [
+        ...onCall.filter((x) => x.id !== userId),
+        { id: userId, mic, cam, called: true },
+      ];
+    });
+
+    socket.on("toggle-mic", (userId, boolean) => {
+      if (userId === socketId) {
+        myDevices.mic = !boolean;
+      } else if (
+        onCall.filter((x) => x.id === userId).length > 0 &&
+        userId !== socketId
+      ) {
+        onCall.filter((x) => x.id == userId)[0].mic = !boolean;
+        const audio = document.getElementById(userId).childNodes[0];
+        audio.muted = boolean;
+      }
+    });
+
+    socket.on("toggle-cam", (userId, boolean) => {
+      if (userId === socketId) {
+        myDevices.cam = !boolean;
+        const video = document.getElementById(userId).childNodes[1];
+        const picture = document.getElementById(userId).childNodes[2];
+        video.hidden = boolean;
+        picture.hidden = !boolean;
+      } else if (
+        onCall.filter((x) => x.id === userId).length > 0 &&
+        userId !== socketId
+      ) {
+        onCall.filter((x) => x.id == userId)[0].cam = !boolean;
+        const video = document.getElementById(userId).childNodes[1];
+        const picture = document.getElementById(userId).childNodes[2];
+        video.hidden = boolean;
+        picture.hidden = !boolean;
+      }
+    });
 
     function connectToNewUser(stream) {
       addVideoStream(
@@ -360,7 +406,8 @@ export default class GameScene extends Phaser.Scene {
           picture: myPicture,
         },
         stream,
-        socketId
+        socketId,
+        myDevices
       );
 
       peer.on("call", (call) => {
@@ -371,39 +418,42 @@ export default class GameScene extends Phaser.Scene {
           nameTag = document.createElement("div"),
           picture = document.createElement("img");
         call.on("stream", (userVideoStream) => {
+          const { mic, cam } = onCall.filter((x) => x.id == call.peer)[0];
           addVideoStream(
             { video, audio, userBox, nameTag, picture },
             userVideoStream,
-            call.peer
+            call.peer,
+            { mic, cam }
           );
         });
       });
 
-      socket.on("called", (userId) => {
-        onCall = [...onCall, userId];
+      socket.on("called", (userId, mic, cam) => {
+        socket.emit("calling", userId, myDevices.mic, myDevices.cam);
+        onCall.push({ id: userId, mic, cam });
         const call = peer.call(userId, stream),
           video = document.createElement("video"),
           audio = document.createElement("audio"),
           userBox = document.createElement("div"),
           nameTag = document.createElement("div"),
           picture = document.createElement("img");
-        call.on("stream", (stream) => {
+        call.on("stream", (userVideoStream) => {
           addVideoStream(
             { video, audio, userBox, nameTag, picture },
-            stream,
-            userId
+            userVideoStream,
+            userId,
+            { mic, cam }
           );
-        });
-        call.on("close", () => {
-          document.getElementById(userId).remove();
         });
         socket.on("leaved-call", (who) => {
           call.close();
-          onCall = onCall.filter((x) => x !== who);
+          userBox.remove();
+          const index = onCall.map((x) => x.id).indexOf(who);
+          if (index > -1) onCall.splice(index, 1);
         });
       });
     }
-    function addVideoStream(element, stream, userId) {
+    function addVideoStream(element, stream, userId, deviceInput) {
       const { video, audio, userBox, nameTag, picture } = element;
       nameTag.textContent = players.filter(
         (x) => x.info.id === userId
@@ -416,6 +466,11 @@ export default class GameScene extends Phaser.Scene {
         audioStream.addTrack(stream.getAudioTracks()[0]);
         audio.srcObject = audioStream;
         audio.autoplay = true;
+        if (userId != socketId) {
+          audio.muted = !deviceInput.mic;
+        } else {
+          audio.muted = true;
+        }
         userBox.append(audio);
       }
       if (stream && stream.getVideoTracks()[0]) {
@@ -423,7 +478,12 @@ export default class GameScene extends Phaser.Scene {
         videoStream.addTrack(stream.getVideoTracks()[0]);
         video.srcObject = videoStream;
         video.autoplay = true;
+        video.hidden = !deviceInput.cam;
+        picture.src = placeholder;
+        picture.className = "profile-picture";
+        picture.hidden = deviceInput.cam;
         userBox.append(video);
+        userBox.append(picture);
       } else {
         picture.src = placeholder;
         picture.setAttribute("class", "profile-picture");
@@ -432,28 +492,28 @@ export default class GameScene extends Phaser.Scene {
       userBox.append(nameTag);
       callBox.append(userBox);
     }
-
     socket.emit("done-loading");
     doneLoading = true;
   }
 
   update() {
-    players.forEach((player) => {
-      const playerSprite = player.sprite,
+    for (let i = 0; i < players.length; i++) {
+      const player = players[i],
+        playerSprite = player.sprite,
         above = players.filter((x) => x.sprite.y < playerSprite.y),
         below = players.filter((x) => x.sprite.y > playerSprite.y);
 
-      if (playerSprite.body.velocity != { x: 0, y: 0 }) {
-        player.followText.setPosition(playerSprite.x - 25, playerSprite.y - 30);
+      player.followText.setPosition(
+        Math.floor(playerSprite.x - player.followText.width / 2),
+        Math.floor(playerSprite.y - 30)
+      );
 
-        //check how much sprite above me
-        if (players.length - below.length - 1 !== playerSprite.depth) {
-          playerSprite.setDepth(above.length);
-        }
+      if (players.length - below.length - 1 !== playerSprite.depth) {
+        playerSprite.setDepth(above.length);
       }
-    });
-    const mySprite = players.filter((x) => x.info.id === socketId)[0].sprite,
-      radius = 100,
+    }
+
+    const radius = 100,
       nearby = players.filter(
         (x) =>
           x.sprite.y > mySprite.y - radius &&
@@ -462,23 +522,24 @@ export default class GameScene extends Phaser.Scene {
           x.sprite.x < mySprite.x + radius &&
           x.info.id !== socketId
       );
+
     if (mySprite.body.velocity.x != 0 || mySprite.body.velocity.y != 0) {
       if (nearby.length > onCall.length) {
-        const who = nearby.filter((x) => !onCall.includes(x.info.id))[0].info
-          .id;
-        socket.emit("calling", who);
-        onCall = nearby.map((x) => x.info.id);
-      }
-      if (nearby.length < onCall.length) {
+        const who = nearby.filter(
+          (x) => !onCall.map((y) => y.id).includes(x.info.id)
+        )[0].info.id;
+        socket.emit("calling", who, myDevices.mic, myDevices.cam, true);
+        onCall.push({ id: who });
+      } else if (nearby.length < onCall.length) {
         const who = onCall.filter(
-            (x) => !nearby.map((y) => y.info.id).includes(x)
-          )[0],
-          userBox = document.getElementById(who);
-        if (userBox) {
-          userBox.remove();
-        }
-        socket.emit("leaving-call", who);
-        onCall = nearby.map((x) => x.info.id);
+            (x) => !nearby.map((y) => y.info.id).includes(x.id)
+          )[0].id,
+          userBox = document.getElementById(who),
+          called = onCall.filter((x) => x.id === who)[0].called;
+        socket.emit("leaving-call", who, called);
+        if (userBox) userBox.remove();
+        const index = onCall.map((x) => x.id).indexOf(who);
+        onCall.splice(index, 1);
       }
     }
   }

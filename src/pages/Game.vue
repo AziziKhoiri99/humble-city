@@ -8,7 +8,7 @@
       :sideMenu="sideMenu"
       :unreadMsg="unreadMsg"
       :comsInput="comsInput"
-      @toggleInput="(val) => (comsInput[val] = !comsInput[val])"
+      @toggleInput="toggleInput"
       @toggleSideMenu="(val) => (sideMenu = val)"
       @changeSideMenu="(val) => (corner = val)"
       @readMessage="unreadMsg = 0"
@@ -34,7 +34,7 @@ import SideMenu from "../components/SideMenu.vue";
 import Nearby from "../components/Nearby.vue";
 import axios from "axios";
 import { API_URL, serverIp } from "../components/utils";
-import { doneLoading } from "../components/game/gamescene";
+import { doneLoading, myDevices } from "../components/game/gamescene";
 import io from "socket.io-client";
 export let onlineUser;
 export let socketId;
@@ -121,10 +121,24 @@ export default {
     loop() {
       setTimeout(() => {
         if (doneLoading) {
-          return (this.loadingStep[1] = true);
+          return (
+            (this.loadingStep[1] = true),
+            (this.comsInput[0] = myDevices.mic),
+            (this.comsInput[1] = myDevices.cam)
+          );
         }
         this.loop();
       }, 500);
+    },
+    toggleInput(index) {
+      if (this.comsInput[index] == null) return alert("device not plugged in");
+      this.comsInput[index] = !this.comsInput[index];
+      this.socket.emit(
+        "toggle-input",
+        this.socketId,
+        index,
+        !this.comsInput[index]
+      );
     },
   },
   async unmounted() {
