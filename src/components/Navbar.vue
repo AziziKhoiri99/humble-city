@@ -1,10 +1,13 @@
 <template>
   <div class="navbar">
     <button
-      v-for="(button, index) in this.buttons"
+      v-for="(button, index) in buttons"
       :key="index"
-      v-bind:style="this.selected === index && 'color: white; background-color: var(--primary-color)'"
-      @click="this.clicked(index)"
+      v-bind:style="
+        selected === index &&
+        'color: white; background-color: var(--primary-color)'
+      "
+      @click="clicked(index)"
       class="button"
     >
       {{ button }}
@@ -26,8 +29,8 @@
         ></path>
       </svg>
       <input
-        :value="this.search"
-        @input="this.handleChange"
+        :value="search"
+        @input="handleChange"
         placeholder="Search"
         type="text"
       />
@@ -107,7 +110,7 @@ export default {
   transition: 400ms;
   height: 40px;
 }
-.button:hover{
+.button:hover {
   color: white;
   background-color: var(--primary-color);
 }

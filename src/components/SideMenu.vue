@@ -1,52 +1,53 @@
 <template>
-  <div
-    v-bind:style="!this.sideMenu && 'right: -270px'"
-    class="sidemenu text-light"
-  >
+  <div v-bind:style="!sideMenu && 'right: -270px'" class="sidemenu text-light">
     <div class="offcanvas-header">
       <h5 id="offcanvasRightLabel">
-        {{ this.corner === 0 ? "Chat" : this.room }}
+        {{ corner === 0 ? "Chat" : room }}
       </h5>
-      <button @click="this.$emit('toggleSideMenu')">
+      <button @click="$emit('toggleSideMenu')">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
     <hr style="margin: 0 0 20px 0; border-top: solid #fff 2px" />
-    <div v-if="this.corner === 0" class="offcanvas-body">
-      <div v-for="(text, index) in this.chat" :key="index" class="chat">
+    <div v-if="corner === 0" class="offcanvas-body">
+      <div v-for="(text, index) in chat" :key="index" class="chat">
         <img src="../assets/image/placeholder.png" alt="" />
         <div>
           <span>{{ text.username }}</span>
           <span class="date-chat">
-            {{ text.time}}
+            {{ text.time }}
           </span>
           <div>
             {{ text.message }}
           </div>
         </div>
       </div>
-      <form @submit="this.sendMessage" class="position-absolute bottom-0">
+      <form @submit="sendMessage" class="position-absolute bottom-0">
         <hr style="border: var(--border); margin: 0px 7px 0px 0px" />
-            <input
-              type="text"
-              v-model="message"
-              class="text-input"
-              placeholder="Message..."
-              required
-              aria-label="Enter Some.."
-              oninvalid="this.setCustomValidity(' ')"
-              oninput="setCustomValidity('')"
-              title=""
-            />
-              <svg
-              class="icon-emoji"
-              viewBox="0 0 24 24" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.999 3.496A8.501 8.501 0 003.496 12 8.501 8.501 0 0012 20.502a8.501 8.501 0 008.503-8.503 8.501 8.501 0 00-8.503-8.503zm0 15.36A6.864 6.864 0 015.142 12a6.864 6.864 0 016.857-6.857 6.864 6.864 0 016.857 6.857A6.864 6.864 0 0112 18.856zM9.256 11.45a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm5.486 0a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm.137 2.49a3.742 3.742 0 01-2.88 1.35 3.73 3.73 0 01-2.88-1.35.825.825 0 00-1.159-.107.825.825 0 00-.106 1.16 5.382 5.382 0 004.145 1.94 5.382 5.382 0 004.145-1.94.822.822 0 10-1.265-1.053z" fill="currentColor"></path></svg>
+        <input
+          type="text"
+          v-model="message"
+          class="text-input"
+          placeholder="Message..."
+          required
+          aria-label="Enter Some.."
+          oninvalid="this.setCustomValidity(' ')"
+          oninput="setCustomValidity('')"
+          title=""
+        />
+        <svg
+          class="icon-emoji"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11.999 3.496A8.501 8.501 0 003.496 12 8.501 8.501 0 0012 20.502a8.501 8.501 0 008.503-8.503 8.501 8.501 0 00-8.503-8.503zm0 15.36A6.864 6.864 0 015.142 12a6.864 6.864 0 016.857-6.857 6.864 6.864 0 016.857 6.857A6.864 6.864 0 0112 18.856zM9.256 11.45a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm5.486 0a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm.137 2.49a3.742 3.742 0 01-2.88 1.35 3.73 3.73 0 01-2.88-1.35.825.825 0 00-1.159-.107.825.825 0 00-.106 1.16 5.382 5.382 0 004.145 1.94 5.382 5.382 0 004.145-1.94.822.822 0 10-1.265-1.053z"
+            fill="currentColor"
+          ></path>
+        </svg>
         <input type="submit" hidden />
       </form>
-
     </div>
     <div v-else class="offcanvas-body">
       <div class="search" style="margin-bottom: 20px; width: 100%">
@@ -65,7 +66,7 @@
             stroke-linejoin="round"
           ></path>
         </svg>
-        <input v-model="this.search" placeholder="Search" type="text" />
+        <input v-model="search" placeholder="Search" type="text" />
       </div>
       <div
         class="user-list"
@@ -110,7 +111,10 @@ export default {
   methods: {
     sendMessage(e) {
       e.preventDefault();
-      this.chat = [...this.chat, { username: "You", message: this.message, time: this.time }];
+      this.chat = [
+        ...this.chat,
+        { username: "You", message: this.message, time: this.time },
+      ];
       this.socket.emit("message", this.message, this.time);
       this.message = "";
       this.time = new Date().getHours() + ":" + new Date().getMinutes();
@@ -175,19 +179,19 @@ export default {
 }
 .text-input {
   /* display: flex; */
-  margin-bottom: 20px; 
-  margin-top: 5px; 
-  margin-left: -3px; 
+  margin-bottom: 20px;
+  margin-top: 5px;
+  margin-left: -3px;
   /* width: 195px;
   padding-left: 50px; */
-  float:left;
+  float: left;
   padding: 5px 27px 5px 10px;
 }
-.date-chat{
+.date-chat {
   font-size: 12px;
   margin-left: 110px;
 }
-.icon-emoji{
+.icon-emoji {
   display: flex;
   width: 24px;
   float: right;
@@ -210,9 +214,9 @@ export default {
   border-radius: 10px;
 } */
 /* Handle */
-::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover {
-  background: #00372d; 
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+  background: #00372d;
   border-radius: 10px;
 }
-
 </style>

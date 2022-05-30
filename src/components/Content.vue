@@ -1,13 +1,13 @@
 <template>
   <div>
     <RoomLists
-      v-if="this.choosed.length > 0"
-      :my="this.my"
-      :page="this.page"
-      :search="this.search"
-      :choosed="this.choosed"
+      v-if="choosed.length > 0"
+      :my="my"
+      :page="page"
+      :search="search"
+      :choosed="choosed"
     />
-    <NotFound v-else :notFoundMsg="this.notFoundMsg" />
+    <NotFound v-else :notFoundMsg="notFoundMsg" />
   </div>
 </template>
 

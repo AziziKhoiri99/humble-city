@@ -1,7 +1,7 @@
 <template>
   <div class="not-found">
     <img src="../assets/image/notfound.png" />
-    <span v-html="this.notFoundMsg"></span>
+    <span v-html="notFoundMsg"></span>
   </div>
 </template>
 

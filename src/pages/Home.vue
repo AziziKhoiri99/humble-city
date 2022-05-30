@@ -1,25 +1,25 @@
 <template>
   <div style="height: 100%">
     <Sidebar
-      @clicked="(value) => (this.selected[0] = value)"
-      @create-room="this.modal = true"
-      @loggingOut="this.$emit('loggingOut')"
-      :my="this.my"
+      @clicked="(value) => (selected[0] = value)"
+      @create-room="modal = true"
+      @loggingOut="$emit('loggingOut')"
+      :my="my"
     />
     <main>
       <Navbar
-        :buttons="this.page[this.selected[0]].buttons"
-        @search="(value) => (this.search = value)"
-        @clicked="(value) => (this.selected[1] = value)"
+        :buttons="page[selected[0]].buttons"
+        @search="(value) => (search = value)"
+        @clicked="(value) => (selected[1] = value)"
       />
       <Content
-        :notFoundMsg="this.page[this.selected[0]].notFoundMsg"
-        :my="this.my"
-        :page="this.selected"
-        :search="this.search"
+        :notFoundMsg="page[selected[0]].notFoundMsg"
+        :my="my"
+        :page="selected"
+        :search="search"
       />
     </main>
-    <Modal :my="this.my" @close-modal="this.modal = false" v-if="this.modal" />
+    <Modal :my="my" @close-modal="modal = false" v-if="modal" />
   </div>
 </template>
 
