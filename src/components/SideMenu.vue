@@ -7,36 +7,66 @@
       <h5 id="offcanvasRightLabel">
         {{ this.corner === 0 ? "Chat" : this.room }}
       </h5>
-      <button @click="this.$emit('toggleSideMenu')">
+      <button @click="this.$emit('toggleSideMenu')" tabindex="-1">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
     <hr style="margin: 0 0 20px 0; border-top: solid #fff 2px" />
     <div v-if="this.corner === 0" class="offcanvas-body">
       <div v-for="(text, index) in this.chat" :key="index" class="chat">
-        <img src="../assets/image/placeholder.png" alt="" />
         <div>
-          <span>{{ text.username }}</span>
+        <img src="../assets/image/placeholder.png" alt=""/>
+        
+        <!-- Date output 1x -->
+        <!-- <span>
+          {{ text.date }}
+        </span> -->
+
+          <span class="user-name">{{ text.username }}</span>
           <span class="date-chat">
             {{ text.time}}
           </span>
-          <div>
+          <div class="text-user">
             {{ text.message }}
           </div>
+          
         </div>
       </div>
+      <hr style="width: 243px; border: 2px solid  #279787; margin: 0px 7px 0px 0px; bottom: 117px; position: absolute" />
+
+      <div class="set-send">
+      <span style="position: absolute; margin-top: 10px">To</span>
+
+      <div class="dropup">
+        <button class="set-button" v-on:click="setSendTo = !setSendTo">
+          <span style="float: left">Everyone</span> 
+          <span class="arrow-button">
+            <i :class="[setSendTo ? 'fa-chevron-down' : 'fa-chevron-up' , 'fa']"></i> 
+          </span>
+        </button>
+        <!-- <div v-for="(text, index) in this.chat" :key="index"> -->
+        <div class="dropup-content" v-if="!setSendTo">
+          <span class="zonk-space"></span>
+          <a href="#">Everyone</a>
+          <a href="#">{{ username }}</a>
+          <!-- <a href="#">P2</a> -->
+          <span class="zonk-space"></span>
+        </div>
+        </div>
+        <!-- </div> -->
+
+      </div>
+
       <form @submit="this.sendMessage" class="position-absolute bottom-0">
-        <hr style="border: var(--border); margin: 0px 7px 0px 0px" />
             <input
               type="text"
               v-model="message"
               class="text-input"
               placeholder="Message..."
-              required
-              aria-label="Enter Some.."
               oninvalid="this.setCustomValidity(' ')"
               oninput="setCustomValidity('')"
               title=""
+              required
             />
               <svg
               class="icon-emoji"
@@ -82,13 +112,18 @@
 </template>
 
 <script>
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const D = new Date();
+
 export default {
   data() {
     return {
-      time: new Date().getHours() + ":" + new Date().getMinutes(),
+      date: months[D.getMonth()] +" "+ D.getDate() +", "+ D.getFullYear(),
+      time: D.getHours() + ":" + D.getMinutes(),
       search: "",
       message: "",
       chat: [],
+      setSendTo: true,
     };
   },
   props: {
@@ -110,10 +145,11 @@ export default {
   methods: {
     sendMessage(e) {
       e.preventDefault();
-      this.chat = [...this.chat, { username: "You", message: this.message, time: this.time }];
-      this.socket.emit("message", this.message, this.time);
+      this.chat = [...this.chat, { username: "You", message: this.message, time: this.time, date: this.date }];
+      this.socket.emit("message", this.message, this.time, this.date);
       this.message = "";
-      this.time = new Date().getHours() + ":" + new Date().getMinutes();
+      this.time = D.getHours() + ":" + D.getMinutes();
+      this.date = ""
     },
   },
 };
@@ -134,10 +170,11 @@ export default {
   background-color: var(--bg-primary);
 }
 .offcanvas-body {
+  margin: -15px 0 0 0 ;
   padding: 0;
+  width: 238px;
+  height: calc(95% - 140px);
   word-break: break-all;
-  width: 230px;
-  height: calc(99% - 140px);
   white-space: normal;
 }
 .offcanvas-header {
@@ -173,19 +210,23 @@ export default {
 .chat div {
   font-size: 0.8rem;
 }
+/* .user-name{
+  margin: 0 0 30px 30px;
+  display: flex;
+} */
+.text-user{
+  padding: 0 0 0 10px;
+}
 .text-input {
-  /* display: flex; */
-  margin-bottom: 20px; 
-  margin-top: 5px; 
-  margin-left: -3px; 
-  /* width: 195px;
-  padding-left: 50px; */
+  margin: 5px 0 20px -3px;
   float:left;
   padding: 5px 27px 5px 10px;
+  color: #ffffff;
 }
 .date-chat{
   font-size: 12px;
-  margin-left: 110px;
+  padding: 0 0 0 120px;
+  /* display: flex; */
 }
 .icon-emoji{
   display: flex;
@@ -194,6 +235,61 @@ export default {
   margin-top: -51px;
   margin-right: 7px;
   cursor: pointer;
+}
+.set-send {
+  position: absolute;
+  bottom: 69px;
+  padding: 0;
+}
+.set-button {
+  border-radius: 16px;
+  height: 41px;
+  width: 187px;
+  margin: 0 0 0 25px;
+  padding: 0 13px 0 15px;
+  border: none;
+  color: #198754;
+  font-weight: 600;
+  outline: none;
+}
+.arrow-button {
+  margin: 3px 0 0 0;
+  float: right;
+  font-size: 14px;
+  color: black;
+}
+.dropup {
+  position: relative;
+  display: inline-block;
+}
+.dropup-content {
+  display: block;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  bottom: 50px;
+  left: 25px;
+  z-index: 1;
+  border-radius: 16px;
+  width: 187px;
+}
+.dropup-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropup-content a:focus {
+  background-color:  #198754;
+  color: #ffffff;
+  outline: none;
+}
+.dropup-content a:hover {
+  background-color:  #198754;
+  color: #ffffff;
+}
+.zonk-space{
+  margin: 10px 0 0 10px;
 }
 </style>
 

@@ -10,7 +10,12 @@
       <div class="input">
         <div v-if="!this.hadAccount">
           <label>Username:</label><br />
-          <input v-model="this.username" type="text" required /><br />
+          <input v-model="this.username" type="text" 
+          @keydown.space.prevent
+          maxlength="12" 
+          minlength="3" 
+          required
+          /><br />
         </div>
         <label>Email:</label><br />
         <input
@@ -28,6 +33,7 @@
           v-model="this.password"
           minlength="8"
           required
+          @keydown.space.prevent
         />
         <input
           v-else
@@ -36,6 +42,7 @@
           type="password"
           minlength="8"
           required
+          @keydown.space.prevent
         /><br />
         <span @click="toggleShow" class="eye-icon">
           <i

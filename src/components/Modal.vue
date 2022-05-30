@@ -13,6 +13,7 @@
           type="text"
           class="text-input"
           placeholder="Space Name"
+          maxlength="20"
           required
         />
       </div>
