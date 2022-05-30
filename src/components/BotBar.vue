@@ -211,7 +211,7 @@ li:hover {
 }
 .popuptext {
   width: 112px;
-  background-color: #555;
+  background-color: rgba(0,0,0,0.85);
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -224,6 +224,7 @@ li:hover {
   margin-left: -50px;
 }
 .popuptext:after {
+/* arrow down */
   content: "";
   position: absolute;
   top: 100%;
@@ -231,9 +232,10 @@ li:hover {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: #555 transparent transparent transparent;
+  border-color: rgba(0,0,0,0.85) transparent transparent transparent;
 }
 .horizonLine {
+/* If want to add more features */
   height: 32px;
   width: 2px;
   margin: auto 4px;
@@ -242,6 +244,7 @@ li:hover {
   border-radius: 8px;
 }
 .limiterChat {
+/* if want to add separator between chat and participants icon */
   height: 53px;
   width: 2px;
   /* margin: auto 4px; */
