@@ -53,8 +53,8 @@
 
       <li class="nav-item">
         <a
-          @click="this.select(0)"
-          v-bind:class="this.selected === 0 && 'selected'"
+          @click="select(0)"
+          v-bind:class="selected === 0 && 'selected'"
           class="normal-link nav-link"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -71,8 +71,8 @@
       </li>
       <li class="nav-item">
         <a
-          @click="this.select(1)"
-          v-bind:class="this.selected === 1 && 'selected'"
+          @click="select(1)"
+          v-bind:class="selected === 1 && 'selected'"
           class="normal-link nav-link"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -89,8 +89,8 @@
       </li>
       <li class="nav-item">
         <a
-          @click="this.select(2)"
-          v-bind:class="this.selected === 2 && 'selected'"
+          @click="select(2)"
+          v-bind:class="selected === 2 && 'selected'"
           class="normal-link nav-link"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -106,8 +106,8 @@
         </a>
       </li>
       <li
-        v-if="!this.my.id"
-        v-bind:style="!this.my.id && 'margin-top: auto;'"
+        v-if="!my.id"
+        v-bind:style="!my.id && 'margin-top: auto;'"
         class="nav-item"
       >
         <a href="/login" class="normal-link nav-link">
@@ -124,25 +124,20 @@
         </a>
       </li>
       <li
-        v-bind:style="this.my.id && 'margin-top: auto;'"
+        v-bind:style="my.id && 'margin-top: auto;'"
         class="nav-item user-button"
       >
-        <div v-if="this.my.id" class="hover-button">
-          <button class="button" @click="this.userLogout()">Logout</button
-          ><br />
+        <div v-if="my.id" class="hover-button">
+          <button class="button" @click="userLogout()">Logout</button><br />
           <button class="button">Apperance</button>
         </div>
         <a href="#" class="normal-link nav-link">
           <img src="../assets/image/profile.png" alt="" />
-          <span class="link-text">{{ this.my.username || "Username" }}</span>
+          <span class="link-text">{{ my.username || "Username" }}</span>
         </a>
       </li>
       <li class="nav-item">
-        <a
-          href="#"
-          @click="this.$emit('create-room')"
-          class="nav-link bottom-link"
-        >
+        <a href="#" @click="$emit('create-room')" class="nav-link bottom-link">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <g class="fa-group">
               <path

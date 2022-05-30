@@ -1,15 +1,15 @@
 <template>
   <div class="content">
     <div
-      v-for="(room, index) in this.choosed.filter((x) =>
-        x.name.toLowerCase().includes(this.search.toLowerCase())
+      v-for="(room, index) in choosed.filter((x) =>
+        x.name.toLowerCase().includes(search.toLowerCase())
       )"
       :key="index"
       style="margin: 10px"
     >
       <div
         class="card-component"
-        @click="this.$router.push(`/${room.roomId}/${room.name}`)"
+        @click="$router.push(`/${room.roomId}/${room.name}`)"
       >
         <div class="card-image">
           &nbsp;
@@ -52,7 +52,7 @@ export default {
   );
 }
 .card-component {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 16px;
   aspect-ratio: 3 / 2;
   width: 100%;
@@ -61,7 +61,7 @@ export default {
   cursor: pointer;
 }
 .card-component:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 .card-image {
   height: calc(100% - 2rem);

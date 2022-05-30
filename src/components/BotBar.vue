@@ -57,14 +57,13 @@
     </li>
 
     <li class="nav-link" href="#">
-      <span>{{ this.my.username }}</span>
+      <span>{{ my.username }}</span>
     </li>
 
     <div class="desc">
       <li
-        @click="this.$emit('toggleInput', 0)"
-        v-bind:class="!comsInput[0] && 'disable'"
-        class="nav-link"
+        @click="$emit('toggleInput', 0)"
+        :class="'nav-link ' + (!comsInput[0] && 'disable')"
       >
         <i
           :class="
@@ -77,9 +76,8 @@
     </div>
     <div class="desc">
       <li
-        @click="this.$emit('toggleInput', 1)"
-        v-bind:class="!comsInput[1] && 'disable'"
-        class="nav-link"
+        @click="$emit('toggleInput', 1)"
+        :class="'nav-link ' + (!comsInput[1] && 'disable')"
       >
         <i
           :class="
@@ -90,7 +88,10 @@
       <div class="popuptext">{{ comsInput[1] ? "Video on" : "Video off" }}</div>
     </div>
     <div class="desc">
-      <li class="nav-link">
+      <li
+        @click="$emit('toggleInput', 2)"
+        :class="'nav-link ' + (comsInput[2] && 'disable')"
+      >
         <i class="fa-solid icon fa-tv"></i>
       </li>
       <div class="popuptext">Share Screen</div>
@@ -121,7 +122,7 @@
           v-bind:style="
             sideMenu && corner == 1 && 'background-color: var(--bg-primary);'
           "
-          @click="this.toggleSideMenu(1)"
+          @click="toggleSideMenu(1)"
         >
           <i class="fa-solid fa-user-group"></i>
         </li>
