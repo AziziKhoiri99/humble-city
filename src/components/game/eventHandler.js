@@ -107,8 +107,10 @@ export default {
   },
 
   toggleMic(userId, boolean) {
+    const userBox = document.getElementById(userId);
     if (userId === socketId) {
       myDevices.mic = !boolean;
+      userBox.style = `border-color: ${!boolean ? "#1cb766" : "#d7694b"}`;
     } else if (
       onCall.filter((x) => x.id === userId).length > 0 &&
       userId !== socketId
@@ -116,25 +118,23 @@ export default {
       onCall.filter((x) => x.id == userId)[0].mic = !boolean;
       const audio = document.getElementById(userId).childNodes[0];
       audio.muted = boolean;
+      userBox.style = `border-color: ${!boolean ? "#1cb766" : "#d7694b"}`;
     }
   },
 
   toggleCam(userId, boolean) {
+    const userBox = document.getElementById(userId);
     if (userId === socketId) {
       myDevices.cam = !boolean;
-      const video = document.getElementById(userId).childNodes[1];
-      const picture = document.getElementById(userId).childNodes[2];
-      video.hidden = boolean;
-      picture.hidden = !boolean;
+      userBox.childNodes[0].hidden = boolean;
+      userBox.childNodes[1].hidden = !boolean;
     } else if (
       onCall.filter((x) => x.id === userId).length > 0 &&
       userId !== socketId
     ) {
       onCall.filter((x) => x.id == userId)[0].cam = !boolean;
-      const video = document.getElementById(userId).childNodes[1];
-      const picture = document.getElementById(userId).childNodes[2];
-      video.hidden = boolean;
-      picture.hidden = !boolean;
+      userBox.childNodes[0].hidden = boolean;
+      userBox.childNodes[1].hidden = !boolean;
     }
   },
 
@@ -146,10 +146,7 @@ export default {
       nameTag: document.createElement("div"),
       picture: document.createElement("img"),
     };
-    addVideoStream(myElements, stream, socketId, {
-      mic: false,
-      cam: myDevices.cam,
-    });
+    addVideoStream(myElements, stream, socketId, myDevices);
 
     peer.on("call", (call) => {
       call.answer(stream);
@@ -201,17 +198,26 @@ function addVideoStream(elements, stream, userId, deviceInput) {
     video.remove();
     audio.srcObject = stream;
     audio.autoplay = true;
-    audio.muted = !deviceInput.mic;
+    if (userId === socketId) {
+      audio.muted = true;
+    } else {
+      audio.muted = !deviceInput.mic;
+    }
     userBox.append(audio);
   } else {
     audio.remove();
     video.srcObject = stream;
     video.autoplay = true;
     video.hidden = !deviceInput.cam;
-    video.muted = !deviceInput.mic;
+    if (userId === socketId) {
+      video.muted = true;
+    } else {
+      video.muted = !deviceInput.mic;
+    }
     picture.hidden = deviceInput.cam;
     userBox.append(video);
   }
+  userBox.style = `border-color: ${deviceInput.mic ? "#1cb766" : "#d7694b"} `;
   picture.src = placeholder;
   picture.className = "profile-picture";
   userBox.append(picture);

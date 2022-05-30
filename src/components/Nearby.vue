@@ -37,6 +37,7 @@ export default {
   border-radius: 15px;
   overflow: hidden;
   margin: 0 4px;
+  border: var(--border)
 }
 .name-tag {
   color: var(--text-primary);
