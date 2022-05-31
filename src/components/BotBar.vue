@@ -1,11 +1,11 @@
 <template>
-  <ul class="nav fixed-bottom navbar-dark bg-success">
+  <ul class="nav fixed-bottom">
     <li
       class="nav-link active"
       aria-current="page"
       href="#"
       style="margin: 0px"
-    >
+    >  
       <svg
         width="30px"
         xmlns="http://www.w3.org/2000/svg"
@@ -160,6 +160,7 @@ export default {
 <style scoped>
 .nav {
   z-index: 1;
+  background-color: var(--sidebar-color)
 }
 .nav-link {
   margin-top: 5px;
@@ -168,6 +169,7 @@ export default {
   padding: 10.61px 14.61px;
   margin: 0 0.25rem;
   border-radius: 50%;
+  color: black;
 }
 .disable {
   background-color: var(--bg-secondary);
@@ -185,6 +187,7 @@ li:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
+    background-color: var(--primary-color);
 }
 .right-corner {
   margin-left: auto;
@@ -200,7 +203,7 @@ li:hover {
   margin: 0;
 }
 .right-corner .nav-link:hover {
-  background-color: var(--bg-secondary);
+  background-color: var(--primary-color);
 }
 .nav-link:hover + .popuptext {
   visibility: visible;

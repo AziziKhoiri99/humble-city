@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body">
     <Nearby />
     <Game :onlineUser="onlineUser" :isLoaded="loadingStep[0]" />
     <BotBar
