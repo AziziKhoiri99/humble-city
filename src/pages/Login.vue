@@ -1,42 +1,37 @@
 <template>
   <div class="login-page">
-    <form
-      @submit="(e) => (this.hadAccount ? this.signIn(e) : this.signUp(e))"
-      class="login"
-    >
+    <form @submit="(e) => (hadAccount ? signIn(e) : signUp(e))" class="login">
       <div class="text-header">
-        {{ this.hadAccount ? "Login" : "Register" }} To Humble City
+        {{ hadAccount ? "Login" : "Register" }} To Humble City
       </div>
       <div class="input">
-        <div v-if="!this.hadAccount">
+        <div v-if="!hadAccount">
           <label>Username:</label><br />
-          <input v-model="this.username" type="text" required /><br />
+          <input v-model="this.username" type="text" 
+          @keydown.space.prevent
+          maxlength="12" 
+          minlength="3" 
+          required
+          /><br />
         </div>
         <label>Email:</label><br />
         <input
           @keydown.space.prevent
-          v-model="this.email"
+          v-model="email"
           style="padding-right: 15px"
           type="email"
           required
         /><br />
         <label>Password:</label><br />
         <input
-          v-if="showPassword"
           class="input-logres"
-          type="text"
-          v-model="this.password"
+          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
           minlength="8"
           required
+          @keydown.space.prevent
         />
-        <input
-          v-else
-          class="input-logres"
-          v-model="this.password"
-          type="password"
-          minlength="8"
-          required
-        /><br />
+        <br />
         <span @click="toggleShow" class="eye-icon">
           <i
             class="fas"
@@ -44,12 +39,8 @@
           ></i>
         </span>
         <div style="text-align: center">
-          <span v-if="this.hadAccount" @click="this.change"
-            >i dont have an account</span
-          >
-          <span v-if="!this.hadAccount" @click="this.change"
-            >i have an account</span
-          >
+          <span v-if="hadAccount" @click="change">i dont have an account</span>
+          <span v-if="!hadAccount" @click="change">i have an account</span>
         </div>
       </div>
       <div>
@@ -57,12 +48,12 @@
           type="button"
           class="button"
           style="background-color: grey"
-          @click="this.$router.push('/')"
+          @click="$router.push('/')"
         >
           Back
         </button>
         <button type="submit" class="button" style="background-color: #1aad80">
-          {{ this.hadAccount ? "Login" : "Register" }}
+          {{ hadAccount ? "Login" : "Register" }}
         </button>
       </div>
     </form>

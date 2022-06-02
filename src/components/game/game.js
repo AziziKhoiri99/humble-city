@@ -1,11 +1,9 @@
 import Phaser from "phaser";
-// import GameScene from "./gridMovement";
 import GameScene from "./gamescene";
 
 function launch(containerId) {
   return new Phaser.Game({
     type: Phaser.AUTO,
-    backgroundColor: "#2ddab2",
     width: 800,
     height: 600,
     pixelArt: true,
@@ -19,8 +17,8 @@ function launch(containerId) {
     scene: [GameScene],
     scale: {
       mode: Phaser.Scale.FIT,
-      width: "100%",
-      height: "100%",
+      width: "79%",
+      height: "92%",
     },
   });
 }

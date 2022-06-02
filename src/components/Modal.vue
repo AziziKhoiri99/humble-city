@@ -1,9 +1,9 @@
 <template>
   <div class="mask">
-    <form class="modal" @submit="this.createRoom">
+    <form class="modal" @submit="createRoom">
       <div class="modal-title">
         Create a new space
-        <button type="button" @click="this.$emit('close-modal')">
+        <button type="button" @click="$emit('close-modal')">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -13,17 +13,11 @@
           type="text"
           class="text-input"
           placeholder="Space Name"
+          maxlength="20"
           required
         />
       </div>
       <div class="modal-foot" style="text-align: center">
-        <!-- <button
-          type="button"
-          @click="this.$emit('close-modal')"
-          class="button close"
-        >
-          Close
-        </button> -->
         <button type="submit" class="button create">Create</button>
       </div>
     </form>
@@ -103,7 +97,7 @@ export default {
 }
 .modal-input {
   margin-bottom: 20px;
-  color: var(--text-color)
+  color: var(--text-color);
 }
 .modal-input label {
   font-size: 0.75rem;
@@ -112,10 +106,6 @@ export default {
 .modal-foot button {
   height: 40px;
 }
-/* .close-text {
-  background-color: #146153;
-  width: 20%;
-} */
 .create {
   background-color: var(--primary-color);
   color: var(--sidebar-color);

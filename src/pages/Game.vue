@@ -62,7 +62,7 @@ export default {
       corner: 0,
       unreadMsg: 0,
       sideMenu: false,
-      comsInput: [false, false],
+      comsInput: [false, false, false],
       loadingStep: [false, false],
     };
   },

@@ -1,13 +1,10 @@
 <template>
-  <div
-    v-bind:style="!this.sideMenu && 'right: -270px'"
-    class="sidemenu text-light"
-  >
+  <div v-bind:style="!sideMenu && 'right: -270px'" class="sidemenu text-light">
     <div class="offcanvas-header">
       <h5 id="offcanvasRightLabel">
-        {{ this.corner === 0 ? "Chat" : this.room }}
+        {{ corner === 0 ? "Chat" : room }}
       </h5>
-      <button @click="this.$emit('toggleSideMenu')">
+      <button @click="this.$emit('toggleSideMenu')" tabindex="-1">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
@@ -16,27 +13,57 @@
       <div v-for="(text, index) in this.chat" :key="index" class="chat">
         <img src="../assets/image/profile.png" alt="" />
         <div>
-          <span>{{ text.username }}</span>
+        <img src="../assets/image/placeholder.png" alt=""/>
+        <!-- Date output 1x -->
+        <!-- <span>
+          {{ text.date }}
+        </span> -->
+
+          <span class="user-name">{{ text.username }}</span>
           <span class="date-chat">
-            {{ text.time}}
+            {{ text.time }}
           </span>
-          <div>
+          <div class="text-user">
             {{ text.message }}
           </div>
+          
         </div>
       </div>
+      <hr style="width: 243px; border: 2px solid  #279787; margin: 0px 7px 0px 0px; bottom: 117px; position: absolute" />
+
+      <div class="set-send">
+      <span style="position: absolute; margin-top: 10px">To</span>
+
+      <div class="dropup">
+        <button class="set-button" v-on:click="setSendTo = !setSendTo">
+          <span style="float: left">Everyone</span> 
+          <span class="arrow-button">
+            <i :class="[setSendTo ? 'fa-chevron-down' : 'fa-chevron-up' , 'fa']"></i> 
+          </span>
+        </button>
+        <!-- <div v-for="(text, index) in this.chat" :key="index"> -->
+        <div class="dropup-content" v-if="!setSendTo">
+          <span class="zonk-space"></span>
+          <a href="#">Everyone</a>
+          <a href="#">{{ username }}</a>
+          <!-- <a href="#">P2</a> -->
+          <span class="zonk-space"></span>
+        </div>
+        </div>
+        <!-- </div> -->
+
+      </div>
+
       <form @submit="this.sendMessage" class="position-absolute bottom-0">
-        <hr style="border: var(--border); margin: 0px 7px 0px 0px" />
             <input
               type="text"
               v-model="message"
               class="text-input"
               placeholder="Message..."
-              required
-              aria-label="Enter Some.."
               oninvalid="this.setCustomValidity(' ')"
               oninput="setCustomValidity('')"
               title=""
+              required
             />
               <svg
               class="icon-emoji"
@@ -46,7 +73,6 @@
               <path d="M11.999 3.496A8.501 8.501 0 003.496 12 8.501 8.501 0 0012 20.502a8.501 8.501 0 008.503-8.503 8.501 8.501 0 00-8.503-8.503zm0 15.36A6.864 6.864 0 015.142 12a6.864 6.864 0 016.857-6.857 6.864 6.864 0 016.857 6.857A6.864 6.864 0 0112 18.856zM9.256 11.45a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm5.486 0a1.096 1.096 0 100-2.194 1.096 1.096 0 100 2.194zm.137 2.49a3.742 3.742 0 01-2.88 1.35 3.73 3.73 0 01-2.88-1.35.825.825 0 00-1.159-.107.825.825 0 00-.106 1.16 5.382 5.382 0 004.145 1.94 5.382 5.382 0 004.145-1.94.822.822 0 10-1.265-1.053z" fill="currentColor"></path></svg>
         <input type="submit" hidden />
       </form>
-
     </div>
     <div v-else class="offcanvas-body">
       <div class="search" style="margin-bottom: 20px; width: 100%">
@@ -65,7 +91,7 @@
             stroke-linejoin="round"
           ></path>
         </svg>
-        <input v-model="this.search" placeholder="Search" type="text" />
+        <input v-model="search" placeholder="Search" type="text" />
       </div>
       <div
         class="user-list"
@@ -82,13 +108,18 @@
 </template>
 
 <script>
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const D = new Date();
+
 export default {
   data() {
     return {
-      time: new Date().getHours() + ":" + new Date().getMinutes(),
+      date: months[D.getMonth()] +" "+ D.getDate() +", "+ D.getFullYear(),
+      time: D.getHours() + ":" + D.getMinutes(),
       search: "",
       message: "",
       chat: [],
+      setSendTo: true,
     };
   },
   props: {
@@ -110,10 +141,14 @@ export default {
   methods: {
     sendMessage(e) {
       e.preventDefault();
-      this.chat = [...this.chat, { username: "You", message: this.message, time: this.time }];
+      this.chat = [
+        ...this.chat,
+        { username: "You", message: this.message, time: this.time },
+      ];
       this.socket.emit("message", this.message, this.time);
       this.message = "";
-      this.time = new Date().getHours() + ":" + new Date().getMinutes();
+      this.time = D.getHours() + ":" + D.getMinutes();
+      this.date = ""
     },
   },
 };
@@ -134,10 +169,11 @@ export default {
   background-color: var(--bg-primary);
 }
 .offcanvas-body {
+  margin: -15px 0 0 0 ;
   padding: 0;
+  width: 238px;
+  height: calc(95% - 140px);
   word-break: break-all;
-  width: 230px;
-  height: calc(99% - 140px);
   white-space: normal;
 }
 .offcanvas-header {
@@ -173,27 +209,86 @@ export default {
 .chat div {
   font-size: 0.8rem;
 }
+/* .user-name{
+  margin: 0 0 30px 30px;
+  display: flex;
+} */
+.text-user{
+  padding: 0 0 0 10px;
+}
 .text-input {
-  /* display: flex; */
-  margin-bottom: 20px; 
-  margin-top: 5px; 
-  margin-left: -3px; 
-  /* width: 195px;
-  padding-left: 50px; */
+  margin: 5px 0 20px -3px;
   float:left;
   padding: 5px 27px 5px 10px;
+  color: #ffffff;
 }
-.date-chat{
+.date-chat {
   font-size: 12px;
-  margin-left: 110px;
+  padding: 0 0 0 120px;
+  /* display: flex; */
 }
-.icon-emoji{
+.icon-emoji {
   display: flex;
   width: 24px;
   float: right;
   margin-top: -51px;
   margin-right: 7px;
   cursor: pointer;
+}
+.set-send {
+  position: absolute;
+  bottom: 69px;
+  padding: 0;
+}
+.set-button {
+  border-radius: 16px;
+  height: 41px;
+  width: 187px;
+  margin: 0 0 0 25px;
+  padding: 0 13px 0 15px;
+  border: none;
+  color: #198754;
+  font-weight: 600;
+  outline: none;
+}
+.arrow-button {
+  margin: 3px 0 0 0;
+  float: right;
+  font-size: 14px;
+  color: black;
+}
+.dropup {
+  position: relative;
+  display: inline-block;
+}
+.dropup-content {
+  display: block;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  bottom: 50px;
+  left: 25px;
+  z-index: 1;
+  border-radius: 16px;
+  width: 187px;
+}
+.dropup-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropup-content a:focus {
+  background-color:  #198754;
+  color: #ffffff;
+  outline: none;
+}
+.dropup-content a:hover {
+  background-color:  #198754;
+  color: #ffffff;
+}
+.zonk-space{
+  margin: 10px 0 0 10px;
 }
 </style>
 
@@ -210,9 +305,9 @@ export default {
   border-radius: 10px;
 } */
 /* Handle */
-::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover {
-  background: #00372d; 
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+  background: #00372d;
   border-radius: 10px;
 }
-
 </style>
