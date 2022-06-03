@@ -1,11 +1,12 @@
 <template>
   <ul class="nav fixed-bottom">
+    <div class="desc">
     <li
-      class="nav-link active"
+      class="nav-link active menu"
       aria-current="page"
-      href="#"
       style="margin: 0px"
     >  
+    <a href="/">
       <svg
         width="30px"
         xmlns="http://www.w3.org/2000/svg"
@@ -54,9 +55,12 @@
           />
         </g>
       </svg>
+      </a>
     </li>
+      <div class="popuptext">Home</div>
+    </div>
 
-    <li class="nav-link" href="#">
+    <li class="nav-link menu" href="#">
       <span>{{ my.username }}</span>
     </li>
 
@@ -101,7 +105,7 @@
         <li
           class="nav-link"
           v-bind:style="
-            sideMenu && corner == 0 && 'background-color: var(--bg-primary);'
+            sideMenu && corner == 0 && 'background-color: var(--primary-color); color: white;'
           "
           @click="this.toggleSideMenu(0)"
         >
@@ -120,7 +124,7 @@
         <li
           class="nav-link"
           v-bind:style="
-            sideMenu && corner == 1 && 'background-color: var(--bg-primary);'
+            sideMenu && corner == 1 && 'background-color: var(--primary-color); color: white;'
           "
           @click="toggleSideMenu(1)"
         >
@@ -173,8 +177,17 @@ export default {
   color: black;
 }
 .disable {
-  background-color: var(--bg-secondary);
+  background-color: var(--primary-color);
   transition: 300ms;
+  color: var(--sidebar-color)
+}
+a,
+a:active,
+a:focus,
+a:hover,
+a:visited {
+    color: inherit;
+    text-decoration: none;
 }
 li {
   color: white;
@@ -189,6 +202,11 @@ li:hover {
   text-decoration: none;
   cursor: pointer;
     background-color: var(--primary-color);
+}
+
+.menu:hover{
+  background-color: transparent;
+  color: black;
 }
 .right-corner {
   margin-left: auto;
