@@ -108,14 +108,11 @@
 </template>
 
 <script>
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const D = new Date();
+const date = new Date();
 
 export default {
   data() {
     return {
-      date: months[D.getMonth()] +" "+ D.getDate() +", "+ D.getFullYear(),
-      time: D.getHours() + ":" + D.getMinutes(),
       search: "",
       message: "",
       chat: [],
@@ -132,6 +129,7 @@ export default {
   },
   created() {
     this.socket.on("send-message", (x) => {
+      x.time = `${date.getHours()}:${date.getMinutes()}`
       this.chat = [...this.chat, x];
       if (!this.sideMenu || this.corner === 1) {
         this.$emit("new-message");
@@ -143,12 +141,10 @@ export default {
       e.preventDefault();
       this.chat = [
         ...this.chat,
-        { username: "You", message: this.message, time: this.time },
+        { username: "You", message: this.message, time: `${date.getHours()}:${date.getMinutes()}` },
       ];
-      this.socket.emit("message", this.message, this.time);
+      this.socket.emit("message", this.message);
       this.message = "";
-      this.time = D.getHours() + ":" + D.getMinutes();
-      this.date = ""
     },
   },
 };
@@ -224,8 +220,7 @@ export default {
 }
 .date-chat {
   font-size: 12px;
-  padding: 0 0 0 120px;
-  /* display: flex; */
+  padding: 0 0 0 110px;
 }
 .icon-emoji {
   display: flex;
