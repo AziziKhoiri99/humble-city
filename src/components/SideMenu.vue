@@ -11,7 +11,6 @@
     <hr style="margin: 0 0 20px 0; border-top: solid #fff 2px" />
     <div v-if="this.corner === 0" class="offcanvas-body">
       <div v-for="(text, index) in this.chat" :key="index" class="chat">
-        <img src="../assets/image/profile.png" alt="" />
         <div>
         <img src="../assets/image/profile.png" alt=""/>
         <!-- Date output 1x -->
