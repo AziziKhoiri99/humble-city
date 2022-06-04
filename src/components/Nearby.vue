@@ -33,11 +33,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-secondary);
+  background-color: var(--body-color);
   border-radius: 15px;
   overflow: hidden;
   margin: 0 4px;
-  border: var(--border)
+}
+.muted {
+  border: var(--border);
+  border-color: #d7694b
 }
 .name-tag {
   color: var(--text-primary);

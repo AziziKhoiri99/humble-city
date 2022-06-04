@@ -8,7 +8,7 @@ import {
   peer,
 } from "./gamescene";
 import { socket, socketId } from "../../pages/Game.vue";
-import placeholder from "../../assets/image/placeholder.png";
+import placeholder from "../../assets/image/profile.png";
 
 const directions = {
   ArrowUp: "up",
@@ -110,7 +110,7 @@ export default {
     const userBox = document.getElementById(userId);
     if (userId === socketId) {
       myDevices.mic = !boolean;
-      userBox.style = `border-color: ${!boolean ? "#1cb766" : "#d7694b"}`;
+      userBox.className = `user-box  ${boolean && "muted"}`;
     } else if (
       onCall.filter((x) => x.id === userId).length > 0 &&
       userId !== socketId
@@ -118,7 +118,7 @@ export default {
       onCall.filter((x) => x.id == userId)[0].mic = !boolean;
       const audio = document.getElementById(userId).childNodes[0];
       audio.muted = boolean;
-      userBox.style = `border-color: ${!boolean ? "#1cb766" : "#d7694b"}`;
+      userBox.className = `user-box ${boolean && "muted"}`;
     }
   },
 
@@ -193,7 +193,7 @@ function addVideoStream(elements, stream, userId, deviceInput) {
   )[0].info.username;
   nameTag.className = "name-tag";
   userBox.id = userId;
-  userBox.className = "user-box";
+  userBox.className = `user-box ${!deviceInput.mic && "muted"}`;
   if (!stream.getVideoTracks()[0]) {
     video.remove();
     audio.srcObject = stream;
@@ -217,7 +217,6 @@ function addVideoStream(elements, stream, userId, deviceInput) {
     picture.hidden = deviceInput.cam;
     userBox.append(video);
   }
-  userBox.style = `border-color: ${deviceInput.mic ? "#1cb766" : "#d7694b"} `;
   picture.src = placeholder;
   picture.className = "profile-picture";
   userBox.append(picture);

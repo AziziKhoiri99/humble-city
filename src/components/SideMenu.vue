@@ -11,9 +11,9 @@
     <hr style="margin: 0 0 20px 0; border-top: solid #fff 2px" />
     <div v-if="this.corner === 0" class="offcanvas-body">
       <div v-for="(text, index) in this.chat" :key="index" class="chat">
+        <img src="../assets/image/profile.png" alt="" />
         <div>
-        <img src="../assets/image/placeholder.png" alt=""/>
-        
+        <img src="../assets/image/profile.png" alt=""/>
         <!-- Date output 1x -->
         <!-- <span>
           {{ text.date }}
@@ -91,7 +91,7 @@
             stroke-linejoin="round"
           ></path>
         </svg>
-        <input v-model="search" placeholder="Search" type="text" />
+        <input class="search" v-model="search" placeholder="Search" type="text" />
       </div>
       <div
         class="user-list"
@@ -100,7 +100,7 @@
         )"
         :key="user.id"
       >
-        <img src="../assets/image/placeholder.png" alt="" />
+        <img src="../assets/image/profile.png" alt="" />
         {{ user.player }}
       </div>
     </div>
@@ -151,6 +151,9 @@ export default {
 </script>
 
 <style scoped>
+::placeholder {
+  color: rgb(201, 199, 199)
+}
 .sidemenu {
   bottom: 43.77px;
   transition: var(--transition-speed);
@@ -162,7 +165,10 @@ export default {
 .sidemenu {
   width: 270px;
   padding: 20px 16px 0 16px;
-  background-color: var(--bg-primary);
+  background-color: var(--primary-color);
+}
+.search {
+color: white; 
 }
 .offcanvas-body {
   margin: -15px 0 0 0 ;
@@ -182,7 +188,7 @@ export default {
 .offcanvas-header button {
   background-color: transparent;
   border: none;
-  color: var(--text-primary);
+  color: var(--sidebar-color);
   font-size: 1.4rem;
   padding: 0;
 }
@@ -216,7 +222,7 @@ export default {
   margin: 5px 0 20px -3px;
   float:left;
   padding: 5px 27px 5px 10px;
-  color: #ffffff;
+  color: var(--sidebar-color);
 }
 .date-chat {
   font-size: 12px;
