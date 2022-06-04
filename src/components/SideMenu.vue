@@ -13,11 +13,6 @@
       <div v-for="(text, index) in this.chat" :key="index" class="chat">
         <div>
         <img src="../assets/image/profile.png" alt=""/>
-        <!-- Date output 1x -->
-        <!-- <span>
-          {{ text.date }}
-        </span> -->
-
           <span class="user-name">{{ text.username }}</span>
           <span class="date-chat">
             {{ text.time }}
@@ -210,10 +205,6 @@ color: white;
 .chat div {
   font-size: 0.8rem;
 }
-/* .user-name{
-  margin: 0 0 30px 30px;
-  display: flex;
-} */
 .text-user{
   padding: 0 0 0 10px;
 }
